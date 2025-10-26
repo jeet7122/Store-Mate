@@ -1,5 +1,6 @@
 module org.storemate.pos {
     requires javafx.controls;
     requires javafx.base;
-    exports org.storemate.pos;
+    requires java.sql;
+    exports org.storemate;
 }
