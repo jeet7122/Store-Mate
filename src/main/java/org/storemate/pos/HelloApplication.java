@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class HelloApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException, ClassNotFoundException, SQLException {
         Label label = new Label("Hello World!");
         Scene scene = new Scene(label, 300, 300);
         stage.setTitle("Hello!");
@@ -20,12 +20,14 @@ public class HelloApplication extends Application {
         stage.show();
 
 
+
         // TODO : Discuss with professor about the connection string
-        String url = "jdbc:mariadb://php.scweb.ca/jthakkar1java?useSSL=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3306/jthakkar1md?serverTimezone=UTC";
         String user = "jthakkar1";
         String password = "g2kbkg2kbk";
 
         try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection connection = DriverManager.getConnection(url, user, password);
             if(connection != null){
                 System.out.println("Connected to database successfully");
