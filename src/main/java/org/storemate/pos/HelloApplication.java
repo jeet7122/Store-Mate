@@ -1,4 +1,4 @@
-package org.storemate;
+package org.storemate.pos;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -19,9 +19,11 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
 
-        String url = "jdbc:postgresql://localhost:5432/hms";
-        String user = "postgres";
-        String password = "Khushi@26";
+
+        // TODO : Discuss with professor about the connection string
+        String url = "jdbc:mariadb://php.scweb.ca/jthakkar1java?useSSL=false&serverTimezone=UTC";
+        String user = "jthakkar1";
+        String password = "g2kbkg2kbk";
 
         try {
             Connection connection = DriverManager.getConnection(url, user, password);

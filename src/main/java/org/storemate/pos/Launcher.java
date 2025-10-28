@@ -1,4 +1,4 @@
-package org.storemate;
+package org.storemate.pos;
 
 import javafx.application.Application;
 

@@ -42,6 +42,8 @@ dependencies {
     implementation("org.mariadb.jdbc:mariadb-java-client:3.5.6")
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
     implementation("org.postgresql:postgresql:42.7.7")
+
+    implementation("com.mysql:mysql-connector-j:9.4.0")
 }
 
 tasks.withType<Test> {
