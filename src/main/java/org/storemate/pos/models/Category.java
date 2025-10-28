@@ -1,14 +1,14 @@
 package org.storemate.pos.models;
 
-import org.storemate.pos.models.enums.CategoryStatus;
+import org.storemate.pos.models.enums.Status;
 
 public class Category {
     private Integer category_id;
     private String category_name;
     private String category_description;
-    private CategoryStatus status;
+    private Status status;
 
-    public Category(Integer category_id, String category_name, String category_description, CategoryStatus status) {
+    public Category(Integer category_id, String category_name, String category_description, Status status) {
         this.category_id = category_id;
         this.category_name = category_name;
         this.category_description = category_description;
@@ -42,11 +42,11 @@ public class Category {
         this.category_description = category_description;
     }
 
-    public CategoryStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(CategoryStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 }

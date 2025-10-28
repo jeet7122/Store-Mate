@@ -1,6 +1,6 @@
 package org.storemate.pos.models.enums;
 
-public enum CategoryStatus {
+public enum Status {
     ACTIVE,
     INACTIVE
 }
