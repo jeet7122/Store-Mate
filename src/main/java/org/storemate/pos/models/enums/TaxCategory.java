@@ -1,7 +1,7 @@
 package org.storemate.pos.models.enums;
 
 public enum TaxCategory {
-    GST(0.9),
+    GST(0.09),
     HST(0.13),
     NO_TAX(0.0);
 

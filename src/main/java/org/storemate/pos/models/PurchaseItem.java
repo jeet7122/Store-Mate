@@ -9,8 +9,22 @@ public class PurchaseItem {
     private String productID;
     private Integer quantity;
     private BigDecimal cost_price;
+
     private TaxCategory  taxCategory;
     private BigDecimal tax_amount;
+
+
+    /**
+    1
+    3
+     4
+     1.99
+     7.98
+     0.13
+     9
+
+     */
+
 
     public PurchaseItem(Integer purchaseID, String productID, Integer quantity, BigDecimal cost_price, TaxCategory taxCategory, BigDecimal tax_amount) {
         this.purchaseID = purchaseID;

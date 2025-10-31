@@ -13,6 +13,9 @@
 .idea/**/shelf
 .idea/data_source_mapping.xml
 
+src/main/resources/credentials.txt
+src/main/java/org/storemate/pos/database/DBConstants.java
+
 #Config location
 *.properties
 

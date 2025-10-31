@@ -1,0 +1,10 @@
+Select total_amount_with_tax from purchase_item
+Where purchaseId = ?
+
+
+ResultSet rs;
+Decimal price;
+rs.next()
+{
+price +
+}

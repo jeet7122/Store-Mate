@@ -3,6 +3,7 @@ package org.storemate.pos.models;
 import org.storemate.pos.models.enums.Status;
 
 public class Category {
+
     private Integer category_id;
     private String category_name;
     private String category_description;
