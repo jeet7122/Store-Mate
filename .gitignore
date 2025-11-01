@@ -12,6 +12,7 @@
 .idea/**/dictionaries
 .idea/**/shelf
 .idea/data_source_mapping.xml
+.idea/
 
 src/main/resources/credentials.txt
 src/main/java/org/storemate/pos/database/DBConstants.java
