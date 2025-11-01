@@ -9,13 +9,13 @@ public class Product {
     private String product_id;
     private String product_name;
     private String product_description;
-    private Integer category_id;
+    private int category_id;
     private TaxCategory taxCategory;
     private BigDecimal product_price;
-    private Integer product_quantity;
+    private int product_quantity;
     private ProductStatus availability;
 
-    public Product(String product_id, String product_name, String product_description, Integer category_id, TaxCategory taxCategory, BigDecimal product_price, Integer product_quantity, ProductStatus availability) {
+    public Product(String product_id, String product_name, String product_description, int category_id, TaxCategory taxCategory, BigDecimal product_price, int product_quantity, ProductStatus availability) {
         this.product_id = product_id;
         this.product_name = product_name;
         this.product_description = product_description;
@@ -67,11 +67,11 @@ public class Product {
         this.product_description = product_description;
     }
 
-    public Integer getCategory_id() {
+    public int getCategory_id() {
         return category_id;
     }
 
-    public void setCategory_id(Integer category_id) {
+    public void setCategory_id(int category_id) {
         this.category_id = category_id;
     }
 
@@ -91,11 +91,11 @@ public class Product {
         this.product_price = product_price;
     }
 
-    public Integer getProduct_quantity() {
+    public int getProduct_quantity() {
         return product_quantity;
     }
 
-    public void setProduct_quantity(Integer product_quantity) {
+    public void setProduct_quantity(int product_quantity) {
         this.product_quantity = product_quantity;
     }
 

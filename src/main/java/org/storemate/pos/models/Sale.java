@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class Sale {
-    private Integer saleID;
-    private Integer employeeID;
+    private int saleID;
+    private int employeeID;
     private PaymentMethod paymentMethod;
     private BigDecimal subTotal;
     private TaxCategory taxCategory;
@@ -21,7 +21,7 @@ public class Sale {
     public Sale() {
     }
 
-    public Sale(BigDecimal total_amount, BigDecimal tax_amount, TaxCategory taxCategory, BigDecimal subTotal, PaymentMethod paymentMethod, Integer employeeID, Integer saleID, SaleStatus status) {
+    public Sale(BigDecimal total_amount, BigDecimal tax_amount, TaxCategory taxCategory, BigDecimal subTotal, PaymentMethod paymentMethod, int employeeID, int saleID, SaleStatus status) {
         this.total_amount = total_amount;
         this.tax_amount = tax_amount;
         this.taxCategory = taxCategory;
@@ -47,19 +47,19 @@ public class Sale {
                 '}';
     }
 
-    public Integer getSaleID() {
+    public int getSaleID() {
         return saleID;
     }
 
-    public void setSaleID(Integer saleID) {
+    public void setSaleID(int saleID) {
         this.saleID = saleID;
     }
 
-    public Integer getEmployeeID() {
+    public int getEmployeeID() {
         return employeeID;
     }
 
-    public void setEmployeeID(Integer employeeID) {
+    public void setEmployeeID(int employeeID) {
         this.employeeID = employeeID;
     }
 

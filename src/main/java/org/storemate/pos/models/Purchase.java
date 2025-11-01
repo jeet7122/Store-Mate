@@ -6,14 +6,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class Purchase {
-    private Integer purchaseID;
-    private Integer supplierID;
+    private int purchaseID;
+    private int supplierID;
     private BigDecimal tax_amount;
     private BigDecimal total_amount;
     private LocalDate purchaseDate;
     private PurchaseStatus status;
 
-    public Purchase(BigDecimal total_amount, BigDecimal tax_amount, Integer supplierID, Integer purchaseID, PurchaseStatus status) {
+    public Purchase(BigDecimal total_amount, BigDecimal tax_amount, int supplierID, int purchaseID, PurchaseStatus status) {
         this.total_amount = total_amount;
         this.tax_amount = tax_amount;
         this.supplierID = supplierID;
@@ -36,19 +36,19 @@ public class Purchase {
                 '}';
     }
 
-    public Integer getPurchaseID() {
+    public int getPurchaseID() {
         return purchaseID;
     }
 
-    public void setPurchaseID(Integer purchaseID) {
+    public void setPurchaseID(int purchaseID) {
         this.purchaseID = purchaseID;
     }
 
-    public Integer getSupplierID() {
+    public int getSupplierID() {
         return supplierID;
     }
 
-    public void setSupplierID(Integer supplierID) {
+    public void setSupplierID(int supplierID) {
         this.supplierID = supplierID;
     }
 

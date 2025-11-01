@@ -5,15 +5,15 @@ import org.storemate.pos.models.enums.TaxCategory;
 import java.math.BigDecimal;
 
 public class SaleItem {
-    private Integer saleID;
+    private int saleID;
     private String productID;
-    private Integer quantity;
+    private int quantity;
     private BigDecimal price;
     private TaxCategory  taxCategory;
     private BigDecimal tax_amount;
     private BigDecimal total_amount;
 
-    public SaleItem(Integer saleID, String productID, Integer quantity, BigDecimal price, TaxCategory taxCategory, BigDecimal tax_amount, BigDecimal total_amount) {
+    public SaleItem(int saleID, String productID, Integer quantity, BigDecimal price, TaxCategory taxCategory, BigDecimal tax_amount, BigDecimal total_amount) {
         this.saleID = saleID;
         this.productID = productID;
         this.quantity = quantity;
@@ -26,11 +26,11 @@ public class SaleItem {
     public SaleItem() {
     }
 
-    public Integer getSaleID() {
+    public int getSaleID() {
         return saleID;
     }
 
-    public void setSaleID(Integer saleID) {
+    public void setSaleID(int saleID) {
         this.saleID = saleID;
     }
 
@@ -42,11 +42,11 @@ public class SaleItem {
         this.productID = productID;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

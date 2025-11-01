@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class SupplierProduct {
-    private Integer supplier_id;
+    private int supplier_id;
     private String product_id;
     private BigDecimal costPrice;
     private Timestamp lastUpdated;
@@ -27,11 +27,11 @@ public class SupplierProduct {
     public SupplierProduct() {
     }
 
-    public Integer getSupplier_id() {
+    public int getSupplier_id() {
         return supplier_id;
     }
 
-    public void setSupplier_id(Integer supplier_id) {
+    public void setSupplier_id(int supplier_id) {
         this.supplier_id = supplier_id;
     }
 

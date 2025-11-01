@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Supplier {
-    private Integer supplier_id;
+    private int supplier_id;
     private String supplier_name;
     private String supplier_email;
     private String supplier_location;
@@ -25,11 +25,11 @@ public class Supplier {
         this.suppliedProducts = suppliedProducts;
     }
 
-    public Integer getSupplier_id() {
+    public int getSupplier_id() {
         return supplier_id;
     }
 
-    public void setSupplier_id(Integer supplier_id) {
+    public void setSupplier_id(int supplier_id) {
         this.supplier_id = supplier_id;
     }
 

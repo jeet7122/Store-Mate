@@ -5,7 +5,7 @@ import org.storemate.pos.models.enums.Role;
 import java.sql.Timestamp;
 
 public class Employee {
-    private Integer employeeID;
+    private int employeeID;
     private String firstName;
     private String email;
     private String password;
@@ -23,11 +23,11 @@ public class Employee {
         this.role = role;
     }
 
-    public Integer getEmployeeID() {
+    public int getEmployeeID() {
         return employeeID;
     }
 
-    public void setEmployeeID(Integer employeeID) {
+    public void setEmployeeID(int employeeID) {
         this.employeeID = employeeID;
     }
 
