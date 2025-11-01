@@ -9,18 +9,21 @@ public class PurchaseItem {
     private String productID;
     private Integer quantity;
     private BigDecimal cost_price;
-
-    private TaxCategory  taxCategory;
+    private TaxCategory taxCategory;
     private BigDecimal tax_amount;
+    private BigDecimal total_amount;
+    private BigDecimal total_amount_with_tax;
 
 
-    public PurchaseItem(int purchaseID, String productID, Integer quantity, BigDecimal cost_price, TaxCategory taxCategory, BigDecimal tax_amount) {
+    public PurchaseItem(int purchaseID, String productID, Integer quantity, BigDecimal cost_price, TaxCategory taxCategory, BigDecimal tax_amount, BigDecimal total_amount_with_tax, BigDecimal total_amount) {
         this.purchaseID = purchaseID;
         this.productID = productID;
         this.quantity = quantity;
         this.cost_price = cost_price;
         this.taxCategory = taxCategory;
         this.tax_amount = tax_amount;
+        this.total_amount_with_tax = total_amount_with_tax;
+        this.total_amount = total_amount;
     }
 
     @Override
@@ -36,6 +39,20 @@ public class PurchaseItem {
     }
 
     public PurchaseItem() {
+    }
+
+    public BigDecimal getTotal_amount() {
+        return total_amount;
+    }
+    public void setTotal_amount(BigDecimal total_amount) {
+        this.total_amount = total_amount;
+    }
+
+    public BigDecimal getTotal_amount_with_tax() {
+        return total_amount_with_tax;
+    }
+    public void setTotal_amount_with_tax(BigDecimal total_amount_with_tax) {
+        this.total_amount_with_tax = total_amount_with_tax;
     }
 
     public int getPurchaseID() {
