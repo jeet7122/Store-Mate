@@ -9,9 +9,6 @@ public class SupplierProduct {
     private BigDecimal costPrice;
     private Timestamp lastUpdated;
 
-    private Supplier supplier;
-    private Product product;
-
     @Override
     public String toString() {
         return "SupplierProduct{" +
@@ -19,8 +16,6 @@ public class SupplierProduct {
                 ", product_id='" + product_id + '\'' +
                 ", costPrice=" + costPrice +
                 ", lastUpdated=" + lastUpdated +
-                ", supplier=" + supplier +
-                ", product=" + product +
                 '}';
     }
 
@@ -59,27 +54,9 @@ public class SupplierProduct {
         this.lastUpdated = lastUpdated;
     }
 
-    public Supplier getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public SupplierProduct(Integer supplier_id, String product_id, BigDecimal costPrice, Product product, Supplier supplier) {
+    public SupplierProduct(Integer supplier_id, String product_id, BigDecimal costPrice) {
         this.supplier_id = supplier_id;
         this.product_id = product_id;
         this.costPrice = costPrice;
-        this.product = product;
-        this.supplier = supplier;
     }
 }

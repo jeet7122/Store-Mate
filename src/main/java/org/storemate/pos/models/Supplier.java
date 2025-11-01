@@ -12,17 +12,14 @@ public class Supplier {
     private String supplier_location;
     private Status  supplier_status;
 
-    private List<SupplierProduct> suppliedProducts = new ArrayList<>();
-
     public Supplier() {
     }
 
-    public Supplier(String supplier_name, String supplier_email, String supplier_location, Status supplier_status, List<SupplierProduct> suppliedProducts) {
+    public Supplier(String supplier_name, String supplier_email, String supplier_location, Status supplier_status) {
         this.supplier_name = supplier_name;
         this.supplier_email = supplier_email;
         this.supplier_location = supplier_location;
         this.supplier_status = supplier_status;
-        this.suppliedProducts = suppliedProducts;
     }
 
     public int getSupplier_id() {
@@ -65,13 +62,6 @@ public class Supplier {
         this.supplier_status = supplier_status;
     }
 
-    public List<SupplierProduct> getSuppliedProducts() {
-        return suppliedProducts;
-    }
-
-    public void setSuppliedProducts(List<SupplierProduct> suppliedProducts) {
-        this.suppliedProducts = suppliedProducts;
-    }
 
     @Override
     public String toString() {
@@ -81,7 +71,6 @@ public class Supplier {
                 ", supplier_email='" + supplier_email + '\'' +
                 ", supplier_location='" + supplier_location + '\'' +
                 ", supplier_status=" + supplier_status +
-                ", suppliedProducts=" + suppliedProducts +
                 '}';
     }
 }
