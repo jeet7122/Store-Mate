@@ -12,7 +12,6 @@ public class Sale {
     private int employeeID;
     private PaymentMethod paymentMethod;
     private BigDecimal subTotal;
-    private TaxCategory taxCategory;
     private BigDecimal tax_amount;
     private BigDecimal total_amount;
     private Timestamp sale_timestamp;
@@ -21,10 +20,9 @@ public class Sale {
     public Sale() {
     }
 
-    public Sale(BigDecimal total_amount, BigDecimal tax_amount, TaxCategory taxCategory, BigDecimal subTotal, PaymentMethod paymentMethod, int employeeID, int saleID, SaleStatus status) {
+    public Sale(BigDecimal total_amount, BigDecimal tax_amount, BigDecimal subTotal, PaymentMethod paymentMethod, int employeeID, int saleID, SaleStatus status) {
         this.total_amount = total_amount;
         this.tax_amount = tax_amount;
-        this.taxCategory = taxCategory;
         this.subTotal = subTotal;
         this.paymentMethod = paymentMethod;
         this.employeeID = employeeID;
@@ -39,7 +37,6 @@ public class Sale {
                 ", employeeID=" + employeeID +
                 ", paymentMethod=" + paymentMethod +
                 ", subTotal=" + subTotal +
-                ", taxCategory=" + taxCategory +
                 ", tax_amount=" + tax_amount +
                 ", total_amount=" + total_amount +
                 ", sale_timestamp=" + sale_timestamp +
@@ -77,14 +74,6 @@ public class Sale {
 
     public void setSubTotal(BigDecimal subTotal) {
         this.subTotal = subTotal;
-    }
-
-    public TaxCategory getTaxCategory() {
-        return taxCategory;
-    }
-
-    public void setTaxCategory(TaxCategory taxCategory) {
-        this.taxCategory = taxCategory;
     }
 
     public BigDecimal getTax_amount() {

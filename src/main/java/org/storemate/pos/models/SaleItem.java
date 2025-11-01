@@ -9,7 +9,7 @@ public class SaleItem {
     private String productID;
     private int quantity;
     private BigDecimal price;
-    private TaxCategory  taxCategory;
+    private TaxCategory taxCategory;
     private BigDecimal tax_amount;
     private BigDecimal total_amount;
 

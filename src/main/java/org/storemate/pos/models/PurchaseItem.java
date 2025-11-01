@@ -8,18 +8,18 @@ public class PurchaseItem {
     private int purchaseID;
     private String productID;
     private Integer quantity;
-    private BigDecimal cost_price;
+    private BigDecimal unit_price;
     private TaxCategory taxCategory;
     private BigDecimal tax_amount;
     private BigDecimal total_amount;
     private BigDecimal total_amount_with_tax;
 
 
-    public PurchaseItem(int purchaseID, String productID, Integer quantity, BigDecimal cost_price, TaxCategory taxCategory, BigDecimal tax_amount, BigDecimal total_amount_with_tax, BigDecimal total_amount) {
+    public PurchaseItem(int purchaseID, String productID, Integer quantity, BigDecimal unit_price, TaxCategory taxCategory, BigDecimal tax_amount, BigDecimal total_amount_with_tax, BigDecimal total_amount) {
         this.purchaseID = purchaseID;
         this.productID = productID;
         this.quantity = quantity;
-        this.cost_price = cost_price;
+        this.unit_price = unit_price;
         this.taxCategory = taxCategory;
         this.tax_amount = tax_amount;
         this.total_amount_with_tax = total_amount_with_tax;
@@ -32,7 +32,7 @@ public class PurchaseItem {
                 "purchaseID=" + purchaseID +
                 ", productID='" + productID + '\'' +
                 ", quantity=" + quantity +
-                ", cost_price=" + cost_price +
+                ", unit_price=" + unit_price +
                 ", taxCategory=" + taxCategory +
                 ", tax_amount=" + tax_amount +
                 '}';
@@ -79,12 +79,12 @@ public class PurchaseItem {
         this.quantity = quantity;
     }
 
-    public BigDecimal getCost_price() {
-        return cost_price;
+    public BigDecimal getunit_price() {
+        return unit_price;
     }
 
-    public void setCost_price(BigDecimal cost_price) {
-        this.cost_price = cost_price;
+    public void setunit_price(BigDecimal unit_price) {
+        this.unit_price = unit_price;
     }
 
     public TaxCategory getTaxCategory() {
