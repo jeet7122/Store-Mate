@@ -101,5 +101,8 @@ public class DBTable {
             + "FOREIGN KEY (" + PURCHASE_ITEM_PRODUCT_ID + ") REFERENCES "
             + PRODUCT_TABLE_NAME + "(" + PRODUCT_COLUMN_ID + "));";
 
+    //TODO: CATEGORY TABLE SCHEMA - @BillenK
+    //TODO: PRODUCT TABLE SCHEMA - @BillenK
+
 
 }
