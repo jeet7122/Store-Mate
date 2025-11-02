@@ -59,7 +59,9 @@ public class DBTable {
             + SALE_COLUMN_SUBTOTAL +  " DECIMAL(5,2) NOT NULL, "
             + SALE_COLUMN_TAX_AMOUNT +  " DECIMAL(5,2) NOT NULL, "
             + SALE_COLUMN_TOTAL_AMOUNT +  " DECIMAL(5,2) NOT NULL, "
-            + SALE_COLUMN_STATUS + " VARCHAR(30) NOT NULL); ";
+            + SALE_COLUMN_STATUS + " VARCHAR(30) NOT NULL, "
+            + "FOREIGN KEY (" + SALE_COLUMN_EMPLOYEE_ID + ") REFERENCES "
+            + EMPLOYEE_TABLE_NAME + "(" + EMPLOYEE_COLUMN_ID + "));";
 
 
     //Sale_Item Table Schema
@@ -100,6 +102,8 @@ public class DBTable {
             + PURCHASE_ITEM_TOTAL_AMOUNT + " DECIMAL(5,2), NOT NULL,"
             + "FOREIGN KEY (" + PURCHASE_ITEM_PRODUCT_ID + ") REFERENCES "
             + PRODUCT_TABLE_NAME + "(" + PRODUCT_COLUMN_ID + "));";
+
+
 
     //TODO: CATEGORY TABLE SCHEMA - @BillenK
     //TODO: PRODUCT TABLE SCHEMA - @BillenK
