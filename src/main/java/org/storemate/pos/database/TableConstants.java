@@ -94,4 +94,5 @@ public class TableConstants {
     public static final String SALE_ITEM_TAX_CATEGORY = "tax_category";
     public static final String SALE_ITEM_TOTAL_AMOUNT = "total_amount";
 
+
 }
