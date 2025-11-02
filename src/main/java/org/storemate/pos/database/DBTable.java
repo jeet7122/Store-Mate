@@ -76,5 +76,18 @@ public class DBTable {
             + "FOREIGN KEY (" +  SALE_ITEM_PRODUCT_ID + ") REFERENCES "
             + PRODUCT_TABLE_NAME + "(" + PRODUCT_COLUMN_ID + "));";
 
+    //Purchase Table Schema
+    public static final String CREATE_PURCHASE_TABLE =
+            "CREATE TABLE " + PURCHASE_TABLE_NAME + " ("
+            + PURCHASE_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "
+            + PURCHASE_COLUMN_SUPPLIER_ID + " INT NOT NULL PRIMARY KEY, "
+            + PURCHASE_COLUMN_TAX_AMOUNT + " DECIMAL(5,2), NOT NULL, "
+            + PURCHASE_COLUMN_TOTAL_AMOUNT + " DECIMAL(5,2), NOT NULL, "
+            + PURCHASE_COLUMN_STATUS + " VARCHAR(20) NOT NULL"
+            + "FOREIGN KEY (" + PURCHASE_COLUMN_SUPPLIER_ID + ") REFERENCES "
+            + SUPPLIER_TABLE_NAME + "(" + SUPPLIER_COLUMN_ID + "));";
+
+    
+
 
 }
