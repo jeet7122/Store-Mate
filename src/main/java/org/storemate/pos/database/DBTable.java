@@ -4,6 +4,7 @@ import static org.storemate.pos.database.TableConstants.*;
 
 public class DBTable {
 
+    //Employee's Tables Schema
     public static final String CREATE_EMPLOYEE_TABLE =
             "CREATE TABLE " + EMPLOYEE_TABLE_NAME + " ("
                     + EMPLOYEE_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "
@@ -13,6 +14,8 @@ public class DBTable {
                     + EMPLOYEE_COLUMN_JOINING_DATE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
                     + EMPLOYEE_COLUMN_MODIFIED_PROFILE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
                     + ");";
+
+    //Shift Tables Schema
 
     public static final String CREATE_SHIFT_TABLE =
             "CREATE TABLE " + SHIFT_TABLE_NAME + " ("
@@ -25,6 +28,7 @@ public class DBTable {
                     + ");";
 
 
+    //Suppliers Tables Schema
     public static final String CREATE_SUPPLIER_TABLE =
             "CREATE TABLE " + SUPPLIER_TABLE_NAME + " ("
             + SUPPLIER_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "
@@ -34,10 +38,22 @@ public class DBTable {
             + SUPPLIER_COLUMN_CONNECTION + " VARCHAR(50) NOT NULL); ";
 
 
+    //Suppliers and Products join Tables Schema
     public static final String CREATE_PRODUCT_SUPPLIER_TABLE =
             "CREATE TABLE " + PRODUCT_SUPPLIER_TABLE_NAME + " ("
             + PRODUCT_SUPPLIER_COLUMN_PRODUCT_ID + " INT PRIMARY KEY, "
             + PRODUCT_SUPPLIER_COLUMN_SUPPLIER_ID + " INT NOT NULL PRIMARY KEY, "
             + PRODUCT_SUPPLIER_COLUMN_COST_PRICE + " DECIMAL(5,2) NOT NULL, "
             + PRODUCT_SUPPLIER_COLUMN_LAST_UPDATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, ";
+
+
+    //Sales Table Schema
+    public static final String CREATE_SALES_TABLE =
+            "CREATE TABLE " + SALE_TABLE_NAME + " ("
+            + SALE_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "
+            + SALE_COLUMN_EMPLOYEE_ID + " INT NOT NULL, "
+            + SALE_COLUMN_SUBTOTAL +  " DECIMAL(5,2) NOT NULL, "
+            + SALE_COLUMN_TAX_AMOUNT +  " DECIMAL(5,2) NOT NULL, "
+            + SALE_COLUMN_TOTAL_AMOUNT +  " DECIMAL(5,2) NOT NULL, "
+            + SALE_COLUMN_STATUS + " VARCHAR(30) NOT NULL); ";
 }
