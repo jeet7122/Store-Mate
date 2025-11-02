@@ -23,4 +23,13 @@ public class DBTable {
                     + "FOREIGN KEY (" + SHIFT_COLUMN_EMPLOYEE_ID + ") REFERENCES "
                     + EMPLOYEE_TABLE_NAME + "(" + EMPLOYEE_COLUMN_ID + ")"
                     + ");";
+
+
+    public static final String CREATE_SUPPLIER_TABLE =
+            "CREATE TABLE " + SUPPLIER_TABLE_NAME + " ("
+            + SUPPLIER_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "
+            + SUPPLIER_COLUMN_NAME + " VARCHAR(50) NOT NULL, "
+            + SUPPLIER_COLUMN_EMAIL + " VARCHAR(55) NOT NULL, "
+            + SUPPLIER_COLUMN_ADDRESS + " VARCHAR(50) NOT NULL, "
+            + SUPPLIER_COLUMN_CONNECTION + " VARCHAR(50) NOT NULL); ";
 }
