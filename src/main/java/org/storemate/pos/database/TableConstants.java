@@ -35,6 +35,7 @@ public class TableConstants {
     public static final String PRODUCT_COLUMN_NAME = "product_name";
     public static final String PRODUCT_COLUMN_DESCRIPTION = "product_description";
     public static final String PRODUCT_COLUMN_AVAILABILITY = "availability";
+    public static final String PRODUCT_COLUMN_CATEGORY_ID = "category_id";
     public static final String PRODUCT_COLUMN_QUANTITY = "quantity";
     public static final String PRODUCT_COLUMN_PRICE = "unit_price";
     public static final String PRODUCT_COLUMN_TAX_CATEGORY = "tax_category";
