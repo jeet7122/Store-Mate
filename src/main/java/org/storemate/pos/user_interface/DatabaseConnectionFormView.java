@@ -1,58 +1,37 @@
 package org.storemate.pos.user_interface;
 
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 
 public class DatabaseConnectionFormView {
     private final VBox root;
-    private final GridPane formGrid;
-    private final VBox formVBox;
+
     public DatabaseConnectionFormView() {
-
-        //initializing objects
-        formVBox = new VBox();
+        VBox formVBox = new VBox();
         root = new VBox();
-        formGrid = new GridPane();
+        GridPane formGrid = new GridPane();
 
-        //Main Title
         Label titleLabel = new Label("Database Connection Form");
-        titleLabel.setStyle("-fx-font-size: 25; -fx-padding: 10; -fx-text-fill: #2d3436;");
-        titleLabel.setAlignment(Pos.TOP_CENTER);
+        titleLabel.getStyleClass().add("label-title");
 
-        //Footer Label
         Label footerLabel = new Label("@2025 Store-Mate. All rights reserved.");
-        footerLabel.setStyle("-fx-font-size: 25; -fx-text-fill: #00b894;");
-        footerLabel.setAlignment(Pos.BOTTOM_CENTER);
+        footerLabel.getStyleClass().add("label-footer");
 
-
-        //DB URL TEXT FIELD
         TextField databaseUrlTextField = new TextField();
         databaseUrlTextField.setPromptText("Enter database URL");
-        databaseUrlTextField.setPrefColumnCount(15);
 
-        //Username Text-field
         TextField usernameTextField = new TextField();
         usernameTextField.setPromptText("Enter username");
-        usernameTextField.setPrefColumnCount(10);
 
-        //Password Text-field
         TextField passwordTextField = new TextField();
         passwordTextField.setPromptText("Enter password");
-        passwordTextField.setPrefColumnCount(15);
 
-        //Database Name Text-field
         TextField databaseNameTextField = new TextField();
         databaseNameTextField.setPromptText("Enter database name");
-        databaseNameTextField.setPrefColumnCount(10);
 
-        //Adding children to form grid
         formGrid.add(new Label("Database URL:"), 0, 0);
         formGrid.add(databaseUrlTextField, 1, 0);
         formGrid.add(new Label("Database Name:"), 0, 1);
@@ -64,28 +43,41 @@ public class DatabaseConnectionFormView {
         formGrid.setAlignment(Pos.CENTER);
         formGrid.setHgap(20);
         formGrid.setVgap(20);
+        formGrid.getStyleClass().add("form-grid");
 
-        //form title labels
         Label loginTitle = new Label("Welcome to Store-Mate");
+        loginTitle.getStyleClass().add("label-sub_head_title");
+
         Label infoLabel = new Label("Please enter your database credentials");
+        infoLabel.getStyleClass().add("label-subtitle");
 
         Button loginButton = new Button("Connect");
-        Button resetButton = new Button("Reset");
+        loginButton.getStyleClass().addAll("button", "button-connect");
 
-        HBox buttonBox = new HBox();
-        buttonBox.getChildren().addAll(loginButton, resetButton);
+        Button resetButton = new Button("Reset");
+        resetButton.getStyleClass().addAll("button", "button-reset");
+
+        HBox buttonBox = new HBox(10, loginButton, resetButton);
         buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setSpacing(10);
 
         formVBox.getChildren().addAll(loginTitle, infoLabel, formGrid, buttonBox);
-        formVBox.setSpacing(20);
-        formVBox.setAlignment(Pos.TOP_CENTER);
-
+        formVBox.getStyleClass().add("form-box");
+        formVBox.setAlignment(Pos.CENTER);
 
         root.getChildren().addAll(titleLabel, formVBox, footerLabel);
-
+        root.setAlignment(Pos.CENTER);
+        root.setSpacing(20);
+        root.getStyleClass().add("root");
     }
+
     public Parent getView() {
         return root;
+    }
+
+    // Optional helper method to attach CSS when creating a Scene
+    public Scene createScene() {
+        Scene scene = new Scene(getView(), 600, 500);
+        scene.getStylesheets().add(getClass().getResource("/css/index.css").toExternalForm());
+        return scene;
     }
 }

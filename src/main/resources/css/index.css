@@ -1,0 +1,89 @@
+/* ---------- Root Layout ---------- */
+.root {
+    -fx-background-color: linear-gradient(to bottom right, #f5f6fa, #dfe6e9);
+    -fx-padding: 40;
+    -fx-alignment: center;
+}
+
+/* ---------- Title ---------- */
+.label {
+    -fx-font-family: "Segoe UI";
+}
+
+.label-title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #0078D7;
+}
+
+.label-subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #636e72;
+}
+
+.label-sub_head_title{
+    -fx-font-size: 20px;
+    -fx-text-fill: #2d3436
+}
+
+/* ---------- Footer ---------- */
+.label-footer {
+    -fx-font-size: 13px;
+    -fx-text-fill: #00b894;
+    -fx-padding: 10 0 0 0;
+}
+
+/* ---------- Form VBox ---------- */
+.form-box {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-padding: 30;
+    -fx-spacing: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 5);
+}
+
+/* ---------- Labels in form grid ---------- */
+.form-grid Label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #2d3436;
+    -fx-font-weight: bold;
+}
+
+/* ---------- Text Fields ---------- */
+.text-field {
+    -fx-background-color: #f0f3f6;
+    -fx-background-radius: 8;
+    -fx-border-color: transparent;
+    -fx-padding: 8;
+    -fx-font-size: 14px;
+}
+
+.text-field:focused {
+    -fx-border-color: #0078D7;
+    -fx-border-width: 2;
+}
+
+/* ---------- Buttons ---------- */
+.button {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 15px;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-pref-width: 100;
+    -fx-pref-height: 35;
+}
+
+.button:hover {
+    -fx-opacity: 0.9;
+}
+
+.button-connect {
+    -fx-background-color: #0078D7;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button-reset {
+    -fx-background-color: #b0bec5;
+    -fx-text-fill: #2d3436;
+}

@@ -11,12 +11,13 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException, SQLException {
         DatabaseConnectionFormView databaseConnectionFormView = new DatabaseConnectionFormView();
-        Scene scene = new Scene(databaseConnectionFormView.getView(), 600, 400);
+        Scene scene = databaseConnectionFormView.createScene();
         stage.setScene(scene);
         stage.show();
     }
