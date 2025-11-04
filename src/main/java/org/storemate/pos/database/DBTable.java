@@ -60,7 +60,7 @@ public class DBTable {
     //Suppliers and Products join Tables Schema
     public static final String CREATE_PRODUCT_SUPPLIER_TABLE =
             "CREATE TABLE " + PRODUCT_SUPPLIER_TABLE_NAME + " ("
-                    + PRODUCT_SUPPLIER_COLUMN_PRODUCT_ID + " INT PRIMARY KEY, "
+                    + PRODUCT_SUPPLIER_COLUMN_PRODUCT_ID + " VARCHAR(255) NOT NULL PRIMARY KEY, "
                     + PRODUCT_SUPPLIER_COLUMN_SUPPLIER_ID + " INT NOT NULL PRIMARY KEY, "
                     + PRODUCT_SUPPLIER_COLUMN_COST_PRICE + " DECIMAL(5,2) NOT NULL, "
                     + PRODUCT_SUPPLIER_COLUMN_LAST_UPDATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, "
@@ -87,7 +87,7 @@ public class DBTable {
     public static final String CREATE_SALE_ITEM_TABLE =
             "CREATE TABLE " + SALE_ITEM_TABLE_NAME + " ("
                     + SALE_ITEM_SALE_ID + " INT NOT NULL PRIMARY KEY, "
-                    + SALE_ITEM_PRODUCT_ID + " INT NOT NULL PRIMARY KEY, "
+                    + SALE_ITEM_PRODUCT_ID + " VARCHAR(255) NOT NULL PRIMARY KEY, "
                     + SALE_ITEM_QUANTITY + " INT NOT NULL, "
                     + SALE_ITEM_TAX_CATEGORY + " VARCHAR(10) NOT NULL, "
                     + SALE_ITEM_TAX_AMOUNT + " DECIMAL(5,2), NOT NULL, "
@@ -112,7 +112,7 @@ public class DBTable {
     public static final String CREATE_PURCHASE_ITEM_TABLE =
             "CREATE TABLE " + PURCHASE_ITEM_TABLE_NAME + " ("
                     + PURCHASE_ITEM_PURCHASE_ID + " INT PRIMARY KEY NOT NULL, "
-                    + PURCHASE_ITEM_PRODUCT_ID + " INT NOT NULL PRIMARY KEY, "
+                    + PURCHASE_ITEM_PRODUCT_ID + " VARCHAR(255) NOT NULL PRIMARY KEY, "
                     + PURCHASE_ITEM_QUANTITY + " INT NOT NULL, "
                     + PURCHASE_ITEM_TAX_CATEGORY + " VARCHAR(10) NOT NULL, "
                     + PURCHASE_ITEM_UNIT_PRICE + " DECIMAL(5,2), NOT NULL, "
