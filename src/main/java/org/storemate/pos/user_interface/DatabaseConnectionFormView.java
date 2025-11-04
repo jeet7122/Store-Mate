@@ -2,6 +2,7 @@ package org.storemate.pos.user_interface;
 
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -60,6 +61,9 @@ public class DatabaseConnectionFormView {
         formGrid.add(usernameTextField, 1, 2);
         formGrid.add(new Label("Password:"), 0, 3);
         formGrid.add(passwordTextField, 1, 3);
+        formGrid.setAlignment(Pos.CENTER);
+        formGrid.setHgap(20);
+        formGrid.setVgap(20);
 
         //form title labels
         Label loginTitle = new Label("Welcome to Store-Mate");
@@ -81,7 +85,7 @@ public class DatabaseConnectionFormView {
         root.getChildren().addAll(titleLabel, formVBox, footerLabel);
 
     }
-    public Node getView() {
+    public Parent getView() {
         return root;
     }
 }
