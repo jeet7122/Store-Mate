@@ -21,6 +21,11 @@ public class DatabaseConnectionFormView {
         root = new VBox();
         GridPane formGrid = new GridPane();
         ComboBox<String> dbProviders = new ComboBox<>();
+        HBox optionBox = new HBox();
+        optionBox.getChildren().addAll(new Label("Select Your Database Provider:"), dbProviders);
+
+        optionBox.setSpacing(20);
+        optionBox.setAlignment(Pos.CENTER);
 
         String[] dbProvidersArray = {"Postgres", "MariaDB", "MySQL", "College Server" };
 
@@ -89,6 +94,13 @@ public class DatabaseConnectionFormView {
                 }
                 alerts.showSuccessAlert("Store Mate", "Connected Successfully");
                 System.out.println("Successfully stored credentials");
+
+                databaseNameTextField.clear();
+                databaseUrlTextField.clear();
+                usernameTextField.clear();
+                passwordTextField.clear();
+                dbProviders.getSelectionModel().clearSelection();
+                dbProviders.setValue(null);
             }
             catch (IOException ioException) {
                 System.out.println("IO-EXCEPTION: " + ioException.getMessage());
@@ -102,7 +114,7 @@ public class DatabaseConnectionFormView {
         HBox buttonBox = new HBox(10, loginButton, resetButton);
         buttonBox.setAlignment(Pos.CENTER);
 
-        formVBox.getChildren().addAll(loginTitle, infoLabel, formGrid, dbProviders , buttonBox);
+        formVBox.getChildren().addAll(loginTitle, infoLabel, formGrid, optionBox , buttonBox);
         formVBox.getStyleClass().add("form-box");
         formVBox.setAlignment(Pos.CENTER);
 

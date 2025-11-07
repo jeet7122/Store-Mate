@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.storemate.pos.database.DatabaseConnector;
 import org.storemate.pos.user_interface.DatabaseConnectionFormView;
+import org.storemate.pos.utils.SceneManager;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,9 +17,8 @@ import java.util.Objects;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException, SQLException {
-        DatabaseConnectionFormView databaseConnectionFormView = new DatabaseConnectionFormView();
-        Scene scene = databaseConnectionFormView.createScene();
-        stage.setScene(scene);
+        SceneManager.init(stage);
+        SceneManager.showRegistrationForm();
         stage.show();
     }
 }
