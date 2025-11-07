@@ -22,7 +22,7 @@ public class CredentialManagement {
                 loadCredentials();
                 System.out.println("Credentials loaded successfully.");
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("IO: " + e.getMessage());
                 System.out.println("Failed to load credentials.");
             }
         } else {
@@ -51,8 +51,16 @@ public class CredentialManagement {
     }
 
     // Save credentials to file
-    public void saveCredentials(String Url, String Name, String username, String password) throws IOException {
-        credentials.setProperty("DB.URL", Url);
+    public void saveCredentials(String Url, String Name, String username, String password, String databaseProvider) throws IOException {
+        String jdbcUrl = "";
+        switch (databaseProvider){
+            case "Postgres": jdbcUrl = "jdbc:postgresql://" + Url;break;
+            case "MySql", "College Server": jdbcUrl = "jdbc:mysql://" + Url; break;
+            case "MariaDB": jdbcUrl = "jdbc:mariadb://" + Url; break;
+            case null, default:
+                System.out.println("Invalid value");
+        }
+        credentials.setProperty("DB.URL", jdbcUrl);
         credentials.setProperty("DB.NAME", Name);
         credentials.setProperty("DB.USERNAME", username);
         credentials.setProperty("DB.PASSWORD", password);

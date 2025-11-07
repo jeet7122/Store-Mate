@@ -1,5 +1,7 @@
 package org.storemate.pos.user_interface;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -8,15 +10,24 @@ import javafx.scene.layout.*;
 import org.storemate.pos.utils.Alerts;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseConnectionFormView {
     private final VBox root;
-    private CredentialManagement credentialManagement = CredentialManagement.getInstance();
+    private final CredentialManagement credentialManagement = CredentialManagement.getInstance();
     public DatabaseConnectionFormView() {
         Alerts alerts = new Alerts();
         VBox formVBox = new VBox();
         root = new VBox();
         GridPane formGrid = new GridPane();
+        ComboBox<String> dbProviders = new ComboBox<>();
+
+        String[] dbProvidersArray = {"Postgres", "MariaDB", "MySQL", "College Server" };
+
+        dbProviders.setItems(FXCollections.observableArrayList(dbProvidersArray));
+
+
 
         Label titleLabel = new Label("Database Connection Form");
         titleLabel.getStyleClass().add("label-title");
@@ -69,7 +80,8 @@ public class DatabaseConnectionFormView {
                         databaseUrlTextField.getText(),
                         databaseNameTextField.getText(),
                         usernameTextField.getText(),
-                        passwordTextField.getText()
+                        passwordTextField.getText(),
+                        dbProviders.getValue()
                 );
                 alerts.showSuccessAlert("Store Mate", "Credentials saved successfully");
                 System.out.println("Successfully stored credentials");
@@ -87,7 +99,7 @@ public class DatabaseConnectionFormView {
         HBox buttonBox = new HBox(10, loginButton, resetButton);
         buttonBox.setAlignment(Pos.CENTER);
 
-        formVBox.getChildren().addAll(loginTitle, infoLabel, formGrid, buttonBox);
+        formVBox.getChildren().addAll(loginTitle, infoLabel, formGrid, dbProviders , buttonBox);
         formVBox.getStyleClass().add("form-box");
         formVBox.setAlignment(Pos.CENTER);
 
