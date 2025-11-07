@@ -22,7 +22,9 @@ public class DatabaseConnectionFormView {
         GridPane formGrid = new GridPane();
         ComboBox<String> dbProviders = new ComboBox<>();
         HBox optionBox = new HBox();
-        optionBox.getChildren().addAll(new Label("Select Your Database Provider:"), dbProviders);
+        Label providersLabel = new Label("Select Your Database Provider:");
+        providersLabel.getStyleClass().add("combo-label");
+        optionBox.getChildren().addAll(providersLabel, dbProviders);
 
         optionBox.setSpacing(20);
         optionBox.setAlignment(Pos.CENTER);

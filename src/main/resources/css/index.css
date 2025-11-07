@@ -1,19 +1,26 @@
+/* ===========================================
+   STORE-MATE APPLICATION THEME (index.css)
+   Clean, modern UI for desktop applications
+   =========================================== */
+
 /* ---------- Root Layout ---------- */
 .root {
-    -fx-background-color: linear-gradient(to bottom right, #f5f6fa, #dfe6e9);
+    -fx-background-color: linear-gradient(to bottom right, #f1f5f9, #dce3eb);
     -fx-padding: 40;
     -fx-alignment: center;
 }
 
-/* ---------- Title ---------- */
+/* ---------- Generic Labels ---------- */
 .label {
     -fx-font-family: "Segoe UI";
+    -fx-text-fill: #2d3436;
 }
 
+/* ---------- Titles ---------- */
 .label-title {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
-    -fx-text-fill: #0078D7;
+    -fx-text-fill: #0066cc;
 }
 
 .label-subtitle {
@@ -21,9 +28,10 @@
     -fx-text-fill: #636e72;
 }
 
-.label-sub_head_title{
+.label-sub_head_title {
     -fx-font-size: 20px;
-    -fx-text-fill: #2d3436
+    -fx-font-weight: 600;
+    -fx-text-fill: #2d3436;
 }
 
 /* ---------- Footer ---------- */
@@ -33,16 +41,19 @@
     -fx-padding: 10 0 0 0;
 }
 
-/* ---------- Form VBox ---------- */
+/* ---------- Form Container ---------- */
 .form-box {
-    -fx-background-color: white;
+    -fx-background-color: #ffffff;
     -fx-background-radius: 20;
-    -fx-padding: 30;
+    -fx-padding: 35;
     -fx-spacing: 20;
-    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 10, 0, 0, 5);
+    -fx-max-width: 500;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 4);
+    -fx-border-color: #e0e0e0;
+    -fx-border-radius: 20;
 }
 
-/* ---------- Labels in form grid ---------- */
+/* ---------- Form Grid Labels ---------- */
 .form-grid Label {
     -fx-font-size: 15px;
     -fx-text-fill: #2d3436;
@@ -51,39 +62,89 @@
 
 /* ---------- Text Fields ---------- */
 .text-field {
-    -fx-background-color: #f0f3f6;
+    -fx-background-color: #f5f6fa;
     -fx-background-radius: 8;
-    -fx-border-color: transparent;
-    -fx-padding: 8;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 8;
+    -fx-padding: 8 10;
     -fx-font-size: 14px;
+    -fx-prompt-text-fill: #9aa0a6;
 }
 
 .text-field:focused {
     -fx-border-color: #0078D7;
     -fx-border-width: 2;
+    -fx-background-color: #ffffff;
+    -fx-effect: dropshadow(gaussian, rgba(0,120,215,0.2), 6, 0, 0, 0);
+}
+
+/* ---------- ComboBox ---------- */
+.combo-box {
+    -fx-background-color: #f5f6fa;
+    -fx-background-radius: 8;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 8;
+    -fx-font-size: 14px;
+    -fx-padding: 6 10;
+}
+
+.combo-box:focused {
+    -fx-border-color: #0078D7;
+    -fx-effect: dropshadow(gaussian, rgba(0,120,215,0.2), 6, 0, 0, 0);
 }
 
 /* ---------- Buttons ---------- */
 .button {
-    -fx-font-family: "Segoe UI";
+    -fx-font-family: "Segoe UI Semibold";
     -fx-font-size: 15px;
     -fx-background-radius: 10;
     -fx-cursor: hand;
-    -fx-pref-width: 100;
-    -fx-pref-height: 35;
+    -fx-pref-width: 120;
+    -fx-pref-height: 38;
+    -fx-text-fill: white;
+    -fx-transition: all 0.3s ease;
 }
 
 .button:hover {
-    -fx-opacity: 0.9;
+    -fx-opacity: 0.92;
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
 }
 
+/* Primary Button - Connect */
 .button-connect {
-    -fx-background-color: #0078D7;
-    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to bottom right, #0078D7, #005fa3);
     -fx-font-weight: bold;
 }
 
+/* Secondary Button - Reset */
 .button-reset {
-    -fx-background-color: #b0bec5;
+    -fx-background-color: linear-gradient(to bottom right, #b0bec5, #90a4ae);
     -fx-text-fill: #2d3436;
+    -fx-font-weight: 600;
 }
+
+/* ---------- Alerts & Dialogs (Optional future styling) ---------- */
+.dialog-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #0078D7;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* ---------- Tooltip ---------- */
+.tooltip {
+    -fx-background-color: #2d3436;
+    -fx-text-fill: white;
+    -fx-padding: 8 10;
+    -fx-background-radius: 6;
+    -fx-font-size: 13px;
+}
+
+/*-----------  Combo Box Label  -------*/
+.combo-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: #2d3436;
+    -fx-font-weight: bold;
+}
+
