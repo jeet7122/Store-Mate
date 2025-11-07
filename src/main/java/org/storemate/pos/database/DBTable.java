@@ -30,6 +30,7 @@ public class DBTable {
                     + EMPLOYEE_COLUMN_FIRST_NAME + " VARCHAR(50) NOT NULL, "
                     + EMPLOYEE_COLUMN_USER_NAME + " VARCHAR(50) NOT NULL UNIQUE, "
                     + EMPLOYEE_COLUMN_PASSWORD + " VARCHAR(100) NOT NULL, "
+                    + EMPLOYEE_COLUMN_ROLE + " VARCHAR(20) NOT NULL"
                     + EMPLOYEE_COLUMN_JOINING_DATE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
                     + EMPLOYEE_COLUMN_MODIFIED_PROFILE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
                     + ");";
@@ -79,6 +80,7 @@ public class DBTable {
                     + SALE_COLUMN_TAX_AMOUNT + " DECIMAL(5,2) NOT NULL, "
                     + SALE_COLUMN_TOTAL_AMOUNT + " DECIMAL(5,2) NOT NULL, "
                     + SALE_COLUMN_STATUS + " VARCHAR(30) NOT NULL, "
+                    + SALE_COLUMN_SALE_DATE_AND_TIME + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                     + "FOREIGN KEY (" + SALE_COLUMN_EMPLOYEE_ID + ") REFERENCES "
                     + EMPLOYEE_TABLE_NAME + "(" + EMPLOYEE_COLUMN_ID + "));";
 
@@ -88,6 +90,7 @@ public class DBTable {
             "CREATE TABLE " + SALE_ITEM_TABLE_NAME + " ("
                     + SALE_ITEM_SALE_ID + " INT NOT NULL PRIMARY KEY, "
                     + SALE_ITEM_PRODUCT_ID + " VARCHAR(255) NOT NULL PRIMARY KEY, "
+                    + SALE_ITEM_UNIT_PRICE + "DECIMAL(5,2) NOT NULL, "
                     + SALE_ITEM_QUANTITY + " INT NOT NULL, "
                     + SALE_ITEM_TAX_CATEGORY + " VARCHAR(10) NOT NULL, "
                     + SALE_ITEM_TAX_AMOUNT + " DECIMAL(5,2), NOT NULL, "
