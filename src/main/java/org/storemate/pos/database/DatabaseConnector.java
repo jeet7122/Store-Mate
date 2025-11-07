@@ -1,5 +1,6 @@
 package org.storemate.pos.database;
 
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,7 +12,14 @@ public class DatabaseConnector {
 
     private static Connection connection;
     public static Connection getConnection(){
-        try {
+        try
+                (
+                        InputStream stream = DatabaseConnector.class.getResourceAsStream("credentials.properties")
+                        )
+        {
+
+
+
             connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
             if(connection != null){
                 System.out.println("Database connection established");

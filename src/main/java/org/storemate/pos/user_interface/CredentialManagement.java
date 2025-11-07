@@ -11,7 +11,7 @@ public class CredentialManagement {
 
     private static CredentialManagement instance;
     private final Properties credentials;
-    private static final String CREDENTIALS_PATH = "resources/credentials.properties";
+    private static final String CREDENTIALS_PATH = "src/main/resources/credential.properties";
 
 
     private CredentialManagement() {
