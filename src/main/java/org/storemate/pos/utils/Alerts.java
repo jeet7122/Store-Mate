@@ -42,9 +42,9 @@ public class Alerts {
 
     public void showSuccessAlert(String title, String message){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(alertTitle);
+        alert.setTitle(title);
         alert.setHeaderText(null);
-        alert.setContentText(alertMessage);
+        alert.setContentText(message);
         alert.showAndWait();
     }
     public void showErrorAlert(String title, String message){

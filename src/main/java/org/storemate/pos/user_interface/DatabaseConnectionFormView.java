@@ -1,17 +1,16 @@
 package org.storemate.pos.user_interface;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import org.storemate.pos.database.DatabaseConnector;
 import org.storemate.pos.utils.Alerts;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
 
 public class DatabaseConnectionFormView {
     private final VBox root;
@@ -83,9 +82,13 @@ public class DatabaseConnectionFormView {
                         passwordTextField.getText(),
                         dbProviders.getValue()
                 );
-                alerts.showSuccessAlert("Store Mate", "Credentials saved successfully");
+                Connection connection = DatabaseConnector.getConnection();
+                if (connection == null){
+                    System.out.println("Error connecting DB");
+                    alerts.showErrorAlert("Store-Mate-App", "Error connecting DB");
+                }
+                alerts.showSuccessAlert("Store Mate", "Connected Successfully");
                 System.out.println("Successfully stored credentials");
-
             }
             catch (IOException ioException) {
                 System.out.println("IO-EXCEPTION: " + ioException.getMessage());

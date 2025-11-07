@@ -1,37 +1,40 @@
 package org.storemate.pos.database;
 
-import java.io.InputStream;
+import org.storemate.pos.user_interface.CredentialManagement;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import static org.storemate.pos.database.DBConstants.*;
 
 
 public class DatabaseConnector {
-
     private static Connection connection;
-    public static Connection getConnection(){
-        try
-                (
-                        InputStream stream = DatabaseConnector.class.getResourceAsStream("credentials.properties")
-                        )
-        {
 
+    public static Connection getConnection() {
+        try {
 
-
-            connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
-            if(connection != null){
+            String url = CredentialManagement.getInstance().getDBUrl();
+            String dbName = CredentialManagement.getInstance().getDBName();
+            String username = CredentialManagement.getInstance().getDBUsername();
+            String password = CredentialManagement.getInstance().getDBPassword();
+            String dbUrl = url + "/" + dbName;
+            System.out.println("Url: " + url);
+            System.out.println("DBNAME: " + dbName);
+            System.out.println("Username: " + username);
+            System.out.println("Password: " + password);
+            System.out.println("DB_FULL_URL: " + dbUrl);
+            connection = DriverManager.getConnection(dbUrl, username, password);
+            if (connection != null) {
                 System.out.println("Database connection established");
-            }
-            else {
+            } else {
                 System.out.println("Database connection not established");
             }
-        }
-        catch (SQLException ex){
+        } catch (
+                SQLException ex) {
             System.out.println("SQL EXCEPTION: " + ex.getMessage());
-        }
-        catch (Exception ex){
+        } catch (
+                Exception ex) {
             System.out.println("Generic Exception: " + ex.getMessage());
         }
         return connection;
