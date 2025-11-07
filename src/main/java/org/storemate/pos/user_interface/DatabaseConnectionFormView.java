@@ -5,11 +5,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import org.storemate.pos.utils.Alerts;
+
+import java.io.IOException;
 
 public class DatabaseConnectionFormView {
     private final VBox root;
-
+    private CredentialManagement credentialManagement = CredentialManagement.getInstance();
     public DatabaseConnectionFormView() {
+        Alerts alerts = new Alerts();
         VBox formVBox = new VBox();
         root = new VBox();
         GridPane formGrid = new GridPane();
@@ -56,6 +60,29 @@ public class DatabaseConnectionFormView {
 
         Button resetButton = new Button("Reset");
         resetButton.getStyleClass().addAll("button", "button-reset");
+
+
+        //Login Button Function
+        loginButton.setOnAction(e -> {
+            try {
+                credentialManagement.saveCredentials(
+                        databaseUrlTextField.getText(),
+                        databaseNameTextField.getText(),
+                        usernameTextField.getText(),
+                        passwordTextField.getText()
+                );
+                alerts.showSuccessAlert("Store Mate", "Credentials saved successfully");
+                System.out.println("Successfully stored credentials");
+
+            }
+            catch (IOException ioException) {
+                System.out.println("IO-EXCEPTION: " + ioException.getMessage());
+            }
+            catch (Exception exception) {
+                System.out.println("EXCEPTION: " + exception.getMessage());
+            }
+        });
+
 
         HBox buttonBox = new HBox(10, loginButton, resetButton);
         buttonBox.setAlignment(Pos.CENTER);
