@@ -18,7 +18,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException, SQLException {
         SceneManager.init(stage);
-        SceneManager.showRegistrationForm();
+        SceneManager.showEmployeeRegistrationForm();
         stage.show();
     }
 }
