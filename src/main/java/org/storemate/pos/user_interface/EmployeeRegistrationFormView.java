@@ -48,20 +48,42 @@ public class EmployeeRegistrationFormView {
 
         Button submitButton = new Button("Register");
         submitButton.getStyleClass().addAll("button", "button-connect");
-        if (!passwordTextField.getText().equals(confirmPasswordTextField.getText())){
-            submitButton.disabledProperty();
-        }
+
+        submitButton.disableProperty().bind(
+                passwordTextField.textProperty().isEmpty()
+                        .or(confirmPasswordTextField.textProperty().isEmpty())
+                        .or(passwordTextField.textProperty().isNotEqualTo(confirmPasswordTextField.textProperty()))
+        );
 
         //Register Trigger
         submitButton.setOnAction(e -> {
             String username = usernameTextField.getText();
             String email = emailTextField.getText();
             String password = passwordTextField.getText();
-            String role = roleBox.getSelectionModel().getSelectedItem().toString();
+            String confirmPassword = confirmPasswordTextField.getText();
+            Role role = roleBox.getSelectionModel().getSelectedItem();
+            if (!password.equals(confirmPassword)){
+                alerts.showErrorAlert(
+                        "Password Mismatch",
+                        "The password and confirm password fields do not match. Please re-enter."
+                );
+            }
+            if (email.isEmpty() || username.isEmpty()){
+                alerts.showErrorAlert(
+                        "Missing Fields",
+                        "In order to register, all fields are required"
+                );
+            }
+            if (role == null) {
+                alerts.showErrorAlert("Missing Role", "Please select a role before registering.");
+                return;
+            }
             try {
-                boolean registered = authService.registerUser(username, email, password, role);
+                String roleForDB = role.toString();
+                boolean registered = authService.registerUser(username, email, password, roleForDB);
                 if (registered){
                     alerts.showSuccessAlert("Store-Mate Employee Registration", "Employee Registered Successfully");
+                    return;
                 }
             }
             catch (Exception exception){
@@ -71,7 +93,7 @@ public class EmployeeRegistrationFormView {
             passwordTextField.clear();
             confirmPasswordTextField.clear();
             emailTextField.clear();
-            roleBox.cancelEdit();
+            roleBox.setValue(null);
         });
 
 
@@ -85,7 +107,7 @@ public class EmployeeRegistrationFormView {
             passwordTextField.clear();
             confirmPasswordTextField.clear();
             emailTextField.clear();
-            roleBox.cancelEdit();
+            roleBox.setValue(null);
         });
 
         buttonBox.getChildren().addAll(submitButton, resetButton);
