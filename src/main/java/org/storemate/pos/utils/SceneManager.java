@@ -5,6 +5,7 @@ import javafx.stage.Stage;
 import org.storemate.pos.user_interface.DatabaseConnectionFormView;
 import org.storemate.pos.user_interface.EmployeeRegistrationFormView;
 
+
 public class SceneManager {
 
     private static Stage primaryStage;
