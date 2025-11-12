@@ -6,7 +6,7 @@ import java.sql.Timestamp;
 
 public class Employee {
     private int employeeID;
-    private String firstName;
+    private String username;
     private String email;
     private String password;
     private Role role;
@@ -16,8 +16,8 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String firstName, String email, String password, Role role) {
-        this.firstName = firstName;
+    public Employee(String username, String email, String password, Role role) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -31,12 +31,12 @@ public class Employee {
         this.employeeID = employeeID;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -83,7 +83,7 @@ public class Employee {
     public String toString() {
         return "Employee{" +
                 "employeeID=" + employeeID +
-                ", firstName='" + firstName + '\'' +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +

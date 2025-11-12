@@ -27,7 +27,7 @@ public class DBTable {
     public static final String CREATE_EMPLOYEE_TABLE =
             "CREATE TABLE " + EMPLOYEE_TABLE_NAME + " ("
                     + EMPLOYEE_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "
-                    + EMPLOYEE_COLUMN_FIRST_NAME + " VARCHAR(50) NOT NULL, "
+                    + EMPLOYEE_COLUMN_EMAIL + " VARCHAR(255) NOT NULL, "
                     + EMPLOYEE_COLUMN_USER_NAME + " VARCHAR(50) NOT NULL UNIQUE, "
                     + EMPLOYEE_COLUMN_PASSWORD + " VARCHAR(100) NOT NULL, "
                     + EMPLOYEE_COLUMN_ROLE + " VARCHAR(20) NOT NULL"

@@ -5,7 +5,7 @@ public class TableConstants {
     // Employees Table
     public static final String EMPLOYEE_TABLE_NAME = "employees";
     public static final String EMPLOYEE_COLUMN_ID = "employee_id";
-    public static final String EMPLOYEE_COLUMN_FIRST_NAME = "firstname";
+    public static final String EMPLOYEE_COLUMN_EMAIL = "email";
     public static final String EMPLOYEE_COLUMN_USER_NAME = "username";
     public static final String EMPLOYEE_COLUMN_PASSWORD = "password";
     public static final String EMPLOYEE_COLUMN_ROLE = "role";
