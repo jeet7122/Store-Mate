@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import org.storemate.pos.models.Employee;
 import org.storemate.pos.models.enums.Role;
 
 import java.util.ArrayList;

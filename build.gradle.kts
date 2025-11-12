@@ -45,8 +45,7 @@ dependencies {
 
     implementation("com.mysql:mysql-connector-j:9.4.0")
 
-    // https://mvnrepository.com/artifact/org.mindrot.bcrypt/bcrypt
-    implementation("org.mindrot.bcrypt:bcrypt:0.3")
+    implementation("org.mindrot:jbcrypt:0.4")
 }
 
 tasks.withType<Test> {
