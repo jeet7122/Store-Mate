@@ -11,6 +11,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.storemate.pos.models.enums.Role;
+import org.storemate.pos.services.AuthService;
+import org.storemate.pos.utils.Alerts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +20,10 @@ import java.util.List;
 
 public class EmployeeRegistrationFormView {
     private final VBox root;
+
     public EmployeeRegistrationFormView(){
+        AuthService authService = new AuthService();
+        Alerts alerts = new Alerts();
         root = new VBox(10);
         GridPane formGrid = new GridPane();
         TextField usernameTextField = new TextField();
@@ -43,8 +48,45 @@ public class EmployeeRegistrationFormView {
 
         Button submitButton = new Button("Register");
         submitButton.getStyleClass().addAll("button", "button-connect");
+        if (!passwordTextField.getText().equals(confirmPasswordTextField.getText())){
+            submitButton.disabledProperty();
+        }
+
+        //Register Trigger
+        submitButton.setOnAction(e -> {
+            String username = usernameTextField.getText();
+            String email = emailTextField.getText();
+            String password = passwordTextField.getText();
+            String role = roleBox.getSelectionModel().getSelectedItem().toString();
+            try {
+                boolean registered = authService.registerUser(username, email, password, role);
+                if (registered){
+                    alerts.showSuccessAlert("Store-Mate Employee Registration", "Employee Registered Successfully");
+                }
+            }
+            catch (Exception exception){
+                System.out.println("Unknown Exception: " + exception.getMessage());
+            }
+            usernameTextField.clear();
+            passwordTextField.clear();
+            confirmPasswordTextField.clear();
+            emailTextField.clear();
+            roleBox.cancelEdit();
+        });
+
+
+
         Button resetButton = new Button("Clear");
         resetButton.getStyleClass().addAll("button", "button-reset");
+
+        //Reset Trigger
+        resetButton.setOnAction(e -> {
+            usernameTextField.clear();
+            passwordTextField.clear();
+            confirmPasswordTextField.clear();
+            emailTextField.clear();
+            roleBox.cancelEdit();
+        });
 
         buttonBox.getChildren().addAll(submitButton, resetButton);
         buttonBox.setSpacing(20);

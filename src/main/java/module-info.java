@@ -5,6 +5,5 @@ module org.storemate.pos {
     requires java.sql;
     requires mysql.connector.j;
     requires jbcrypt;
-    requires org.storemate.pos;
     exports org.storemate.pos;
 }

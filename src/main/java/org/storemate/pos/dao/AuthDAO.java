@@ -48,4 +48,37 @@ public class AuthDAO {
         }
         return null;
     }
+
+    public void register(EmployeeDTO employeeToRegister) {
+        String query = "INSERT INTO " + EMPLOYEE_TABLE_NAME
+                + " ( " + EMPLOYEE_COLUMN_USER_NAME + ", " + EMPLOYEE_COLUMN_EMAIL + ", " + EMPLOYEE_COLUMN_PASSWORD
+                + ", " + EMPLOYEE_COLUMN_ROLE + " ) VALUES (?,?,?,?)";
+
+        try
+                (
+                        Connection connection = DatabaseConnector.getConnection();
+                        PreparedStatement statement = connection.prepareStatement(query);
+                        )
+
+        {
+            statement.setString(1, employeeToRegister.getUsername());
+            statement.setString(2, employeeToRegister.getEmail());
+            statement.setString(3, employeeToRegister.getPassword());
+            statement.setString(4, employeeToRegister.getRole());
+            int rows = statement.executeUpdate();
+            if (rows > 0){
+                System.out.println("Employee registered successfully");
+            }
+            else {
+                System.out.println("Error occurred while registration");
+            }
+
+        }
+        catch (SQLException ex){
+            System.out.println("SQL EXCEPTION: " + ex.getMessage());
+        }
+        catch (Exception ex){
+            System.out.println("EXCEPTION: " + ex.getMessage());
+        }
+    }
 }

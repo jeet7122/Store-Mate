@@ -4,8 +4,6 @@ import org.storemate.pos.dao.AuthDAO;
 import org.storemate.pos.dto.EmployeeDTO;
 import org.storemate.pos.models.Employee;
 import org.mindrot.jbcrypt.BCrypt;
-import org.storemate.pos.models.enums.Role;
-import org.storemate.pos.utils.Mappers;
 
 public class AuthService {
     private final AuthDAO authDAO;
