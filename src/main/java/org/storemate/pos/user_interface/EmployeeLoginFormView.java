@@ -43,18 +43,18 @@ public class EmployeeLoginFormView {
         });
 
         /* TESTING PURPOSE LOGOUT BUTTON NOT INCLUDED IN FINAL FORM */
-        Button logoutButton = new Button("Logout");
-        logoutButton.getStyleClass().add("button-reset");
-
-        logoutButton.setOnAction(e -> {
-            Employee employee = Session.getInstance().getCurrentUser();
-            if (employee != null){
-                ShiftDAO dao = new ShiftDAO();
-                dao.endShift(employee.getEmployeeID());
-                Session.getInstance().logout();
-                alerts.showSuccessAlert("Logout Success", "User logged out successfully");
-            }
-        });
+//        Button logoutButton = new Button("Logout");
+//        logoutButton.getStyleClass().add("button-reset");
+//
+//        logoutButton.setOnAction(e -> {
+//            Employee employee = Session.getInstance().getCurrentUser();
+//            if (employee != null){
+//                ShiftDAO dao = new ShiftDAO();
+//                dao.endShift(employee.getEmployeeID());
+//                Session.getInstance().logout();
+//                alerts.showSuccessAlert("Logout Success", "User logged out successfully");
+//            }
+//        });
 
 
 
@@ -72,7 +72,7 @@ public class EmployeeLoginFormView {
 
 
         /* VBOX Arrangement */
-        root.getChildren().addAll(title, loginGrid, loginButton, logoutButton);
+        root.getChildren().addAll(title, loginGrid, loginButton);
 
 
     }
