@@ -54,6 +54,7 @@ public class AuthService {
         if (BCrypt.checkpw(password, employee.getPassword())) {
             Session.getInstance().setCurrentUser(employee);
             System.out.println("User logged in: " + employee.getUsername() + " | Role: " + employee.getRole());
+            alerts.showSuccessAlert("Login Successful", "User logged in: " + employee.getUsername() + " | Role: " + employee.getRole());
             return true;
         } else {
             alerts.showErrorAlert("Login Error", "Password not Correct");
