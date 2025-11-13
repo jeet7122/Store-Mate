@@ -21,19 +21,19 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException, SQLException {
 
-//        try(
-//                Connection connection = DatabaseConnector.getConnection();
-//                PreparedStatement statement = connection.prepareStatement(DBTable.CREATE_EMPLOYEE_TABLE)
-//                )
-//        {
-//            int rows = statement.executeUpdate();
-//            if (rows > 0){
-//                System.out.println("Employee Table Added successfully");
-//            }
-//            else {
-//                System.out.println("Error");
-//            }
-//        }
+        try(
+                Connection connection = DatabaseConnector.getConnection();
+                PreparedStatement statement = connection.prepareStatement(DBTable.CREATE_SHIFT_TABLE)
+                )
+        {
+            int rows = statement.executeUpdate();
+            if (rows > 0){
+                System.out.println("Employee Table Added successfully");
+            }
+            else {
+                System.out.println("Error");
+            }
+        }
         SceneManager.init(stage);
         SceneManager.showEmployeeLoginForm();
         stage.show();

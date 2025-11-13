@@ -36,7 +36,6 @@ public class DBTable {
                     + ");";
 
     //Shift Tables Schema
-
     public static final String CREATE_SHIFT_TABLE =
             "CREATE TABLE IF NOT EXISTS " + SHIFT_TABLE_NAME + " ("
                     + SHIFT_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "

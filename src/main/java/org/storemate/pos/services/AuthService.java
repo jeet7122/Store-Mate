@@ -1,6 +1,7 @@
 package org.storemate.pos.services;
 
 import org.storemate.pos.dao.AuthDAO;
+import org.storemate.pos.dao.ShiftDAO;
 import org.storemate.pos.dto.EmployeeDTO;
 import org.storemate.pos.models.Employee;
 import org.mindrot.jbcrypt.BCrypt;
@@ -44,21 +45,23 @@ public class AuthService {
     }
 
     // added login user
-    public boolean loginUser(String username, String password) {
+    public void loginUser(String username, String password) {
         Employee employee = authDAO.findByUsername(username);
         if (employee == null) {
             alerts.showErrorAlert("Login Error", "User not found");
-            return false;
+            return;
         }
 // added Session for logged-in User
         if (BCrypt.checkpw(password, employee.getPassword())) {
             Session.getInstance().setCurrentUser(employee);
+            /* AS SOON AS EMPLOYEE LOGS IN SHIFT TABLE GETS UPDATED */
+            ShiftDAO shiftDAO = new ShiftDAO();
+            shiftDAO.startShift(employee.getEmployeeID());
+
             System.out.println("User logged in: " + employee.getUsername() + " | Role: " + employee.getRole());
             alerts.showSuccessAlert("Login Successful", "User logged in: " + employee.getUsername() + " | Role: " + employee.getRole());
-            return true;
         } else {
-            alerts.showErrorAlert("Login Error", "Password not Correct");
-            return false;
+            alerts.showErrorAlert("Login Error", "Incorrect Password");
         }
     }
 

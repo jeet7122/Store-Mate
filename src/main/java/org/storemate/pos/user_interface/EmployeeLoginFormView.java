@@ -9,10 +9,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.storemate.pos.dao.ShiftDAO;
+import org.storemate.pos.models.Employee;
+import org.storemate.pos.services.AuthService;
+import org.storemate.pos.utils.Alerts;
+import org.storemate.pos.utils.Session;
 
 public class EmployeeLoginFormView {
     private final VBox root;
     public EmployeeLoginFormView(){
+        Alerts alerts = new Alerts();
+        AuthService authService = new AuthService();
         root = new VBox(10);
         root.getStyleClass().add("form-box");
         Label title = new Label("User Login");
@@ -25,7 +32,30 @@ public class EmployeeLoginFormView {
 
         /* Login Button */
         Button loginButton = new Button("Login");
-        loginButton.getStyleClass().add("login-connect");
+        loginButton.getStyleClass().add("button-connect");
+
+        /* Login Button On Click Action */
+        loginButton.setOnAction(e -> {
+            //Extracting data from fields
+            String username = usernameTF.getText();
+            String password = passwordTF.getText();
+            authService.loginUser(username, password);
+        });
+
+        /* TESTING PURPOSE LOGOUT BUTTON NOT INCLUDED IN FINAL FORM */
+        Button logoutButton = new Button("Logout");
+        logoutButton.getStyleClass().add("button-reset");
+
+        logoutButton.setOnAction(e -> {
+            Employee employee = Session.getInstance().getCurrentUser();
+            if (employee != null){
+                ShiftDAO dao = new ShiftDAO();
+                dao.endShift(employee.getEmployeeID());
+                Session.getInstance().logout();
+                alerts.showSuccessAlert("Logout Success", "User logged out successfully");
+            }
+        });
+
 
 
         /* Grid Arrangement */
@@ -42,7 +72,7 @@ public class EmployeeLoginFormView {
 
 
         /* VBOX Arrangement */
-        root.getChildren().addAll(title, loginGrid, loginButton);
+        root.getChildren().addAll(title, loginGrid, loginButton, logoutButton);
 
 
     }

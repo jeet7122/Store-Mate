@@ -22,7 +22,7 @@ public class Session {
     public Employee getCurrentUser() {
         return currentUser;
     }
-    public  void logout() {
+    public void logout() {
         currentUser = null;
     }
 }
