@@ -13,10 +13,11 @@ public class AuthService {
     private Alerts alerts = new Alerts();
 
 
-    public AuthService(AuthDAO authDAO){
+    public AuthService(AuthDAO authDAO) {
         this.authDAO = authDAO;
     }
-    public AuthService(){
+
+    public AuthService() {
         authDAO = new AuthDAO();
     }
 
@@ -25,9 +26,9 @@ public class AuthService {
             String email,
             String password,
             String roles
-    ){
+    ) {
         Employee employee = authDAO.findByUsername(username);
-        if (employee != null){
+        if (employee != null) {
             System.out.println("User already exists");
             alerts.showErrorAlert("Registration Error", "User with username " + username + " already exists in database");
             return false;
@@ -62,6 +63,16 @@ public class AuthService {
             alerts.showSuccessAlert("Login Successful", "User logged in: " + employee.getUsername() + " | Role: " + employee.getRole());
         } else {
             alerts.showErrorAlert("Login Error", "Incorrect Password");
+        }
+    }
+
+    public void logout() {
+        Employee employee = Session.getInstance().getCurrentUser();
+        if (employee != null) {
+            ShiftDAO dao = new ShiftDAO();
+            dao.endShift(employee.getEmployeeID());
+            Session.getInstance().logout();
+            alerts.showSuccessAlert("Logout Success", "User logged out successfully");
         }
     }
 
