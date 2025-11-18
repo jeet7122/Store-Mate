@@ -17,7 +17,7 @@ public class DemoUIADMINONLY {
         root = new VBox(10);
         Label title = new Label("Only For Admins");
         Button everyOne = new Button("Open For Everyone");
-        everyOne.setOnAction(e -> SceneManager.showAllAccess());
+        everyOne.setOnAction(e -> SceneManager.navigate("/dashboard"));
         Button home = new Button("Home");
         home.setOnAction(e -> SceneManager.showHomePage());
 

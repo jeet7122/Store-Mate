@@ -15,7 +15,8 @@ public class RolePermissions {
         permissions.put(Role.CASHIER, Set.of(
                 Permission.PROCESS_SALES,
                 Permission.PROCESS_REFUND,
-                Permission.VIEW_INVENTORY
+                Permission.VIEW_INVENTORY,
+                Permission.VIEW_DASHBOARD
         ));
 
     }

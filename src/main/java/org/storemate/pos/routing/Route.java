@@ -1,4 +1,4 @@
-package org.storemate.pos.models;
+package org.storemate.pos.routing;
 
 import javafx.scene.Parent;
 import org.storemate.pos.models.enums.Permission;

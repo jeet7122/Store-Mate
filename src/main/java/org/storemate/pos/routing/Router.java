@@ -1,0 +1,57 @@
+package org.storemate.pos.routing;
+
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.storemate.pos.models.enums.Permission;
+import org.storemate.pos.services.AuthorizationService;
+import org.storemate.pos.user_interface.views.*;
+import org.storemate.pos.utils.SceneManager;
+import org.storemate.pos.utils.Session;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Router {
+    private static Stage stage;
+    private static final Map<String, Route> routes = new HashMap<>();
+    public static void init(Stage s){
+        stage = s;
+        registerRoutes();
+    }
+
+    //All the Routes with permissions
+    private static void registerRoutes(){
+        routes.put("/dashboard", new Route(() -> new DashboardViewForAdmin().getView(), Permission.VIEW_DASHBOARD));
+        routes.put("/employees", new Route(() -> new EmployeeDataView().getView(), Permission.MANAGE_EMPLOYEES));
+        routes.put("/suppliers", new Route(() -> new SuppliersDataView().getView(), Permission.MANAGE_SUPPLIERS));
+        routes.put("/products", new Route(() -> new ProductsDataView().getView(), Permission.MANAGE_PRODUCTS));
+        routes.put("/pos", new Route(() -> new ProcessSalesView().getView(), Permission.PROCESS_SALES));
+        routes.put("/purchases", new Route(() -> new PurchaseDataView().getView(), Permission.MANAGE_PURCHASES));
+        routes.put("/reports/sales", new Route(() -> new SalesDataView().getView(), Permission.VIEW_SALES_REPORTS));
+        routes.put("/shifts", new Route(() -> new ShiftDataView().getView(), Permission.VIEW_SHIFTS));
+        routes.put("/settings/general", new Route(() -> new SettingsTabView().getView(), Permission.MANAGE_SETTINGS));
+        routes.put("/categories", new Route(() -> new CategoriesDataView().getView(), Permission.MANAGE_CATEGORIES));
+        routes.put("/transactions", new Route(() -> new TransactionsDataView().getView(), Permission.VIEW_TRANSACTIONS));
+        routes.put("/transactions/refunds", new Route(() -> new ReturnsDataView().getView(), Permission.PROCESS_REFUND));
+    }
+
+    public static void navigate(String routePath){
+        if (!routes.containsKey(routePath)){
+            System.out.println("Route not found: " + routePath);
+            return;
+        }
+        AuthorizationService authorizationService = new AuthorizationService(Session.getInstance().getCurrentUser().getRole());
+        Route route = routes.get(routePath);
+
+        if (!authorizationService.hasPermission(route.getRequiredPermission())){
+            Scene denied = new Scene(new AccessDenied().getView(),800,600);
+            stage.setScene(denied);
+            return;
+        }
+        Parent view = route.getViewBuilder().get();
+        SceneManager.getMainLayoutView().getView().setCenter(view);
+    }
+
+
+}

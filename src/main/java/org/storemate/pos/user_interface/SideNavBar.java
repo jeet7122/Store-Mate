@@ -3,61 +3,101 @@ package org.storemate.pos.user_interface;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import org.storemate.pos.models.enums.Permission;
+import org.storemate.pos.services.AuthorizationService;
 import org.storemate.pos.utils.Session;
+import org.storemate.pos.routing.Router;
 
 public class SideNavBar {
+
     private final VBox root;
-    public SideNavBar(){
-        root = new VBox(10);
-        Label c_name = new Label("Store-Mate");
-        Label helloGreet = new Label("Welcome " + Session.getInstance().getCurrentUser().getUsername());
-        helloGreet.getStyleClass().add("title");
-        Label reportsHeader = new Label("OVERVIEW");
-        Button btnDashboard = createNavButton("Dashboard 📊", "/dashboard");
-        Button btnSalesReports = createNavButton("Sales Reports 📈", "/reports/sales");
+    private final AuthorizationService authService;
 
-        // 2. CORE OPERATIONS
-        Label operationsHeader = new Label("OPERATIONS");
-        Button btnPOS = createNavButton("Point of Sale 🛒", "/pos");
-        Button btnTransactions = createNavButton("Transactions Hist. 🧾", "/transactions");
-        Button btnRefunds = createNavButton("Refunds & Voids ↩️", "/transactions/refunds");
+    public SideNavBar() {
+        root = new VBox();
+        root.getStyleClass().add("sidebar");
+        VBox.setVgrow(root, javafx.scene.layout.Priority.ALWAYS);
 
-        // 3. INVENTORY & PURCHASING
-        Label inventoryHeader = new Label("INVENTORY");
-        Button btnProducts = createNavButton("Products 🏷️", "/products");
-        Button btnCategories = createNavButton("Categories 🗂️", "/categories");
-        Button btnPurchaseOrders = createNavButton("Purchase Orders 📝", "/purchases");
-        Button btnSuppliers = createNavButton("Suppliers 🚚", "/suppliers");
+        var currentUser = Session.getInstance().getCurrentUser();
+        authService = new AuthorizationService(currentUser.getRole());
 
-        // 4. MANAGEMENT & CONFIGURATION
-        Label managementHeader = new Label("MANAGEMENT");
-        Button btnEmployees = createNavButton("Employees 👥", "/employees");
-        Button btnShifts = createNavButton("Shifts Tracking ⌚", "/shifts");
-        Button btnSettings = createNavButton("Settings ⚙️", "/settings/general");
+        // Profile header
+        Label title = new Label("StoreMate");
+        title.getStyleClass().add("sidebar-title");
 
-        // Add all elements to the VBox
-        root.getChildren().addAll(
-                c_name, helloGreet,
-                reportsHeader, btnDashboard, btnSalesReports,
-                operationsHeader, btnPOS, btnTransactions, btnRefunds,
-                inventoryHeader, btnProducts, btnCategories, btnPurchaseOrders, btnSuppliers,
-                managementHeader, btnEmployees, btnShifts, btnSettings
+        Label welcome = new Label("Welcome " + currentUser.getUsername());
+        welcome.getStyleClass().add("sidebar-welcome");
+
+        VBox profileBox = new VBox(title, welcome);
+        profileBox.getStyleClass().add("sidebar-profile");
+
+        root.getChildren().add(profileBox);
+
+        // Sections
+        addSection("OVERVIEW",
+                createNavButton("Dashboard", "/dashboard", Permission.VIEW_DASHBOARD),
+                createNavButton("Sales Reports", "/reports/sales", Permission.VIEW_SALES_REPORTS)
+        );
+
+        addSection("OPERATIONS",
+                createNavButton("Point of Sale", "/pos", Permission.PROCESS_SALES),
+                createNavButton("Transactions", "/transactions", Permission.VIEW_TRANSACTIONS),
+                createNavButton("Refunds & Voids", "/transactions/refunds", Permission.PROCESS_REFUND)
+        );
+
+        addSection("INVENTORY",
+                createNavButton("Products", "/products", Permission.MANAGE_PRODUCTS),
+                createNavButton("Categories", "/categories", Permission.MANAGE_PRODUCTS),
+                createNavButton("Purchase Orders", "/purchases", Permission.MANAGE_PURCHASES),
+                createNavButton("Suppliers", "/suppliers", Permission.MANAGE_SUPPLIERS)
+        );
+
+        addSection("MANAGEMENT",
+                createNavButton("Employees", "/employees", Permission.MANAGE_EMPLOYEES),
+                createNavButton("Shifts", "/shifts", Permission.VIEW_SHIFTS),
+                createNavButton("Settings", "/settings/general", Permission.MANAGE_SETTINGS)
         );
     }
 
-    // Helper method to create consistent buttons
-    private Button createNavButton(String text, String route) {
+
+    // Helper method to add a labeled section with buttons
+    private void addSection(String title, Button... buttons) {
+        Label header = new Label(title);
+        root.getChildren().add(header);
+        for (Button btn : buttons) {
+            root.getChildren().add(btn);
+        }
+    }
+
+    // Creates buttons, disables them if the user lacks permission
+    private Button createNavButton(String text, String route, Permission permission) {
         Button button = new Button(text);
-        button.setMaxWidth(Double.MAX_VALUE); // Ensures button fills the width
+        button.setMaxWidth(Double.MAX_VALUE);
         button.getStyleClass().add("nav-button");
-        // NOTE: You will implement the navigation logic (e.g., event handler
-        // that calls a method to change the central view) here or in the controller.
-        button.setOnAction(e -> System.out.println("Navigating to: " + route));
+
+        if (!authService.hasPermission(permission)) {
+            button.setDisable(true); // disable instead of hiding
+        }
+
+        // Use Router to navigate
+        button.setOnAction(e -> {
+            highlightActive(button);
+            Router.navigate(route);
+        });
+
         return button;
     }
 
     public VBox getRoot() {
         return root;
+    }
+    private void highlightActive(Button activeBtn) {
+        root.getChildren().forEach(node -> {
+            if (node instanceof Button b) {
+                b.getStyleClass().remove("active");
+            }
+        });
+        activeBtn.getStyleClass().add("active");
     }
 
 }

@@ -20,9 +20,9 @@ public class DemoUIGeneral {
         Button adminOnly = new Button("Admin Only");
         adminOnly.setDisable(!authorizationService.hasPermission(Permission.ADMIN_ONLY));
 
-        adminOnly.setOnAction(e -> SceneManager.showAdminAccessOnly());
+        adminOnly.setOnAction(e -> SceneManager.navigate("/dashboard"));
         Button home = new Button("Home");
-        home.setOnAction(e -> SceneManager.showHomePage());
+        home.setOnAction(e -> SceneManager.navigate("/dashboard"));
 
         root.getChildren().addAll(title, adminOnly, home);
     }
