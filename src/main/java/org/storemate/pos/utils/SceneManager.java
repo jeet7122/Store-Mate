@@ -2,9 +2,7 @@ package org.storemate.pos.utils;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.storemate.pos.user_interface.DatabaseConnectionFormView;
-import org.storemate.pos.user_interface.EmployeeLoginFormView;
-import org.storemate.pos.user_interface.EmployeeRegistrationFormView;
+import org.storemate.pos.user_interface.*;
 
 
 public class SceneManager {
@@ -32,6 +30,25 @@ public class SceneManager {
     public static void showEmployeeLoginForm(){
         EmployeeLoginFormView view = new EmployeeLoginFormView();
         Scene scene = new Scene(view.getView(), 600,500);
+        scene.getStylesheets().add(SceneManager.class.getResource("/css/index.css").toExternalForm());
+        primaryStage.setScene(scene);
+    }
+
+    public static void showAdminAccessOnly(){
+        DemoUIADMINONLY view = new DemoUIADMINONLY();
+        Scene scene = new Scene(view.getView(), 600, 500);
+        scene.getStylesheets().add(SceneManager.class.getResource("/css/index.css").toExternalForm());
+        primaryStage.setScene(scene);
+    }
+    public static void showAllAccess(){
+        DemoUIGeneral view = new DemoUIGeneral();
+        Scene scene = new Scene(view.getView(), 600, 500);
+        scene.getStylesheets().add(SceneManager.class.getResource("/css/index.css").toExternalForm());
+        primaryStage.setScene(scene);
+    }
+    public static void showHomePage(){
+        RouterPageDemo view = new RouterPageDemo();
+        Scene scene = new Scene(view.getView(), 600, 500);
         scene.getStylesheets().add(SceneManager.class.getResource("/css/index.css").toExternalForm());
         primaryStage.setScene(scene);
     }
