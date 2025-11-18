@@ -1,0 +1,13 @@
+package org.storemate.pos.models.enums;
+
+public enum Permission {
+    VIEW_SALES_REPORTS,
+    VIEW_INVENTORY,
+    PROCESS_SALES,
+    PROCESS_PURCHASE,
+    PROCESS_REFUND,
+    MANAGE_PRODUCTS,
+    MANAGE_CATEGORIES,
+    MANAGE_EMPLOYEES,
+    VIEW_PURCHASE_REPORTS
+}
