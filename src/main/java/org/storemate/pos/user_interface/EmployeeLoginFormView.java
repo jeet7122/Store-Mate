@@ -10,6 +10,7 @@ import org.storemate.pos.dao.ShiftDAO;
 import org.storemate.pos.models.Employee;
 import org.storemate.pos.services.AuthService;
 import org.storemate.pos.utils.Alerts;
+import org.storemate.pos.utils.SceneManager;
 import org.storemate.pos.utils.Session;
 
 public class EmployeeLoginFormView {
@@ -53,6 +54,7 @@ public class EmployeeLoginFormView {
             String username = usernameTF.getText();
             String password = passwordField.isVisible() ? passwordField.getText() : passwordTF.getText();
             authService.loginUser(username, password);
+            SceneManager.showHomePage();
         });
 
         /* TESTING PURPOSE LOGOUT BUTTON NOT INCLUDED IN FINAL FORM */
