@@ -17,8 +17,11 @@ public class TableConstants {
     public static final String SHIFT_TABLE_NAME = "shift";
     public static final String SHIFT_COLUMN_ID = "shift_id";
     public static final String SHIFT_COLUMN_EMPLOYEE_ID = "employee_id";
+    public static final String SHIFT_COLUMN_START_FLOAT_CASH = "start_cash";
+    public static final String SHIFT_COLUMN_END_FLOAT_CASH = "end_cash";
     public static final String SHIFT_COLUMN_LOGIN_TIME = "login_time";
     public static final String SHIFT_COLUMN_LOGOUT_TIME = "logout_time";
+
 
 
 
@@ -84,6 +87,8 @@ public class TableConstants {
     public static final String SALE_COLUMN_TAX_AMOUNT = "tax_amount";
     public static final String SALE_COLUMN_TOTAL_AMOUNT = "total_amount";
     public static final String SALE_COLUMN_SALE_DATE_AND_TIME = "sale_date";
+    public static final String SALE_COLUMN_PAYMENT_METHOD = "payment_method";
+    public static final String SALE_COLUMN_DISCOUNT_AMOUNT = "discount";
 
     //Sale Items
     public static final String SALE_ITEM_TABLE_NAME = "sale_items";
