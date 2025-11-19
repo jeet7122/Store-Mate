@@ -46,6 +46,13 @@ dependencies {
     implementation("com.mysql:mysql-connector-j:9.4.0")
 
     implementation("org.mindrot:jbcrypt:0.4")
+
+    // Ikonli core for JavaFX
+    implementation("org.kordamp.ikonli:ikonli-javafx:12.3.1")
+// Material Design Icons pack
+    implementation("org.kordamp.ikonli:ikonli-materialdesign2-pack:12.3.1")
+// AntDesign Icons pack
+    implementation("org.kordamp.ikonli:ikonli-antdesignicons-pack:12.3.1")
 }
 
 tasks.withType<Test> {

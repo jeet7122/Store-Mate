@@ -49,6 +49,7 @@ public class SceneManager {
         // Load main layout (RouterPageDemo or similar)
         Scene scene = new Scene(mainLayoutView.getView(), 1024, 768);
         scene.getStylesheets().add(SceneManager.class.getResource("/css/index.css").toExternalForm());
+        scene.getStylesheets().add(SceneManager.class.getResource("/css/dashboard.css").toExternalForm());
         primaryStage.setScene(scene);
 
         // Default route after login

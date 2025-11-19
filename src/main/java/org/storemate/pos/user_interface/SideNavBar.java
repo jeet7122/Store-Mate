@@ -1,8 +1,13 @@
 package org.storemate.pos.user_interface;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.kordamp.ikonli.Ikon;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.*;
 import org.storemate.pos.models.enums.Permission;
 import org.storemate.pos.services.AuthorizationService;
 import org.storemate.pos.utils.Session;
@@ -35,27 +40,27 @@ public class SideNavBar {
 
         // Sections
         addSection("OVERVIEW",
-                createNavButton("Dashboard", "/dashboard", Permission.VIEW_DASHBOARD),
-                createNavButton("Sales Reports", "/reports/sales", Permission.VIEW_SALES_REPORTS)
+                createNavButton("Dashboard", "/dashboard", Permission.VIEW_DASHBOARD, MaterialDesignV.VIEW_DASHBOARD_OUTLINE),
+                createNavButton("Sales Reports", "/reports/sales", Permission.VIEW_SALES_REPORTS, MaterialDesignC.CHART_LINE)
         );
 
         addSection("OPERATIONS",
-                createNavButton("Point of Sale", "/pos", Permission.PROCESS_SALES),
-                createNavButton("Transactions", "/transactions", Permission.VIEW_TRANSACTIONS),
-                createNavButton("Refunds & Voids", "/transactions/refunds", Permission.PROCESS_REFUND)
+                createNavButton("Point of Sale", "/pos", Permission.PROCESS_SALES, MaterialDesignS.STORE_OUTLINE),
+                createNavButton("Transactions", "/transactions", Permission.VIEW_TRANSACTIONS, MaterialDesignR.RECEIPT),
+                createNavButton("Refunds & Voids", "/transactions/refunds", Permission.PROCESS_REFUND, MaterialDesignC.CASH_REFUND)
         );
 
         addSection("INVENTORY",
-                createNavButton("Products", "/products", Permission.MANAGE_PRODUCTS),
-                createNavButton("Categories", "/categories", Permission.MANAGE_PRODUCTS),
-                createNavButton("Purchase Orders", "/purchases", Permission.MANAGE_PURCHASES),
-                createNavButton("Suppliers", "/suppliers", Permission.MANAGE_SUPPLIERS)
+                createNavButton("Products", "/products", Permission.MANAGE_PRODUCTS, MaterialDesignP.PACKAGE_VARIANT),
+                createNavButton("Categories", "/categories", Permission.MANAGE_PRODUCTS, MaterialDesignL.LABEL_OUTLINE),
+                createNavButton("Purchase Orders", "/purchases", Permission.MANAGE_PURCHASES, MaterialDesignC.CLIPBOARD_LIST_OUTLINE),
+                createNavButton("Suppliers", "/suppliers", Permission.MANAGE_SUPPLIERS, MaterialDesignT.TRUCK_DELIVERY)
         );
 
         addSection("MANAGEMENT",
-                createNavButton("Employees", "/employees", Permission.MANAGE_EMPLOYEES),
-                createNavButton("Shifts", "/shifts", Permission.VIEW_SHIFTS),
-                createNavButton("Settings", "/settings/general", Permission.MANAGE_SETTINGS)
+                createNavButton("Employees", "/employees", Permission.MANAGE_EMPLOYEES, MaterialDesignA.ACCOUNT_GROUP_OUTLINE),
+                createNavButton("Shifts", "/shifts", Permission.VIEW_SHIFTS, MaterialDesignB.BRIEFCASE_CLOCK_OUTLINE),
+                createNavButton("Settings", "/settings/general", Permission.MANAGE_SETTINGS, MaterialDesignC.COG_OUTLINE)
         );
     }
 
@@ -70,16 +75,29 @@ public class SideNavBar {
     }
 
     // Creates buttons, disables them if the user lacks permission
-    private Button createNavButton(String text, String route, Permission permission) {
-        Button button = new Button(text);
-        button.setMaxWidth(Double.MAX_VALUE);
-        button.getStyleClass().add("nav-button");
+    private Button createNavButton(String text, String route, Permission permission, Ikon icon) {
 
+        Button button = new Button(text);
+        button.getStyleClass().add("nav-button");
+        button.setMaxWidth(Double.MAX_VALUE);
+        button.setAlignment(Pos.CENTER_LEFT);
+
+        // Build icon
+        FontIcon fontIcon = new FontIcon(icon);
+        fontIcon.setIconSize(18);
+        fontIcon.getStyleClass().add("nav-icon");
+
+        // Put icon + text inside HBox
+        HBox content = new HBox(10, fontIcon);
+        content.setAlignment(Pos.CENTER_LEFT);
+        button.setGraphic(content);
+
+        // Disable if no permission
         if (!authService.hasPermission(permission)) {
-            button.setDisable(true); // disable instead of hiding
+            button.setDisable(true);
         }
 
-        // Use Router to navigate
+        // Navigation action
         button.setOnAction(e -> {
             highlightActive(button);
             Router.navigate(route);
@@ -87,7 +105,6 @@ public class SideNavBar {
 
         return button;
     }
-
     public VBox getRoot() {
         return root;
     }

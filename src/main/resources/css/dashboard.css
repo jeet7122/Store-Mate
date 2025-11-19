@@ -1,0 +1,31 @@
+.top-container {
+    -fx-background-color: #d3d3d3 ;
+    -fx-padding: 20;
+    -fx-spacing: 120;
+    -fx-alignment: center;
+    -fx-background-radius: 10;
+}
+
+.dashboard-box {
+    -fx-background-color: #f5f5f5; /* Dim white for boxes */
+    -fx-padding: 20;
+    -fx-spacing: 30;
+    -fx-alignment: center;
+    -fx-background-radius: 8;
+    -fx-pref-width: 300; /* Wider boxes */
+    -fx-pref-height: 100; /* Optional: give some height */
+}
+.dashboard-box Label {
+    -fx-text-fill: #000000;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+.chart-series-area-fill {
+    -fx-fill: rgba(0, 188, 212, 0.4); /* Cyan with transparency */
+}
+
+.chart-series-area-line {
+    -fx-stroke: #00BCD4; /* Cyan outline line */
+    -fx-stroke-width: 2px;
+}

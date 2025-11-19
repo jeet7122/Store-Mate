@@ -6,7 +6,7 @@
 /* ---------- Root Layout ---------- */
 root {
     /* Changed from gradient to a fixed, modern light gray for all pages */
-    -fx-background-color: #e9ecef;
+    -fx-background-color: #d3d3d3;
     -fx-padding: 20; /* Reduced padding for a less-centered, more full-screen app feel */
     -fx-alignment: top-left; /* Changed alignment to top-left for a standard app layout */
 }
