@@ -16,12 +16,15 @@ import org.storemate.pos.user_interface.components.Graphs;
 
 public class DashboardViewForAdmin {
     private final VBox root;
-    public DashboardViewForAdmin(){
+
+    public DashboardViewForAdmin() {
         Graphs graphs = new Graphs();
         Cards cards = new Cards();
         root = new VBox(10);
         Label title = new Label("Admin Dashboard");
         root.getChildren().add(title);
+        title.getStyleClass().add("label-subtitle");
+        root.setAlignment(Pos.CENTER);
 
         HBox topContainer = new HBox(120);
         topContainer.getStyleClass().add("top-container");
@@ -86,9 +89,7 @@ public class DashboardViewForAdmin {
         HBox ringsContainer = new HBox(20);
         Label employeesMetricsLabel = new Label("Weekly Working Hours");
         employeesMetricsLabel.setStyle(
-                "-fx-font-size: 18px;" +
-                        "-fx-font-weight: semi-bold;" +
-                        "-fx-text-fill: #111;" // White text for dark POS theme
+                "-fx-font-size: 18px;" + "-fx-text-fill: #111;" // White text for dark POS theme
         );
         employeesMetricsLabel.setAlignment(Pos.CENTER);
         ringsContainer.getChildren().addAll(
@@ -105,26 +106,38 @@ public class DashboardViewForAdmin {
 
         Parent cat_container = cards.createCategoryList();
         cat_container.setStyle("-fx-pref-height: 300; -fx-pref-width: 200");
-        HBox lowerContainer = new HBox(10);
-        VBox cat_cover = new VBox(10);
-        cat_cover.setStyle("-fx-background-color: #d3d3d3");
-        Label cat_label = new Label("Categories");
-        cat_label.setStyle("-fx-font-size: 18px; -fx-font-family: 'Segoe UI Semibold';");
-        cat_cover.getChildren().addAll(cat_label, cat_container);
-        root.getChildren().add(lowerContainer);
 
-        //Area Chart
+        HBox lowerContainer = new HBox(10);
+
+// ---- Category Section ----
+        VBox cat_cover = new VBox(10);
+        cat_cover.setStyle("-fx-background-color: #d3d3d3; -fx-padding: 10;");
+        cat_cover.setAlignment(Pos.CENTER);   // <-- center contents
+
+        Label cat_label = new Label("Categories");
+        cat_label.setStyle("-fx-font-size: 18px; -fx-font-family: 'Segoe UI';");
+        cat_cover.getChildren().addAll(cat_label, cat_container);
+
+
+// ---- Area Chart ----
         AreaChart<String, Number> purchaseChart = graphs.createPurchaseFillChart();
         purchaseChart.setStyle("-fx-background-color: #d3d3d3");
 
-        //Transactions Chart
+
+// ---- Transactions Section ----
         VBox transContainer = new VBox(60);
-        transContainer.setStyle("-fx-padding: 10; -fx-background-color: #d3d3d3; -fx-pref-width: 650");
+        transContainer.setStyle("-fx-padding: 10; -fx-background-color: #d3d3d3; -fx-pref-width: 650;");
+        transContainer.setAlignment(Pos.CENTER);  // <-- center contents
+
         Label transTitle = new Label("Weekly Transactions");
-        transTitle.setStyle("-fx-font-size: 18px; -fx-font-family: 'Segoe UI Semibold';");
+        transTitle.setStyle("-fx-font-size: 18px; -fx-font-family: 'Segoe UI';");
 
         transContainer.getChildren().addAll(transTitle, graphs.createTransactionRings());
+
+
+// ---- Add everything ----
         lowerContainer.getChildren().addAll(purchaseChart, cat_cover, transContainer);
+        root.getChildren().add(lowerContainer);
 
 
     }
