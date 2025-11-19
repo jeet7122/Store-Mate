@@ -211,5 +211,8 @@ root {
     -fx-text-fill: #b0b8c1;
     -fx-opacity: 0.6;
 }
+.hyper-link{
+    -fx-text-fill: #0066cc;
+}
 
 

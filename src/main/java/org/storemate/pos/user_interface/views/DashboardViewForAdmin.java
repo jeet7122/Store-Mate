@@ -18,6 +18,7 @@ public class DashboardViewForAdmin {
     private final VBox root;
 
     public DashboardViewForAdmin() {
+        //Necessary Imports
         Graphs graphs = new Graphs();
         Cards cards = new Cards();
         root = new VBox(10);
@@ -26,6 +27,7 @@ public class DashboardViewForAdmin {
         title.getStyleClass().add("label-subtitle");
         root.setAlignment(Pos.CENTER);
 
+        //First Level of Container
         HBox topContainer = new HBox(120);
         topContainer.getStyleClass().add("top-container");
 
@@ -77,13 +79,15 @@ public class DashboardViewForAdmin {
 
 
         topContainer.getChildren().addAll(productsBox, categoriesBox, employeeBox, supplierBox);
+        topContainer.setAlignment(Pos.TOP_CENTER);
         root.getChildren().add(topContainer);
+
+        //Mid-Level Of Container
         HBox midGraphBox = new HBox(10);
         LineChart<String, Number> salesChart = graphs.createSalesLineChart();
         salesChart.setStyle("-fx-background-color: #d3d3d3");
         midGraphBox.getChildren().add(salesChart);
         root.getChildren().add(midGraphBox);
-        topContainer.setAlignment(Pos.TOP_CENTER);
 
         //pie chart
         HBox ringsContainer = new HBox(20);
@@ -104,6 +108,7 @@ public class DashboardViewForAdmin {
         ringGraph.setStyle("-fx-background-color: #d3d3d3; -fx-padding: 10");
         ringsContainer.setAlignment(Pos.CENTER);
 
+        //
         Parent cat_container = cards.createCategoryList();
         cat_container.setStyle("-fx-pref-height: 300; -fx-pref-width: 200");
 

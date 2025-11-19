@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.storemate.pos.models.enums.Role;
+import org.storemate.pos.routing.Router;
 import org.storemate.pos.services.AuthService;
 import org.storemate.pos.utils.Alerts;
 
@@ -83,6 +84,7 @@ public class EmployeeRegistrationFormView {
                 boolean registered = authService.registerUser(username, email, password, roleForDB);
                 if (registered){
                     alerts.showSuccessAlert("Store-Mate Employee Registration", "Employee Registered Successfully");
+                    Router.navigate("/login");
                     return;
                 }
             }

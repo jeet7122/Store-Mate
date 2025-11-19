@@ -5,16 +5,21 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.storemate.pos.models.enums.Permission;
 import org.storemate.pos.services.AuthorizationService;
+import org.storemate.pos.user_interface.EmployeeLoginFormView;
+import org.storemate.pos.user_interface.EmployeeRegistrationFormView;
 import org.storemate.pos.user_interface.views.*;
 import org.storemate.pos.utils.SceneManager;
 import org.storemate.pos.utils.Session;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class Router {
     private static Stage stage;
     private static final Map<String, Route> routes = new HashMap<>();
+    private static final Set<String> publicRoutes = Set.of("/login", "/register");
     public static void init(Stage s){
         stage = s;
         registerRoutes();
@@ -34,6 +39,8 @@ public class Router {
         routes.put("/categories", new Route(() -> new CategoriesDataView().getView(), Permission.MANAGE_CATEGORIES));
         routes.put("/transactions", new Route(() -> new TransactionsDataView().getView(), Permission.VIEW_TRANSACTIONS));
         routes.put("/transactions/refunds", new Route(() -> new ReturnsDataView().getView(), Permission.PROCESS_REFUND));
+        routes.put("/register", new Route(() -> new EmployeeRegistrationFormView().getView(), null));
+        routes.put("/login", new Route(() -> new EmployeeLoginFormView().getView(), null));
     }
 
     public static void navigate(String routePath){
@@ -41,8 +48,22 @@ public class Router {
             System.out.println("Route not found: " + routePath);
             return;
         }
-        AuthorizationService authorizationService = new AuthorizationService(Session.getInstance().getCurrentUser().getRole());
+        if (publicRoutes.contains(routePath)){
+            Parent view = routes.get(routePath).getViewBuilder().get();
+            Scene scene = new Scene(view);
+            scene.getStylesheets().add(Router.class.getResource("/css/index.css").toExternalForm());
+            stage.setScene(scene);
+            return;
+        }
+        if (!Session.getInstance().isLoggedIn()){
+            Parent view = routes.get("/login").getViewBuilder().get();
+            stage.setScene(new Scene(view));
+            return;
+        }
+
         Route route = routes.get(routePath);
+        AuthorizationService authorizationService = new AuthorizationService(Session.getInstance().getCurrentUser().getRole());
+
 
         if (!authorizationService.hasPermission(route.getRequiredPermission())){
             Scene denied = new Scene(new AccessDenied().getView(),800,600);
