@@ -9,6 +9,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.storemate.pos.database.TableConstants.*;
 
@@ -49,4 +51,30 @@ public class ProductDAO {
         }
         return null;
     }
+
+    public List<Product> getAllProducts() {
+        String sql = "SELECT * FROM " + PRODUCT_TABLE_NAME;
+        List<Product> products = new ArrayList<>();
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                Product p = new Product();
+                p.setProduct_id(rs.getString(PRODUCT_COLUMN_ID));
+                p.setProduct_name(rs.getString(PRODUCT_COLUMN_NAME));
+                p.setProduct_description(rs.getString(PRODUCT_COLUMN_DESCRIPTION));
+                p.setProduct_quantity(rs.getInt(PRODUCT_COLUMN_QUANTITY));
+                p.setAvailability(ProductStatus.valueOf(rs.getString(PRODUCT_COLUMN_AVAILABILITY)));
+                p.setTaxCategory(TaxCategory.valueOf(rs.getString(PRODUCT_COLUMN_TAX_CATEGORY)));
+                p.setProduct_price(rs.getBigDecimal(PRODUCT_COLUMN_PRICE));
+                p.setCategory_id(rs.getInt(PRODUCT_COLUMN_CATEGORY_ID));
+                products.add(p);
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+        return products;
+    }
+
 }

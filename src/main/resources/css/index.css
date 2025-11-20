@@ -4,20 +4,18 @@
    =========================================== */
 
 /* ---------- Root Layout ---------- */
-root {
-    /* Changed from gradient to a fixed, modern light gray for all pages */
-    -fx-background-color: #d3d3d3;
-    -fx-padding: 20; /* Reduced padding for a less-centered, more full-screen app feel */
-    -fx-alignment: top-left; /* Changed alignment to top-left for a standard app layout */
+.root {
+    -fx-background-color: #f0f2f5; /* soft, neutral background */
+    -fx-padding: 15;
+    -fx-alignment: top-left;
+    -fx-font-family: "Segoe UI", sans-serif;
 }
 
-/* ---------- Generic Labels ---------- */
+/* ---------- Labels ---------- */
 .label {
-    -fx-font-family: "Segoe UI";
     -fx-text-fill: #2d3436;
 }
 
-/* ---------- Titles ---------- */
 .label-title {
     -fx-font-size: 28px;
     -fx-font-weight: bold;
@@ -35,39 +33,25 @@ root {
     -fx-text-fill: #2d3436;
 }
 
-/* ---------- Footer ---------- */
 .label-footer {
     -fx-font-size: 13px;
     -fx-text-fill: #00b894;
     -fx-padding: 10 0 0 0;
 }
 
-/* ---------- Form Container ---------- */
-.form-box {
-    -fx-background-color: #ffffff;
-    -fx-background-radius: 20;
-    -fx-padding: 35;
-    -fx-spacing: 20;
-    -fx-max-width: 500;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 15, 0, 0, 4);
-    -fx-border-color: #e0e0e0;
-    -fx-border-radius: 20;
-}
-
-/* ---------- Form Grid Labels ---------- */
-.form-grid Label {
-    -fx-font-size: 15px;
-    -fx-text-fill: #2d3436;
+.label-total {
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
+    -fx-text-fill: #2d3436;
 }
 
 /* ---------- Text Fields ---------- */
 .text-field {
-    -fx-background-color: #f5f6fa;
+    -fx-background-color: #ffffff;
     -fx-background-radius: 8;
     -fx-border-color: #d0d7de;
     -fx-border-radius: 8;
-    -fx-padding: 8 10;
+    -fx-padding: 6 10;
     -fx-font-size: 14px;
     -fx-prompt-text-fill: #9aa0a6;
 }
@@ -75,13 +59,13 @@ root {
 .text-field:focused {
     -fx-border-color: #0078D7;
     -fx-border-width: 2;
-    -fx-background-color: #ffffff;
     -fx-effect: dropshadow(gaussian, rgba(0,120,215,0.2), 6, 0, 0, 0);
+    -fx-background-color: #ffffff;
 }
 
 /* ---------- ComboBox ---------- */
 .combo-box {
-    -fx-background-color: #f5f6fa;
+    -fx-background-color: #ffffff;
     -fx-background-radius: 8;
     -fx-border-color: #d0d7de;
     -fx-border-radius: 8;
@@ -92,6 +76,12 @@ root {
 .combo-box:focused {
     -fx-border-color: #0078D7;
     -fx-effect: dropshadow(gaussian, rgba(0,120,215,0.2), 6, 0, 0, 0);
+}
+
+.combo-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d3436;
 }
 
 /* ---------- Buttons ---------- */
@@ -112,20 +102,20 @@ root {
     -fx-scale-y: 1.03;
 }
 
-/* Primary Button - Connect */
+/* Primary Action Button */
 .button-connect {
     -fx-background-color: linear-gradient(to bottom right, #0078D7, #005fa3);
     -fx-font-weight: bold;
 }
 
-/* Secondary Button - Reset */
+/* Secondary Action Button */
 .button-reset {
     -fx-background-color: linear-gradient(to bottom right, #b0bec5, #90a4ae);
     -fx-text-fill: #2d3436;
     -fx-font-weight: 600;
 }
 
-/* ---------- Alerts & Dialogs (Optional future styling) ---------- */
+/* ---------- Alerts & Dialogs ---------- */
 .dialog-pane {
     -fx-background-color: #ffffff;
     -fx-border-color: #0078D7;
@@ -142,26 +132,16 @@ root {
     -fx-font-size: 13px;
 }
 
-/*-----------  Combo Box Label  -------*/
-.combo-label {
-    -fx-font-size: 15px;
-    -fx-text-fill: #2d3436;
-    -fx-font-weight: bold;
-}
-
-/* ---- Sidebar Container ---- */
+/* ---------- Sidebar ---------- */
 .sidebar {
     -fx-background-color: #ffffff;
-    -fx-padding: 10 12;
+    -fx-padding: 12;
     -fx-spacing: 12;
     -fx-pref-width: 180;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);
-
-    /* ensures full height */
     -fx-fill-height: true;
 }
 
-/* ---- Profile Section ---- */
 .sidebar-profile {
     -fx-spacing: 4;
     -fx-padding: 0 0 15 0;
@@ -174,19 +154,17 @@ root {
 }
 
 .sidebar-welcome {
-    -fx-font-size: 12;
+    -fx-font-size: 12px;
     -fx-text-fill: #707b88;
 }
 
-/* ---- Section Title ---- */
 .section-title {
-    -fx-font-size: 11;
+    -fx-font-size: 11px;
     -fx-font-weight: bold;
     -fx-text-fill: #8c99a6;
     -fx-padding: 10 0 4 10;
 }
 
-/* ---- Navigation Buttons ---- */
 .nav-button {
     -fx-background-color: transparent;
     -fx-text-fill: #3a4b5c;
@@ -211,8 +189,41 @@ root {
     -fx-text-fill: #b0b8c1;
     -fx-opacity: 0.6;
 }
-.hyper-link{
+
+.hyper-link {
     -fx-text-fill: #0066cc;
 }
 
+/* ---------- Product Grid Buttons ---------- */
+.product-button {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 8;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2d3436;
+    -fx-cursor: hand;
+    -fx-pref-width: 120;
+    -fx-pref-height: 100;
+}
 
+.product-button:hover {
+    -fx-background-color: #e0f0ff;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+    -fx-effect: dropshadow(gaussian, rgba(0,120,215,0.2), 8, 0, 0, 0);
+}
+
+/* ---------- Tables ---------- */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 8;
+    -fx-padding: 5;
+}
+
+/* ---------- ScrollPane for product grid ---------- */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+}
