@@ -68,6 +68,16 @@ public class SaleDAO {
             }
 
             itemPS.executeBatch();
+
+            String stockSQL = "UPDATE " + PRODUCT_TABLE_NAME + " SET quantity = quantity - ? WHERE product_id = ?;";
+            PreparedStatement stockPS = connection.prepareStatement(stockSQL);
+
+            for (Cart_Item_DTO item : cartDTO.getCartItems()){
+                stockPS.setInt(1, item.getQuantity());
+                stockPS.setString(2, item.getProduct().getProduct_id());
+                stockPS.addBatch();
+            }
+            stockPS.executeBatch();
             connection.commit();
 
             return true;
