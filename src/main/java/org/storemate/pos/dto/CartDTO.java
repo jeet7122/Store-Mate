@@ -40,7 +40,7 @@ public class CartDTO {
         recalculateCartTotal();
     }
 
-    private void recalculateCartTotal() {
+    public void recalculateCartTotal() {
         subtotal = BigDecimal.ZERO;
         totalTax = BigDecimal.ZERO;
         for (Cart_Item_DTO item : cartItems){

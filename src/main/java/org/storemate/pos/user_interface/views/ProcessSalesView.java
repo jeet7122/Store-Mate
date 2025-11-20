@@ -1,18 +1,26 @@
 package org.storemate.pos.user_interface.views;
 
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.storemate.pos.dao.ProductDAO;
+import org.storemate.pos.dto.CartDTO;
 import org.storemate.pos.models.Product;
+import org.storemate.pos.user_interface.components.CartTable;
+import org.storemate.pos.utils.Session;
+
 
 public class ProcessSalesView {
     private final VBox root;
-    public ProcessSalesView(){
+    private final CartDTO cartDTO;
+
+    public ProcessSalesView() {
+        cartDTO = new CartDTO(Session.getInstance().getCurrentUser().getEmployeeID());
+        Label subtotalLbl = new Label("Subtotal: $0.00");
+        Label taxLbl = new Label("Total Tax: $0.00");
+        Label totalLbl = new Label("Total Price: $0.00");
+        CartTable cartTable = new CartTable(cartDTO, subtotalLbl, taxLbl, totalLbl);
         ProductDAO pdao = new ProductDAO();
         root = new VBox(10);
         Label title = new Label("Process Sales View");
@@ -24,16 +32,35 @@ public class ProcessSalesView {
             Product product = pdao.searchForProduct(searchTF.getText());
             System.out.println(product.toString());
         });
+
         Button addToCartBTN = new Button("Add To List");
-        searchBox.getChildren().addAll(searchLabel, searchTF, searchBTN, addToCartBTN);
+        Label quantityLabel = new Label("Enter Quantity");
+        TextField quantityField = new TextField();
+        quantityField.setPromptText("Enter Quantity");
 
-        VBox cartContainer = new VBox(20);
-        GridPane cartGrid = new GridPane(10,10);
 
+        addToCartBTN.setOnAction(e -> {
+            Product product = pdao.searchForProduct(searchTF.getText());
+            if (product != null) {
+                int quan = Integer.parseInt(quantityField.getText());
+                cartDTO.addItem(product, quan);
+                cartTable.refreshTable();
+            }
+        });
 
-        root.getChildren().addAll(title, searchBox);
+        searchBox.getChildren().addAll(searchLabel, searchTF, quantityLabel, quantityField, searchBTN, addToCartBTN);
+        VBox cartContainer = new VBox(10);
+        cartContainer.getChildren().addAll(
+                cartTable.getCartTable(),
+                subtotalLbl,
+                taxLbl,
+                totalLbl
+        );
+
+        root.getChildren().addAll(title, searchBox, cartContainer);
     }
-    public Parent getView(){
+
+    public Parent getView() {
         return root;
     }
 }
