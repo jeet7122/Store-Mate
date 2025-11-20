@@ -62,14 +62,15 @@ public class DBTable {
     //Suppliers and Products join Tables Schema
     public static final String CREATE_PRODUCT_SUPPLIER_TABLE =
             "CREATE TABLE IF NOT EXISTS " + PRODUCT_SUPPLIER_TABLE_NAME + " ("
-                    + PRODUCT_SUPPLIER_COLUMN_PRODUCT_ID + " VARCHAR(255) NOT NULL PRIMARY KEY, "
-                    + PRODUCT_SUPPLIER_COLUMN_SUPPLIER_ID + " INT NOT NULL PRIMARY KEY, "
+                    + PRODUCT_SUPPLIER_COLUMN_PRODUCT_ID + " VARCHAR(255) NOT NULL, "
+                    + PRODUCT_SUPPLIER_COLUMN_SUPPLIER_ID + " INT NOT NULL, "
                     + PRODUCT_SUPPLIER_COLUMN_COST_PRICE + " DECIMAL(5,2) NOT NULL, "
                     + PRODUCT_SUPPLIER_COLUMN_LAST_UPDATED_AT + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, "
+                    + "PRIMARY KEY(" + PRODUCT_SUPPLIER_COLUMN_PRODUCT_ID + ", " + PRODUCT_SUPPLIER_COLUMN_SUPPLIER_ID + "), "
                     + "FOREIGN KEY (" + PRODUCT_SUPPLIER_COLUMN_PRODUCT_ID + ") REFERENCES "
-                    + PRODUCT_TABLE_NAME + "(" + PRODUCT_COLUMN_ID + "),"
+                    + PRODUCT_TABLE_NAME + "(" + PRODUCT_COLUMN_ID + ") ON UPDATE CASCADE ON DELETE CASCADE,"
                     + "FOREIGN KEY (" + PRODUCT_SUPPLIER_COLUMN_SUPPLIER_ID + ") REFERENCES "
-                    + SUPPLIER_TABLE_NAME + "(" + SUPPLIER_COLUMN_ID + "));";
+                    + SUPPLIER_TABLE_NAME + "(" + SUPPLIER_COLUMN_ID + ") ON UPDATE CASCADE ON DELETE CASCADE );";
 
 
     //Sales Table Schema
@@ -91,17 +92,18 @@ public class DBTable {
     //Sale_Item Table Schema
     public static final String CREATE_SALE_ITEM_TABLE =
             "CREATE TABLE IF NOT EXISTS " + SALE_ITEM_TABLE_NAME + " ("
-                    + SALE_ITEM_SALE_ID + " INT NOT NULL PRIMARY KEY, "
-                    + SALE_ITEM_PRODUCT_ID + " VARCHAR(255) NOT NULL PRIMARY KEY, "
-                    + SALE_ITEM_UNIT_PRICE + "DECIMAL(5,2) NOT NULL, "
+                    + SALE_ITEM_SALE_ID + " INT NOT NULL, "
+                    + SALE_ITEM_PRODUCT_ID + " VARCHAR(255) NOT NULL, "
+                    + SALE_ITEM_UNIT_PRICE + " DECIMAL(5,2) NOT NULL, "
                     + SALE_ITEM_QUANTITY + " INT NOT NULL, "
                     + SALE_ITEM_TAX_CATEGORY + " VARCHAR(10) NOT NULL, "
-                    + SALE_ITEM_TAX_AMOUNT + " DECIMAL(5,2), NOT NULL, "
-                    + SALE_ITEM_TOTAL_AMOUNT + " DECIMAL(5,2), NOT NULL, "
+                    + SALE_ITEM_TAX_AMOUNT + " DECIMAL(5,2) NOT NULL, "
+                    + SALE_ITEM_TOTAL_AMOUNT + " DECIMAL(5,2) NOT NULL, "
+                    + "PRIMARY KEY (" + SALE_ITEM_SALE_ID + ", " + SALE_ITEM_PRODUCT_ID + "), "
                     + "FOREIGN KEY (" + SALE_ITEM_SALE_ID + ") REFERENCES "
-                    + SALE_TABLE_NAME + "(" + SALE_COLUMN_ID + "),"
+                    + SALE_TABLE_NAME + "(" + SALE_COLUMN_ID + ") ON UPDATE CASCADE ON DELETE CASCADE, "
                     + "FOREIGN KEY (" + SALE_ITEM_PRODUCT_ID + ") REFERENCES "
-                    + PRODUCT_TABLE_NAME + "(" + PRODUCT_COLUMN_ID + "));";
+                    + PRODUCT_TABLE_NAME + "(" + PRODUCT_COLUMN_ID + ") ON UPDATE CASCADE ON DELETE CASCADE );";
     //Purchase Table Schema
     public static final String CREATE_PURCHASE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + PURCHASE_TABLE_NAME + " ("
