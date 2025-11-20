@@ -97,4 +97,9 @@ public class CartDTO {
     public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
+
+    public void clearCart() {
+        cartItems.clear();
+        recalculateCartTotal();
+    }
 }
