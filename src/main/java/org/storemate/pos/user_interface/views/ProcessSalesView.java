@@ -6,8 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.storemate.pos.dao.ProductDAO;
 import org.storemate.pos.dto.CartDTO;
-import org.storemate.pos.dto.Cart_Item_DTO;
-import org.storemate.pos.dto.SaleDAO;
+import org.storemate.pos.dao.SaleDAO;
 import org.storemate.pos.models.Product;
 import org.storemate.pos.user_interface.components.CartTable;
 import org.storemate.pos.utils.Session;
@@ -100,6 +99,7 @@ public class ProcessSalesView {
         Button checkoutBtn = new Button("CHECKOUT");
         checkoutBtn.getStyleClass().addAll("button", "button-connect");
         checkoutBtn.setOnAction(e -> checkout());
+
 
         HBox btnBox = new HBox(10, voidBtn, checkoutBtn);
         btnBox.setPadding(new Insets(10,0,0,0));
