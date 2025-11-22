@@ -227,3 +227,80 @@
     -fx-background-color: transparent;
     -fx-padding: 5;
 }
+/* ---------- Tables ---------- */
+.table-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 8;
+    -fx-padding: 5;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: linear-gradient(to bottom, #e9eef5, #dce3ed);
+    -fx-background-radius: 8 8 0 0;
+}
+
+.table-view .column-header, .table-view .column-header .label {
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-text-fill: #2d3436;
+}
+
+.table-view .cell {
+    -fx-padding: 8 10;
+    -fx-font-size: 13px;
+}
+
+.table-row-cell:odd {
+    -fx-background-color: #fafbff;
+}
+
+.table-row-cell:even {
+    -fx-background-color: #ffffff;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #dbe6ff;
+}
+
+.table-row-cell:hover {
+    -fx-background-color: #eef3ff;
+}
+
+/* ---------- ScrollPane ---------- */
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-padding: 5;
+}
+
+/* ---------- Alerts & Dialogs ---------- */
+.dialog-pane {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #0078D7;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+/* ---------- Tooltips ---------- */
+.tooltip {
+    -fx-background-color: #2d3436;
+    -fx-text-fill: white;
+    -fx-padding: 8 10;
+    -fx-background-radius: 6;
+    -fx-font-size: 13px;
+}
+
+/* ---------- Pagination Buttons ---------- */
+.pagination-button {
+    -fx-background-color: linear-gradient(to right, #0078D7, #005fa3);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 8 20;
+    -fx-background-radius: 8;
+}
+
+.pagination-button:hover {
+    -fx-background-color: #006acb;
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
