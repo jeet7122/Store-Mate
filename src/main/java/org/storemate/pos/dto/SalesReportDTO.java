@@ -34,9 +34,9 @@ public class SalesReportDTO {
         this.status = status;
     }
 
+    public String getPaymentMethod(){
         return paymentMethod;
     }
-
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
