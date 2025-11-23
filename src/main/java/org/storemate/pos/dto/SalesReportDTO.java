@@ -34,7 +34,6 @@ public class SalesReportDTO {
         this.status = status;
     }
 
-    public String getPaymentMethod() {
         return paymentMethod;
     }
 

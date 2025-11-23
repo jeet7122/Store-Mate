@@ -91,12 +91,10 @@ public class SalesReportDAO {
             si.unit_price,
             s.total_amount,
             s.payment_method,
-            s.sale_date
         FROM sales s
         JOIN sale_items si ON s.sale_id = si.sale_id
         JOIN products p ON si.product_id = p.product_id
         JOIN employees e ON s.employee_id = e.employee_id
-        ORDER BY s.sale_date DESC
         LIMIT ? OFFSET ?
     """;
 

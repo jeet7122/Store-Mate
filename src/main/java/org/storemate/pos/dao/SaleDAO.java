@@ -1,8 +1,9 @@
-package org.storemate.pos.dto;
+package org.storemate.pos.dao;
 
 import org.storemate.pos.database.DatabaseConnector;
+import org.storemate.pos.dto.CartDTO;
+import org.storemate.pos.dto.Cart_Item_DTO;
 import org.storemate.pos.models.enums.SaleStatus;
-import org.storemate.pos.models.enums.Status;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
