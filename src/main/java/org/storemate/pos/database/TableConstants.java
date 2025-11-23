@@ -101,4 +101,16 @@ public class TableConstants {
     public static final String SALE_ITEM_TOTAL_AMOUNT = "total_amount";
 
 
+    //Return's Table
+    public static final String RETURN_TABLE_NAME = "returns";
+    public static final String RETURN_COLUMN_ID = "return_id";
+    public static final String RETURN_COLUMN_SALE_ID = "sale_id";
+    public static final String RETURN_COLUMN_PRODUCT_ID = "product_id";
+    public static final String RETURN_COLUMN_PRODUCT_QUANTITY = "quantity";
+    public static final String RETURN_COLUMN_REFUND_TOTAL = "total_amount";
+    public static final String RETURN_COLUMN_REFUND_METHOD = "refund_method";
+    public static final String RETURN_COLUMN_RETURN_DATE = "return_date";
+    public static final String RETURN_COLUMN_PROCESSED_BY = "processed_by";
+
+
 }
