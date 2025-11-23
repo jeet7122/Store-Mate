@@ -9,19 +9,10 @@ public class Returns {
     private int returnID;
     private int saleID;
     private int employeeID;
-    private String productID;
     private PaymentMethod paymentMethod;
     private Timestamp returnDate;
-    private int quantity;
     private BigDecimal totalAmount;
 
-    public String getProductID() {
-        return productID;
-    }
-
-    public void setProductID(String productID) {
-        this.productID = productID;
-    }
 
     @Override
     public String toString() {
@@ -29,10 +20,8 @@ public class Returns {
                 "returnID=" + returnID +
                 ", saleID=" + saleID +
                 ", employeeID=" + employeeID +
-                ", productID='" + productID + '\'' +
                 ", paymentMethod=" + paymentMethod +
                 ", returnDate=" + returnDate +
-                ", quantity=" + quantity +
                 ", totalAmount=" + totalAmount +
                 '}';
     }
@@ -41,15 +30,13 @@ public class Returns {
     }
 
 
-    public Returns(int returnID, int saleID, int employeeID, String productID, PaymentMethod paymentMethod, Timestamp returnDate, int quantity, BigDecimal totalAmount) {
+    public Returns(int returnID, int saleID, int employeeID, PaymentMethod paymentMethod, Timestamp returnDate, BigDecimal totalAmount) {
         this.returnID = returnID;
         this.saleID = saleID;
         this.employeeID = employeeID;
         this.paymentMethod = paymentMethod;
         this.returnDate = returnDate;
-        this.quantity = quantity;
         this.totalAmount = totalAmount;
-        this.productID = productID;
     }
 
     public int getReturnID() {
@@ -90,14 +77,6 @@ public class Returns {
 
     public void setReturnDate(Timestamp returnDate) {
         this.returnDate = returnDate;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public BigDecimal getTotalAmount() {

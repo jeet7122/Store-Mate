@@ -105,12 +105,23 @@ public class TableConstants {
     public static final String RETURN_TABLE_NAME = "returns";
     public static final String RETURN_COLUMN_ID = "return_id";
     public static final String RETURN_COLUMN_SALE_ID = "sale_id";
-    public static final String RETURN_COLUMN_PRODUCT_ID = "product_id";
-    public static final String RETURN_COLUMN_PRODUCT_QUANTITY = "quantity";
     public static final String RETURN_COLUMN_REFUND_TOTAL = "total_amount";
     public static final String RETURN_COLUMN_REFUND_METHOD = "refund_method";
     public static final String RETURN_COLUMN_RETURN_DATE = "return_date";
     public static final String RETURN_COLUMN_PROCESSED_BY = "processed_by";
+
+
+    //Return Items Table
+    public static final String RETURN_ITEMS_TABLE_NAME = "return_items";
+    public static final String RETURN_ITEMS_COLUMN_ID = "return_item_id";
+    public static final String RETURN_ITEMS_COLUMN_RETURN_ID = "return_id";
+    public static final String RETURN_ITEMS_COLUMN_PRODUCT_ID = "product_id";
+    public static final String RETURN_ITEMS_COLUMN_PRODUCT_QUANTITY = "quantity";
+    public static final String RETURN_ITEMS_COLUMN_PRODUCT_UNIT_PRICE = "unit_price";
+    public static final String RETURN_ITEMS_COLUMN_TAX_AMOUNT = "tax_amount";
+    public static final String RETURN_ITEMS_COLUMN_TOTAL_AMOUNT = "total_amount";
+    public static final String RETURN_ITEMS_COLUMN_RETURN_REASON = "return_reason";
+
 
 
 }
