@@ -88,13 +88,54 @@ public class CartTable {
         subtotalLabel.setText("Subtotal: $" + cart.getSubtotal().setScale(2, BigDecimal.ROUND_HALF_UP));
         totalTaxLabel.setText("Total Tax: $" + cart.getTotalTax().setScale(2, BigDecimal.ROUND_HALF_UP));
         totalWithTaxLabel.setText("Total Price: $" + cart.getTotalAmount().setScale(2, BigDecimal.ROUND_HALF_UP));
+
+        // Clear old style classes
+        subtotalLabel.getStyleClass().removeAll("label-total-positive", "label-total-negative", "label-mixed-total");
+        totalWithTaxLabel.getStyleClass().removeAll("label-total-positive", "label-total-negative", "label-mixed-total");
+
+        // Apply style based on cart state
+        if (cart.isMixed()) {
+            subtotalLabel.getStyleClass().add("label-mixed-total");
+            totalWithTaxLabel.getStyleClass().add("label-mixed-total");
+        } else if (cart.isReturnMode()) {
+            subtotalLabel.getStyleClass().add("label-total-negative");
+            totalWithTaxLabel.getStyleClass().add("label-total-negative");
+        } else {
+            subtotalLabel.getStyleClass().add("label-total-positive");
+            totalWithTaxLabel.getStyleClass().add("label-total-positive");
+        }
     }
+
 
     // Call this method to refresh the table (after adding new item)
     public void refreshTable() {
         observableItems.setAll(cart.getCartItems());
         updateTotalsLabels();
+
+        // Apply row styles based on cart item type
+        cartTable.setRowFactory(tv -> new TableRow<Cart_Item_DTO>() {
+            @Override
+            protected void updateItem(Cart_Item_DTO item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setStyle("");
+                    getStyleClass().removeAll("table-row-sale", "table-row-return", "table-row-mixed");
+                } else {
+                    getStyleClass().removeAll("table-row-sale", "table-row-return", "table-row-mixed");
+
+                    if (item.isReturn()) {
+                        getStyleClass().add("table-row-return"); // light red row
+                    } else if (item.isSale()) {
+                        getStyleClass().add("table-row-sale");   // default blue-ish row
+                    } else {
+                        getStyleClass().add("table-row-mixed");  // light orange for mixed
+                    }
+                }
+            }
+        });
     }
+
     public static TableColumn<Cart_Item_DTO, Integer> createQuantityColumn(CartDTO cart, Runnable updateTotalsLabels) {
         TableColumn<Cart_Item_DTO, Integer> qtyCol = new TableColumn<>("Quantity");
 
@@ -106,7 +147,6 @@ public class CartTable {
         qtyCol.setOnEditCommit(event -> {
             Cart_Item_DTO item = event.getRowValue();
             item.setQuantity(event.getNewValue());
-            item.calculateTotal();
             cart.recalculateCartTotal();
             updateTotalsLabels.run();// call UI refresh
             event.getTableView().refresh();

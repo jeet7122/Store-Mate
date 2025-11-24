@@ -5,10 +5,11 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.storemate.pos.dao.ProductDAO;
+import org.storemate.pos.dao.ReturnDAO;
 import org.storemate.pos.dto.CartDTO;
-import org.storemate.pos.dto.Cart_Item_DTO;
-import org.storemate.pos.dto.SaleDAO;
+import org.storemate.pos.dao.SaleDAO;
 import org.storemate.pos.models.Product;
+import org.storemate.pos.models.enums.ReturnReason;
 import org.storemate.pos.user_interface.components.CartTable;
 import org.storemate.pos.utils.Session;
 
@@ -18,6 +19,7 @@ public class ProcessSalesView {
     private final VBox root;
     private final CartDTO cartDTO;
     private final CartTable cartTable;
+    private final ComboBox<ReturnReason> reasonCombo;
 
     public ProcessSalesView() {
         // --- Initialize Cart ---
@@ -84,11 +86,15 @@ public class ProcessSalesView {
         });
 
         searchBox.getChildren().addAll(searchLabel, searchTF, quantityField, searchBTN, addToCartBTN);
+        Label reasonLabel = new Label("Return Reason:");
+        reasonCombo = new ComboBox<>();
+        reasonCombo.getItems().addAll(ReturnReason.values());
+        reasonCombo.getSelectionModel().selectFirst();
 
         // --- Left Side: Cart + Totals + Void/Checkout Buttons ---
         VBox leftSide = new VBox(15);
         leftSide.setPrefWidth(500);
-        leftSide.getChildren().addAll(cartTable.getCartTable(), subtotalLbl, taxLbl, totalLbl);
+        leftSide.getChildren().addAll(cartTable.getCartTable(), subtotalLbl, taxLbl, totalLbl, reasonLabel, reasonCombo);
 
         Button voidBtn = new Button("VOID");
         voidBtn.getStyleClass().addAll("button", "button-reset");
@@ -97,11 +103,21 @@ public class ProcessSalesView {
             cartTable.refreshTable();
         });
 
+        //----------CHECKOUT BTN-------------//
         Button checkoutBtn = new Button("CHECKOUT");
         checkoutBtn.getStyleClass().addAll("button", "button-connect");
         checkoutBtn.setOnAction(e -> checkout());
 
-        HBox btnBox = new HBox(10, voidBtn, checkoutBtn);
+        //----------Return-BTN--------------//
+        Button returnBtn = new Button("RETURN");
+        returnBtn.getStyleClass().addAll("button", "button-warning");
+        returnBtn.setOnAction(e -> {
+            cartDTO.setReturnMode(true);  // Activate return mode
+            new Alert(Alert.AlertType.INFORMATION, "Return Mode Activated! Add items to cart for return.").show();
+        });
+
+
+        HBox btnBox = new HBox(10, voidBtn, checkoutBtn, returnBtn);
         btnBox.setPadding(new Insets(10,0,0,0));
         leftSide.getChildren().add(btnBox);
 
@@ -118,8 +134,9 @@ public class ProcessSalesView {
             prodBtn.getStyleClass().add("product-button");
             prodBtn.setPrefSize(120, 100);
             prodBtn.setOnAction(e -> {
-                cartDTO.addItem(product, 1);
-                cartTable.refreshTable();
+                boolean added = cartDTO.addItem(product, 1);
+                if (!added) new Alert(Alert.AlertType.WARNING, "Cannot mix sales and returns");
+                else cartTable.refreshTable();
             });
 
             productGrid.add(prodBtn, col, row);
@@ -163,10 +180,31 @@ public class ProcessSalesView {
         paymentAlert.getButtonTypes().setAll(cashBtn, debitBtn, creditBtn, cancelBtn);
 
         paymentAlert.showAndWait().ifPresent(type -> {
-            if (type == cashBtn) finalizeSale("CASH");
-            else if (type == debitBtn) finalizeSale("DEBIT");
-            else if (type == creditBtn) finalizeSale("CREDIT");
+            String method = null;
+            if (type == cashBtn) method = "CASH";
+            else if (type == debitBtn) method = "DEBIT";
+            else if (type == creditBtn) method = "CREDIT";
+
+            if (method != null){
+                if (cartDTO.isReturnMode()){
+                    ReturnReason reason = reasonCombo.getSelectionModel().getSelectedItem();
+                    finalizeReturn(method, reason);
+                }
+                else finalizeSale(method);
+            }
         });
+    }
+
+    private void finalizeReturn(String method, ReturnReason returnReason) {
+        ReturnDAO returnDAO = new ReturnDAO();
+        boolean success = returnDAO.processReturn(cartDTO, Session.getInstance().getCurrentUser().getEmployeeID(), method, returnReason.name());
+        if (success) {
+            new Alert(Alert.AlertType.INFORMATION, "Return Completed!").show();
+            cartDTO.clearCart();
+            cartTable.refreshTable();
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Failed to process return").show();
+        }
     }
 
     private void finalizeSale(String paymentType) {

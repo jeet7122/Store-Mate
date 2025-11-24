@@ -1,9 +1,11 @@
-package org.storemate.pos.dto;
+package org.storemate.pos.dao;
 
 import org.storemate.pos.database.DatabaseConnector;
+import org.storemate.pos.dto.CartDTO;
+import org.storemate.pos.dto.Cart_Item_DTO;
 import org.storemate.pos.models.enums.SaleStatus;
-import org.storemate.pos.models.enums.Status;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,11 +32,12 @@ public class SaleDAO {
                     PreparedStatement.RETURN_GENERATED_KEYS
             );
 
-            salePS.setInt(1, cartDTO.getEmployeeId());
-            salePS.setBigDecimal(2, cartDTO.getSubtotal());
-            salePS.setBigDecimal(3, cartDTO.getTotalTax());
-            salePS.setBigDecimal(4, cartDTO.getDiscount());
-            salePS.setBigDecimal(5, cartDTO.getTotalAmount());
+            BigDecimal discount = cartDTO.getDiscount() == null ? BigDecimal.ZERO : cartDTO.getDiscount();
+            salePS.setInt(1, cartDTO.getEmployeeID());
+            salePS.setBigDecimal(2, cartDTO.getSaleSubtotal());
+            salePS.setBigDecimal(3, cartDTO.getSaleTax());
+            salePS.setBigDecimal(4, discount);
+            salePS.setBigDecimal(5, cartDTO.getSaleSubtotal().add(cartDTO.getSaleTax()).subtract(cartDTO.getDiscount()));
             salePS.setString(6, paymentType);
             salePS.setString(7, SaleStatus.COMPLETED.name());
 
@@ -56,7 +59,7 @@ public class SaleDAO {
 
             PreparedStatement itemPS = connection.prepareStatement(itemSQL);
 
-            for (Cart_Item_DTO cartItem : cartDTO.getCartItems()) {
+            for (Cart_Item_DTO cartItem : cartDTO.getSaleItem()) {
                 itemPS.setInt(1, saleId);
                 itemPS.setString(2, cartItem.getProduct().getProduct_id());
                 itemPS.setInt(3, cartItem.getQuantity());
@@ -72,7 +75,7 @@ public class SaleDAO {
             String stockSQL = "UPDATE " + PRODUCT_TABLE_NAME + " SET quantity = quantity - ? WHERE product_id = ?;";
             PreparedStatement stockPS = connection.prepareStatement(stockSQL);
 
-            for (Cart_Item_DTO item : cartDTO.getCartItems()){
+            for (Cart_Item_DTO item : cartDTO.getSaleItem()){
                 stockPS.setInt(1, item.getQuantity());
                 stockPS.setString(2, item.getProduct().getProduct_id());
                 stockPS.addBatch();

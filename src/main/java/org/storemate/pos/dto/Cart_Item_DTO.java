@@ -3,65 +3,51 @@ package org.storemate.pos.dto;
 import org.storemate.pos.models.Product;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Cart_Item_DTO {
     private Product product;
     private int quantity;
+    private boolean isReturn;
+
     private BigDecimal unitPrice;
-    private BigDecimal taxAmount;
-    private BigDecimal totalAmount;
+    private BigDecimal lineSubtotal;  // price * qty
+    private BigDecimal taxAmount;     // subtotal * tax
+    private BigDecimal totalAmount;   // subtotal + tax
 
-    public Cart_Item_DTO(Product product, int quantity){
+    public Cart_Item_DTO(Product product, int quantity, boolean isReturn){
+        this.isReturn = isReturn;
         this.product = product;
         this.quantity = quantity;
-        unitPrice = product.getProduct_price();
-        calculateTotal();
-    }
-    public void calculateTotal(){
-        double taxRate = product.getTaxCategory().getTax_value();
-        this.taxAmount = unitPrice.multiply(BigDecimal.valueOf(quantity)).multiply(BigDecimal.valueOf(taxRate));
-        this.totalAmount = unitPrice.multiply(BigDecimal.valueOf(quantity)).add(taxAmount);
+
+        this.unitPrice = product.getProduct_price();
+        recalc();
     }
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
+    public void recalc() {
+        BigDecimal qty = BigDecimal.valueOf(quantity);
+        BigDecimal taxRate = BigDecimal.valueOf(product.getTaxCategory().getTax_value());
+
+        this.lineSubtotal = unitPrice.multiply(qty).setScale(2, RoundingMode.HALF_UP);
+        this.taxAmount = lineSubtotal.multiply(taxRate).setScale(2, RoundingMode.HALF_UP);
+        this.totalAmount = lineSubtotal.add(taxAmount).setScale(2, RoundingMode.HALF_UP);
     }
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
+    public void setQuantity(int quantity) { this.quantity = quantity; recalc(); }
+    public void setUnitPrice(BigDecimal unitPrice) { this.unitPrice = unitPrice; recalc(); }
 
-    public BigDecimal getTaxAmount() {
-        return taxAmount;
-    }
+    public Product getProduct() { return product; }
+    public int getQuantity() { return quantity; }
+    public BigDecimal getUnitPrice() { return unitPrice; }
+    public BigDecimal getLineSubtotal() { return lineSubtotal; }
+    public BigDecimal getTaxAmount() { return taxAmount; }
+    public BigDecimal getTotalAmount() { return totalAmount; }
 
-    public void setTaxAmount(BigDecimal taxAmount) {
-        this.taxAmount = taxAmount;
-    }
+    // ✅ Returns true if this item is a return
+    public boolean isReturn() { return isReturn; }
 
-    public BigDecimal getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(BigDecimal unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+    // ✅ Returns true if this item is a sale
+    public boolean isSale() { return !isReturn; }
 
     @Override
     public String toString() {
@@ -69,8 +55,10 @@ public class Cart_Item_DTO {
                 "product=" + product +
                 ", quantity=" + quantity +
                 ", unitPrice=" + unitPrice +
+                ", subtotal=" + lineSubtotal +
                 ", taxAmount=" + taxAmount +
                 ", totalAmount=" + totalAmount +
+                ", isReturn=" + isReturn +
                 '}';
     }
 }
