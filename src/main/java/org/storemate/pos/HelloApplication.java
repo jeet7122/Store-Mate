@@ -14,9 +14,9 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException, SQLException {
 
-        try(
+     /*  // try(
                 Connection connection = DatabaseConnector.getConnection();
-                PreparedStatement statement = connection.prepareStatement(DBTable.CREATE_SALE_ITEM_TABLE)
+                PreparedStatement statement = connection.prepareStatement(DBTable.CREATE_PRODUCT_SUPPLIER_TABLE)
                 )
         {
             int rows = statement.executeUpdate();
@@ -25,8 +25,8 @@ public class HelloApplication extends Application {
             }
             else {
                 System.out.println("Error");
-            }
-        }
+            }*/
+
         SceneManager.init(stage);
         SceneManager.showEmployeeLoginForm();
     }

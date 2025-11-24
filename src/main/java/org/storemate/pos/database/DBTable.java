@@ -108,24 +108,31 @@ public class DBTable {
     public static final String CREATE_PURCHASE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + PURCHASE_TABLE_NAME + " ("
                     + PURCHASE_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "
-                    + PURCHASE_COLUMN_SUPPLIER_ID + " INT NOT NULL PRIMARY KEY, "
-                    + PURCHASE_COLUMN_TAX_AMOUNT + " DECIMAL(5,2), NOT NULL, "
-                    + PURCHASE_COLUMN_TOTAL_AMOUNT + " DECIMAL(5,2), NOT NULL, "
+                    + PURCHASE_COLUMN_SUPPLIER_ID + " INT NOT NULL, "
+                    + PURCHASE_COLUMN_TAX_AMOUNT + " DECIMAL(5,2) NOT NULL, "
+                    + PURCHASE_COLUMN_TOTAL_AMOUNT + " DECIMAL(5,2) NOT NULL, "
                     + PURCHASE_COLUMN_STATUS + " VARCHAR(20) NOT NULL, "
-                    + PURCHASE_COLUMN_PURCHASE_DATE + " DATE DEFAULT (CURRENT_DATE), "
+                    + PURCHASE_COLUMN_PURCHASE_DATE + " DATE DEFAULT CURRENT_DATE, "
                     + "FOREIGN KEY (" + PURCHASE_COLUMN_SUPPLIER_ID + ") REFERENCES "
-                    + SUPPLIER_TABLE_NAME + "(" + SUPPLIER_COLUMN_ID + "));";
+                    + SUPPLIER_TABLE_NAME + "(" + SUPPLIER_COLUMN_ID + ")"
+                    + ");";
 
     //Purchase Item Table Schema
     public static final String CREATE_PURCHASE_ITEM_TABLE =
             "CREATE TABLE IF NOT EXISTS " + PURCHASE_ITEM_TABLE_NAME + " ("
-                    + PURCHASE_ITEM_PURCHASE_ID + " INT PRIMARY KEY NOT NULL, "
-                    + PURCHASE_ITEM_PRODUCT_ID + " VARCHAR(255) NOT NULL PRIMARY KEY, "
+                    + PURCHASE_ITEM_PURCHASE_ID + " INT NOT NULL, "
+                    + PURCHASE_ITEM_PRODUCT_ID + " VARCHAR(255) NOT NULL, "
                     + PURCHASE_ITEM_QUANTITY + " INT NOT NULL, "
                     + PURCHASE_ITEM_TAX_CATEGORY + " VARCHAR(10) NOT NULL, "
-                    + PURCHASE_ITEM_UNIT_PRICE + " DECIMAL(5,2), NOT NULL, "
-                    + PURCHASE_ITEM_TAX_AMOUNT + " DECIMAL(5,2), NOT NULL, "
-                    + PURCHASE_ITEM_TOTAL_AMOUNT + " DECIMAL(5,2), NOT NULL,"
+                    + PURCHASE_ITEM_UNIT_PRICE + " DECIMAL(5,2) NOT NULL, "
+                    + PURCHASE_ITEM_TAX_AMOUNT + " DECIMAL(5,2) NOT NULL, "
+                    + PURCHASE_ITEM_TOTAL_AMOUNT + " DECIMAL(5,2) NOT NULL, "
+                    + "PRIMARY KEY (" + PURCHASE_ITEM_PURCHASE_ID + ", " + PURCHASE_ITEM_PRODUCT_ID + "), "
+                    + "FOREIGN KEY (" + PURCHASE_ITEM_PURCHASE_ID + ") REFERENCES "
+                    + PURCHASE_TABLE_NAME + "(" + PURCHASE_COLUMN_ID + ") ON UPDATE CASCADE ON DELETE CASCADE, "
                     + "FOREIGN KEY (" + PURCHASE_ITEM_PRODUCT_ID + ") REFERENCES "
-                    + PRODUCT_TABLE_NAME + "(" + PRODUCT_COLUMN_ID + "));";
+                    + PRODUCT_TABLE_NAME + "(" + PRODUCT_COLUMN_ID + ") ON UPDATE CASCADE ON DELETE CASCADE "
+                    + ");";
+
+
 }
