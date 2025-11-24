@@ -109,15 +109,23 @@ public class ProcessSalesView {
         checkoutBtn.setOnAction(e -> checkout());
 
         //----------Return-BTN--------------//
-        Button returnBtn = new Button("RETURN");
-        returnBtn.getStyleClass().addAll("button", "button-warning");
-        returnBtn.setOnAction(e -> {
-            cartDTO.setReturnMode(true);  // Activate return mode
-            new Alert(Alert.AlertType.INFORMATION, "Return Mode Activated! Add items to cart for return.").show();
+        // ---------- Return Mode Toggle ----------
+        ToggleButton returnToggle = new ToggleButton("RETURN");
+        returnToggle.getStyleClass().addAll("button", "button-warning");
+
+        returnToggle.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+            cartDTO.setReturnMode(isSelected);
+            if (isSelected) {
+                new Alert(Alert.AlertType.INFORMATION, "Return Mode Activated! Add items to cart for return.").show();
+                returnToggle.setStyle("-fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #ff6b6b, #d63031); -fx-text-fill: white;");
+            } else {
+                new Alert(Alert.AlertType.INFORMATION, "Sales Mode Activated!").show();
+                returnToggle.setStyle("-fx-background-color: #b0bec5; -fx-text-fill: #2d3436;");
+            }
         });
 
 
-        HBox btnBox = new HBox(10, voidBtn, checkoutBtn, returnBtn);
+        HBox btnBox = new HBox(10, voidBtn, checkoutBtn, returnToggle);
         btnBox.setPadding(new Insets(10,0,0,0));
         leftSide.getChildren().add(btnBox);
 

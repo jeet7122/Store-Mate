@@ -29,11 +29,23 @@ public class CartDTO {
         boolean hasReturnItems = cartItems.stream().anyMatch(Cart_Item_DTO::isReturn);
         boolean hasSaleItems = cartItems.stream().anyMatch(Cart_Item_DTO::isSale);
 
+        // Prevent mixing return and sale items
         if ((itemIsReturn && hasSaleItems) || (!itemIsReturn && hasReturnItems)) return false;
 
+        // Check if item already exists in cart
+        for (Cart_Item_DTO item : cartItems) {
+            if (item.getProduct().getProduct_id() == product.getProduct_id() && item.isReturn() == itemIsReturn) {
+                // Update quantity instead of adding new row
+                item.setQuantity(item.getQuantity() + quantity);
+                return true;
+            }
+        }
+
+        // Item not in cart yet, add new row
         cartItems.add(new Cart_Item_DTO(product, quantity, itemIsReturn));
         return true;
     }
+
 
     public void removeItem(Cart_Item_DTO item) { cartItems.remove(item); }
     public void clearCart() { cartItems.clear(); }
