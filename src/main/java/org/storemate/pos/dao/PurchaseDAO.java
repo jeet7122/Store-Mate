@@ -5,8 +5,12 @@ import org.storemate.pos.models.Purchase;
 import org.storemate.pos.models.enums.PaymentMethod;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PurchaseDAO {
 
@@ -50,5 +54,35 @@ public class PurchaseDAO {
             System.out.println("SQL EXCEPTION: "+ e.getMessage());
         }
         return 0;
+    }
+
+    public Map<String, Double> getPurchasesLast30Days() {
+        Map<String, Double> purchaseData = new LinkedHashMap<>();
+        String sql = """
+                SELECT DATE(purchase_date) as purchase_day, SUM(total_amount) as total
+                FROM purchases
+                WHERE purchase_date >= ?
+                GROUP BY purchase_day
+                ORDER BY purchase_day
+                """;
+        try (
+                Connection conn = DatabaseConnector.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            LocalDate fromDate = LocalDate.now().minusDays(30);
+            ps.setDate(1, Date.valueOf(fromDate));
+            ResultSet rs = ps.executeQuery();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd");
+
+            while (rs.next()) {
+                LocalDate date = rs.getDate("purchase_day").toLocalDate();
+                double total = rs.getDouble("total");
+                purchaseData.put(date.format(formatter), total);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+
+        return purchaseData;
     }
 }

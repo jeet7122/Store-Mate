@@ -8,12 +8,13 @@ import org.storemate.pos.models.enums.PaymentMethod;
 import org.storemate.pos.models.enums.SaleStatus;
 
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.storemate.pos.database.TableConstants.*;
 
@@ -134,6 +135,74 @@ public class SaleDAO {
             System.out.println("SQL EXCEPTION: " + e.getMessage() );
         }
         return 0;
+    }
+
+    public Map<String, Double> getSalesLast30Days() {
+        Map<String, Double> salesData = new LinkedHashMap<>();
+        String sql = """
+                SELECT DATE(sale_timestamp) as sale_date, SUM(total_amount) as total
+                FROM sales
+                WHERE sale_timestamp >= ?
+                GROUP BY sale_date
+                ORDER BY sale_date
+                """;
+        try (
+                Connection conn = DatabaseConnector.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            LocalDate fromDate = LocalDate.now().minusDays(30);
+            ps.setDate(1, Date.valueOf(fromDate));
+            ResultSet rs = ps.executeQuery();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM-dd");
+
+            while (rs.next()) {
+                LocalDate date = rs.getDate("sale_date").toLocalDate();
+                double total = rs.getDouble("total");
+                salesData.put(date.format(formatter), total);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return salesData;
+    }
+
+    // --- Fetch weekly transactions total by payment method ---
+    public Map<String, Double> getWeeklyTransactions() {
+        Map<String, Double> transactions = new LinkedHashMap<>();
+        String sql = """
+                SELECT payment_method, SUM(total_amount) as total
+                FROM sales
+                WHERE sale_timestamp >= ?
+                GROUP BY payment_method
+                """;
+        try (
+                Connection conn = DatabaseConnector.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+            LocalDate fromDate = LocalDate.now().minusDays(7);
+            ps.setDate(1, Date.valueOf(fromDate));
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String method = rs.getString("payment_method"); // e.g., CASH, CREDIT, DEBIT
+                double total = rs.getDouble("total");
+                transactions.put(method, total);
+            }
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+
+        return transactions;
+    }
+
+    // Optional: Fetch all sales (for table view)
+    public ResultSet getAllSalesForGraph() {
+        try
+                (Connection conn = DatabaseConnector.getConnection())
+        {
+            return conn.createStatement().executeQuery("SELECT * FROM sales ORDER BY sale_timestamp DESC");
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+            return null;
+        }
     }
 
 
