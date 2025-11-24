@@ -12,31 +12,38 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import org.storemate.pos.dao.PurchaseDAO;
+import org.storemate.pos.dao.SaleDAO;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 
 public class Graphs {
+    private final SaleDAO saleDAO;
+    private final PurchaseDAO purchaseDAO;
+
+    public Graphs(){
+        saleDAO = new SaleDAO();
+        purchaseDAO = new PurchaseDAO();
+    }
+
     public LineChart<String, Number> createSalesLineChart(){
         CategoryAxis xAxis = new CategoryAxis();
-        xAxis.setLabel("Month");
+        xAxis.setLabel("Day");
         NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Sales {$}");
         LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle("Monthly Sales Report");
+        lineChart.setTitle("SALES REPORT - LAST 30 DAYS");
 
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Sales");
 
-        //Dummy Data
-        series.getData().add(new XYChart.Data<>("Jan", 5000));
-        series.getData().add(new XYChart.Data<>("Feb", 7000));
-        series.getData().add(new XYChart.Data<>("Mar", 6000));
-        series.getData().add(new XYChart.Data<>("Apr", 8000));
-        series.getData().add(new XYChart.Data<>("May", 9000));
-        series.getData().add(new XYChart.Data<>("Jun", 7500));
+       Map<String, Double> salesData = saleDAO.getSalesLast30Days();
+       for (Map.Entry<String, Double> entry: salesData.entrySet()){
+           series.getData().add(new XYChart.Data<>(entry.getKey(), entry.getValue()));
+       }
 
         lineChart.getData().add(series);
         lineChart.setPrefHeight(400);
@@ -154,35 +161,22 @@ public class Graphs {
 
         return container;
     }
-    public Map<String, Double> getWeeklyTransactions() {
-        // Later this will come from your database
-        Map<String, Double> data = new LinkedHashMap<>();
-        data.put("Cash", 1200.0);
-        data.put("Credit", 3100.0);
-        data.put("Debit", 900.0);
-
-        return data;
-    }
 
     public HBox createTransactionRings() {
-
-        Map<String, Double> data = getWeeklyTransactions();
-        double maxValue = data.values().stream().max(Double::compare).orElse(1.0);
+        Map<String, Double> transactions = saleDAO.getWeeklyTransactions();
+        double maxValue = transactions.values().stream().max(Double::compare).orElse(1.0);
 
         HBox rings = new HBox(25);
         rings.setAlignment(Pos.CENTER);
 
-        Color[] colors = { Color.DODGERBLUE, Color.MEDIUMSEAGREEN, Color.ORANGE };
+        Color[] colors = {Color.DODGERBLUE, Color.MEDIUMSEAGREEN, Color.ORANGE};
         int index = 0;
 
-        for (Map.Entry<String, Double> entry : data.entrySet()) {
-            rings.getChildren().add(
-                    createRing(entry.getKey(), entry.getValue(), maxValue, colors[index])
-            );
+        for (Map.Entry<String, Double> entry : transactions.entrySet()) {
+            rings.getChildren().add(createRing(entry.getKey(), entry.getValue(), maxValue, colors[index]));
             index++;
         }
 
         return rings;
     }
-
 }

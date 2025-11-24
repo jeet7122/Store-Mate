@@ -140,9 +140,9 @@ public class SaleDAO {
     public Map<String, Double> getSalesLast30Days() {
         Map<String, Double> salesData = new LinkedHashMap<>();
         String sql = """
-                SELECT DATE(sale_timestamp) as sale_date, SUM(total_amount) as total
+                SELECT sale_date, SUM(total_amount) as total
                 FROM sales
-                WHERE sale_timestamp >= ?
+                WHERE sale_date >= ?
                 GROUP BY sale_date
                 ORDER BY sale_date
                 """;
@@ -160,7 +160,7 @@ public class SaleDAO {
                 salesData.put(date.format(formatter), total);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
         }
 
         return salesData;
@@ -172,7 +172,7 @@ public class SaleDAO {
         String sql = """
                 SELECT payment_method, SUM(total_amount) as total
                 FROM sales
-                WHERE sale_timestamp >= ?
+                WHERE sale_date >= ?
                 GROUP BY payment_method
                 """;
         try (
