@@ -67,6 +67,7 @@ public class TableConstants {
     public static final String PURCHASE_COLUMN_TOTAL_AMOUNT = "total_amount";
     public static final String PURCHASE_COLUMN_PURCHASE_DATE = "purchase_date";
     public static final String PURCHASE_COLUMN_STATUS = "status";
+    public static final String PURCHASE_COLUMN_PAYMENT_METHOD = "payment_method";
 
     //Purchase Item Table
     public static final String PURCHASE_ITEM_TABLE_NAME = "purchase_items";
@@ -104,9 +105,8 @@ public class TableConstants {
     //Return's Table
     public static final String RETURN_TABLE_NAME = "returns";
     public static final String RETURN_COLUMN_ID = "return_id";
-    public static final String RETURN_COLUMN_SALE_ID = "sale_id";
     public static final String RETURN_COLUMN_REFUND_TOTAL = "total_amount";
-    public static final String RETURN_COLUMN_REFUND_METHOD = "refund_method";
+    public static final String RETURN_COLUMN_REFUND_METHOD = "payment_method";
     public static final String RETURN_COLUMN_RETURN_DATE = "return_date";
     public static final String RETURN_COLUMN_PROCESSED_BY = "processed_by";
 

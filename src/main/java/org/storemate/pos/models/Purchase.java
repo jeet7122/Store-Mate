@@ -1,8 +1,10 @@
 package org.storemate.pos.models;
 
+import org.storemate.pos.models.enums.PaymentMethod;
 import org.storemate.pos.models.enums.PurchaseStatus;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 
 public class Purchase {
@@ -10,8 +12,18 @@ public class Purchase {
     private int supplierID;
     private BigDecimal tax_amount;
     private BigDecimal total_amount;
-    private LocalDate purchaseDate;
+    private Timestamp purchaseDate;
     private PurchaseStatus status;
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    private PaymentMethod paymentMethod;
 
     public Purchase(BigDecimal total_amount, BigDecimal tax_amount, int supplierID, int purchaseID, PurchaseStatus status) {
         this.total_amount = total_amount;
@@ -68,11 +80,11 @@ public class Purchase {
         this.total_amount = total_amount;
     }
 
-    public LocalDate getPurchaseDate() {
+    public Timestamp getPurchaseDate() {
         return purchaseDate;
     }
 
-    public void setPurchaseDate(LocalDate purchaseDate) {
+    public void setPurchaseDate(Timestamp purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 

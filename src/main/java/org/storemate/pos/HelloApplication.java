@@ -16,7 +16,7 @@ public class HelloApplication extends Application {
 
         try(
                 Connection connection = DatabaseConnector.getConnection();
-                PreparedStatement statement = connection.prepareStatement(DBTable.CREATE_RETURN_ITEMS_TABLE)
+                PreparedStatement statement = connection.prepareStatement(DBTable.CREATE_PURCHASE_TABLE)
                 )
         {
             int rows = statement.executeUpdate();

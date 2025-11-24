@@ -108,11 +108,12 @@ public class DBTable {
     public static final String CREATE_PURCHASE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + PURCHASE_TABLE_NAME + " ("
                     + PURCHASE_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "
-                    + PURCHASE_COLUMN_SUPPLIER_ID + " INT NOT NULL PRIMARY KEY, "
-                    + PURCHASE_COLUMN_TAX_AMOUNT + " DECIMAL(5,2), NOT NULL, "
-                    + PURCHASE_COLUMN_TOTAL_AMOUNT + " DECIMAL(5,2), NOT NULL, "
+                    + PURCHASE_COLUMN_SUPPLIER_ID + " INT NOT NULL, "
+                    + PURCHASE_COLUMN_TAX_AMOUNT + " DECIMAL(5,2) NOT NULL, "
+                    + PURCHASE_COLUMN_TOTAL_AMOUNT + " DECIMAL(5,2) NOT NULL, "
                     + PURCHASE_COLUMN_STATUS + " VARCHAR(20) NOT NULL, "
-                    + PURCHASE_COLUMN_PURCHASE_DATE + " DATE DEFAULT (CURRENT_DATE), "
+                    + PURCHASE_COLUMN_PAYMENT_METHOD + " VARCHAR(20) NOT NULL, "
+                    + PURCHASE_COLUMN_PURCHASE_DATE + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
                     + "FOREIGN KEY (" + PURCHASE_COLUMN_SUPPLIER_ID + ") REFERENCES "
                     + SUPPLIER_TABLE_NAME + "(" + SUPPLIER_COLUMN_ID + "));";
 

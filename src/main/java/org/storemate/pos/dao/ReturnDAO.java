@@ -3,12 +3,16 @@ package org.storemate.pos.dao;
 import org.storemate.pos.database.DatabaseConnector;
 import org.storemate.pos.dto.CartDTO;
 import org.storemate.pos.dto.Cart_Item_DTO;
+import org.storemate.pos.models.Returns;
+import org.storemate.pos.models.enums.PaymentMethod;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.storemate.pos.database.TableConstants.*;
 
@@ -80,6 +84,48 @@ public class ReturnDAO {
             System.out.println("SQL Exception in ReturnDAO: " + e.getMessage());
             return false;
         }
+    }
+
+    // Get all returns
+    public List<Returns> getAllReturns() {
+        List<Returns> returnsList = new ArrayList<>();
+        String sql = "SELECT return_id, payment_method, total_amount, return_date FROM returns ORDER BY return_date DESC";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Returns r = new Returns();
+                String paymentSTR = rs.getString("payment_method");
+                PaymentMethod paymentMethod = PaymentMethod.valueOf(paymentSTR);
+                r.setReturnID(rs.getInt("return_id"));
+                r.setPaymentMethod(paymentMethod);
+                r.setTotalAmount(rs.getBigDecimal("total_amount"));
+                r.setReturnDate(rs.getTimestamp("return_date"));
+                returnsList.add(r);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+        return returnsList;
+    }
+
+    // Count by payment method
+    public int countByPaymentMethod(String paymentMethod) {
+        String sql = "SELECT COUNT(*) FROM returns WHERE payment_method = ?";
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, paymentMethod);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) return rs.getInt(1);
+
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+        return 0;
     }
 
 }
