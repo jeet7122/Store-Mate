@@ -7,6 +7,9 @@ import org.storemate.pos.models.enums.Permission;
 import org.storemate.pos.services.AuthorizationService;
 import org.storemate.pos.user_interface.EmployeeLoginFormView;
 import org.storemate.pos.user_interface.EmployeeRegistrationFormView;
+import org.storemate.pos.user_interface.pages.AddEmployeeView;
+import org.storemate.pos.user_interface.pages.DeleteEmployeeView;
+import org.storemate.pos.user_interface.pages.ModifyEmployeeView;
 import org.storemate.pos.user_interface.views.*;
 import org.storemate.pos.utils.SceneManager;
 import org.storemate.pos.utils.Session;
@@ -29,6 +32,9 @@ public class Router {
     private static void registerRoutes(){
         routes.put("/dashboard", new Route(() -> new DashboardViewForAdmin().getView(), Permission.VIEW_DASHBOARD));
         routes.put("/employees", new Route(() -> new EmployeeDataView().getView(), Permission.MANAGE_EMPLOYEES));
+        routes.put("/employees/add", new Route(() -> new AddEmployeeView().getView(), Permission.MANAGE_EMPLOYEES));
+        routes.put("/employees/modify", new Route(() -> new ModifyEmployeeView().getView(), Permission.MANAGE_EMPLOYEES));
+        routes.put("/employees/delete", new Route(() -> new DeleteEmployeeView().getView(), Permission.MANAGE_EMPLOYEES));
         routes.put("/suppliers", new Route(() -> new SuppliersDataView().getView(), Permission.MANAGE_SUPPLIERS));
         routes.put("/products", new Route(() -> new ProductsDataView().getView(), Permission.MANAGE_PRODUCTS));
         routes.put("/pos", new Route(() -> new ProcessSalesView().getView(), Permission.PROCESS_SALES));

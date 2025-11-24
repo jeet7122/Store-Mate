@@ -40,8 +40,6 @@ public class DBTable {
             "CREATE TABLE IF NOT EXISTS " + SHIFT_TABLE_NAME + " ("
                     + SHIFT_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "
                     + SHIFT_COLUMN_EMPLOYEE_ID + " INT NOT NULL, "
-                    + SHIFT_COLUMN_START_FLOAT_CASH + " DECIMAL(5,2) NOT NULL, "
-                    + SHIFT_COLUMN_END_FLOAT_CASH + " DECIMAL(5,2) NOT NULL, "
                     + SHIFT_COLUMN_LOGIN_TIME + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
                     + SHIFT_COLUMN_LOGOUT_TIME + " TIMESTAMP NULL DEFAULT NULL, "
                     + "FOREIGN KEY (" + SHIFT_COLUMN_EMPLOYEE_ID + ") REFERENCES "
@@ -120,13 +118,13 @@ public class DBTable {
     //Purchase Item Table Schema
     public static final String CREATE_PURCHASE_ITEM_TABLE =
             "CREATE TABLE IF NOT EXISTS " + PURCHASE_ITEM_TABLE_NAME + " ("
-                    + PURCHASE_ITEM_PURCHASE_ID + " INT PRIMARY KEY NOT NULL, "
+                    + PURCHASE_ITEM_PURCHASE_ID + " INT NOT NULL, "
                     + PURCHASE_ITEM_PRODUCT_ID + " VARCHAR(255) NOT NULL PRIMARY KEY, "
                     + PURCHASE_ITEM_QUANTITY + " INT NOT NULL, "
                     + PURCHASE_ITEM_TAX_CATEGORY + " VARCHAR(10) NOT NULL, "
-                    + PURCHASE_ITEM_UNIT_PRICE + " DECIMAL(5,2), NOT NULL, "
-                    + PURCHASE_ITEM_TAX_AMOUNT + " DECIMAL(5,2), NOT NULL, "
-                    + PURCHASE_ITEM_TOTAL_AMOUNT + " DECIMAL(5,2), NOT NULL,"
+                    + PURCHASE_ITEM_UNIT_PRICE + " DECIMAL(5,2) NOT NULL, "
+                    + PURCHASE_ITEM_TAX_AMOUNT + " DECIMAL(5,2) NOT NULL, "
+                    + PURCHASE_ITEM_TOTAL_AMOUNT + " DECIMAL(5,2) NOT NULL,"
                     + "FOREIGN KEY (" + PURCHASE_ITEM_PRODUCT_ID + ") REFERENCES "
                     + PRODUCT_TABLE_NAME + "(" + PRODUCT_COLUMN_ID + "));";
 

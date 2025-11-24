@@ -17,8 +17,6 @@ public class TableConstants {
     public static final String SHIFT_TABLE_NAME = "shift";
     public static final String SHIFT_COLUMN_ID = "shift_id";
     public static final String SHIFT_COLUMN_EMPLOYEE_ID = "employee_id";
-    public static final String SHIFT_COLUMN_START_FLOAT_CASH = "start_cash";
-    public static final String SHIFT_COLUMN_END_FLOAT_CASH = "end_cash";
     public static final String SHIFT_COLUMN_LOGIN_TIME = "login_time";
     public static final String SHIFT_COLUMN_LOGOUT_TIME = "logout_time";
 
