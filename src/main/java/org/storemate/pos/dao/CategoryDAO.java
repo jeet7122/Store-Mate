@@ -58,6 +58,7 @@ public class CategoryDAO {
                 category.setCategory_id(rs.getInt(CATEGORY_COLUMN_ID));
                 category.setCategory_name(rs.getString(CATEGORY_COLUMN_NAME));
                 category.setCategory_description(rs.getString(CATEGORY_COLUMN_DESCRIPTION));
+                category.setStatus(Status.valueOf(rs.getString(CATEGORY_COLUMN_STATUS)));
                 categories.add(category);
             }
         } catch (SQLException e) {
