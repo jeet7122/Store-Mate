@@ -10,7 +10,7 @@ public class Supplier {
     private String supplier_name;
     private String supplier_email;
     private String supplier_location;
-    private Status  supplier_status;
+    private Status supplier_status;
 
     public Supplier() {
     }

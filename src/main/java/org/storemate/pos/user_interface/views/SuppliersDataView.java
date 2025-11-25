@@ -79,7 +79,7 @@ public class SuppliersDataView {
         locationColumn.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getSupplier_location()));
 
         TableColumn<Supplier, String> statusColumn = new TableColumn<>("Status");
-        statusColumn.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getSupplier_status().toString()));
+        statusColumn.setCellValueFactory(v -> new ReadOnlyStringWrapper(String.valueOf(v.getValue().getSupplier_status()) ));
 
         // Add columns to the table
         supplierTableView.getColumns().addAll(idColumn, nameColumn, emailColumn, locationColumn, statusColumn);

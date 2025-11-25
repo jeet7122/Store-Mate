@@ -42,6 +42,7 @@ public class Router {
         routes.put("/products/delete", new Route(() -> new DeleteProductsView().getView(), Permission.MANAGE_PRODUCTS));
         routes.put("/pos", new Route(() -> new ProcessSalesView().getView(), Permission.PROCESS_SALES));
         routes.put("/purchases", new Route(() -> new PurchaseDataView().getView(), Permission.MANAGE_PURCHASES));
+        routes.put("/purchases/order", new Route(() -> new PurchaseOrderScreen().getView(), Permission.MANAGE_PURCHASES));
         routes.put("/reports/sales", new Route(() -> new SalesDataView().getView(), Permission.VIEW_SALES_REPORTS));
         routes.put("/shifts", new Route(() -> new ShiftDataView().getView(), Permission.VIEW_SHIFTS));
         routes.put("/settings/general", new Route(() -> new SettingsTabView().getView(), Permission.MANAGE_SETTINGS));
