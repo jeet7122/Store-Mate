@@ -40,6 +40,8 @@ public class DBTable {
             "CREATE TABLE IF NOT EXISTS " + SHIFT_TABLE_NAME + " ("
                     + SHIFT_COLUMN_ID + " INT PRIMARY KEY AUTO_INCREMENT, "
                     + SHIFT_COLUMN_EMPLOYEE_ID + " INT NOT NULL, "
+                    + SHIFT_COLUMN_START_FLOAT_CASH + " DECIMAL(5,2) NOT NULL, "
+                    + SHIFT_COLUMN_END_FLOAT_CASH + " DECIMAL(5,2) NOT NULL, "
                     + SHIFT_COLUMN_LOGIN_TIME + " TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
                     + SHIFT_COLUMN_LOGOUT_TIME + " TIMESTAMP NULL DEFAULT NULL, "
                     + "FOREIGN KEY (" + SHIFT_COLUMN_EMPLOYEE_ID + ") REFERENCES "
