@@ -19,6 +19,7 @@ import javafx.scene.text.FontWeight;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.*;
 import org.storemate.pos.models.Employee;
+import org.storemate.pos.models.enums.Role;
 import org.storemate.pos.routing.Router;
 import org.storemate.pos.services.AuthService;
 
@@ -376,7 +377,7 @@ public class EmployeeDataView {
                     employee.getEmail().toLowerCase().contains(searchText.toLowerCase());
 
             boolean matchesRole = "All".equals(roleFilter) ||
-                    employee.getRole().equals(roleFilter);
+                    employee.getRole().equals(Role.valueOf(roleFilter));
 
             if (matchesSearch && matchesRole) {
                 filteredList.add(employee);
