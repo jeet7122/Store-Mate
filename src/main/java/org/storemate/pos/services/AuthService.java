@@ -8,6 +8,11 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.storemate.pos.utils.Alerts;
 import org.storemate.pos.utils.Session;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class AuthService {
     private final AuthDAO authDAO;
     private Alerts alerts = new Alerts();
@@ -76,4 +81,91 @@ public class AuthService {
         }
     }
 
+    // In your AuthService class, add these methods:
+    public Employee findByUsername(String username) {
+        try {
+            return authDAO.findByUsername(username);
+        } catch (Exception e) {
+            System.out.println("Find employee error: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public boolean updateEmployee(String username, String email, String role) {
+        try {
+            EmployeeDTO employeeDTO = new EmployeeDTO();
+            employeeDTO.setUsername(username);
+            employeeDTO.setEmail(email);
+            employeeDTO.setRole(role);
+
+            authDAO.updateEmployee(employeeDTO);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Update employee error: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteEmployee(String username) {
+        try {
+            authDAO.deleteEmployee(username);
+            return true;
+        } catch (Exception e) {
+            System.out.println("Delete employee error: " + e.getMessage());
+            return false;
+        }
+    }
+    public List<Employee> getAllEmployees() {
+        try {
+            return authDAO.getAllEmployees();
+        } catch (Exception e) {
+            System.out.println("Get all employees error: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public int getTotalEmployeesCount() {
+        try {
+            return authDAO.getTotalEmployeesCount();
+        } catch (Exception e) {
+            System.out.println("Get total employees count error: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    public int getActiveEmployeesToday() {
+        try {
+            return authDAO.getActiveEmployeesToday();
+        } catch (Exception e) {
+            System.out.println("Get active employees error: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    public int getNewEmployeesThisMonth() {
+        try {
+            return authDAO.getNewEmployeesThisMonth();
+        } catch (Exception e) {
+            System.out.println("Get new employees this month error: " + e.getMessage());
+            return 0;
+        }
+    }
+
+    public Map<String, Integer> getRoleDistribution() {
+        try {
+            return authDAO.getRoleDistribution();
+        } catch (Exception e) {
+            System.out.println("Get role distribution error: " + e.getMessage());
+            return new HashMap<>();
+        }
+    }
+
+    public Map<String, Integer> getMonthlyJoinStats() {
+        try {
+            return authDAO.getMonthlyJoinStats();
+        } catch (Exception e) {
+            System.out.println("Get monthly join stats error: " + e.getMessage());
+            return new HashMap<>();
+        }
+    }
 }

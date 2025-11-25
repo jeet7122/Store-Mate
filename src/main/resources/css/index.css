@@ -1,7 +1,7 @@
 /* ===========================================
    STORE-MATE APPLICATION THEME (index.css)
    Clean, modern UI for desktop applications
-   Enhanced: Mixed Cart Styles
+   Enhanced: Mixed Cart Styles + Employee Management
    =========================================== */
 
 /* ---------- Root Layout ---------- */
@@ -24,8 +24,9 @@
 }
 
 .label-subtitle {
-    -fx-font-size: 16px;
-    -fx-text-fill: #636e72;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #495057;
 }
 
 .label-total {
@@ -67,6 +68,12 @@
     -fx-background-color: #ffffff;
 }
 
+.text-field:disabled {
+    -fx-background-color: #f8f9fa;
+    -fx-text-fill: #6c757d;
+    -fx-border-color: #e9ecef;
+}
+
 /* ---------- ComboBox ---------- */
 .combo-box {
     -fx-background-color: #ffffff;
@@ -80,6 +87,17 @@
 .combo-box:focused {
     -fx-border-color: #0078D7;
     -fx-effect: dropshadow(gaussian, rgba(0,120,215,0.2), 6, 0, 0, 0);
+}
+
+.combo-box:disabled {
+    -fx-background-color: #f8f9fa;
+    -fx-opacity: 1;
+}
+
+.combo-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #2d3436;
 }
 
 /* ---------- Buttons ---------- */
@@ -116,10 +134,130 @@
     -fx-font-weight: bold;
 }
 
+/* Search Button */
+.button-search {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #17a2b8, #138496);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button-search:hover {
+    -fx-background-color: #138496;
+}
+
+/* Update Button */
+.button-update {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #28a745, #218838);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button-update:hover {
+    -fx-background-color: #218838;
+}
+
+/* Delete Button */
+.button-delete {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #dc3545, #c82333);
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button-delete:hover {
+    -fx-background-color: #c82333;
+}
+
+/* Cancel Button */
+.button-cancel {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 100%, #6c757d, #5a6268);
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+}
+
+.button-cancel:hover {
+    -fx-background-color: #5a6268;
+}
+
 /* Disabled Button Style */
 .button:disabled {
     -fx-opacity: 0.6;
     -fx-cursor: default;
+}
+
+/* ---------- Form Grid ---------- */
+.form-grid {
+    -fx-padding: 20px;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12px;
+    -fx-border-color: #e1e5e9;
+    -fx-border-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);
+}
+
+/* ---------- Warning Labels ---------- */
+.warning-label {
+    -fx-text-fill: #dc3545;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 10px;
+    -fx-border-color: #dc3545;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-color: #f8d7da;
+    -fx-background-radius: 5px;
+    -fx-alignment: center;
+}
+
+.warning-icon {
+    -fx-text-fill: #dc3545;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* ---------- Success Labels ---------- */
+.success-label {
+    -fx-text-fill: #155724;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 10px;
+    -fx-border-color: #c3e6cb;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-color: #d4edda;
+    -fx-background-radius: 5px;
+}
+
+/* ---------- Info Labels ---------- */
+.info-label {
+    -fx-text-fill: #0c5460;
+    -fx-font-weight: bold;
+    -fx-font-size: 12px;
+    -fx-padding: 10px;
+    -fx-border-color: #b8daff;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-background-color: #d1ecf1;
+    -fx-background-radius: 5px;
+}
+
+/* ---------- Employee Data Boxes ---------- */
+.employee-option-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d7de;
+    -fx-border-radius: 8px;
+    -fx-padding: 15px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 2);
+}
+
+.employee-option-box:hover {
+    -fx-background-color: #eef3ff;
+    -fx-border-color: #0078D7;
+    -fx-effect: dropshadow(gaussian, rgba(0,120,215,0.15), 8, 0, 0, 3);
+}
+
+.employee-option-box:pressed {
+    -fx-background-color: #dbe6ff;
 }
 
 /* ---------- Alerts & Dialogs ---------- */
@@ -128,6 +266,13 @@
     -fx-border-color: #0078D7;
     -fx-border-radius: 10;
     -fx-background-radius: 10;
+}
+
+.confirmation-dialog {
+    -fx-background-color: #fff3cd;
+    -fx-border-color: #ffeaa7;
+    -fx-border-radius: 8;
+    -fx-padding: 15;
 }
 
 /* ---------- Tooltip ---------- */
@@ -236,4 +381,69 @@
 
 .pagination-button:hover {
     -fx-background-color: #006acb;
+}
+
+/* ---------- HBox and VBox Spacing ---------- */
+.hbox-spaced {
+    -fx-spacing: 15;
+    -fx-alignment: center-left;
+}
+
+.vbox-spaced {
+    -fx-spacing: 20;
+    -fx-alignment: top-center;
+}
+
+/* ---------- Search Section ---------- */
+.search-section {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #e9ecef;
+    -fx-border-radius: 8;
+    -fx-padding: 15;
+    -fx-spacing: 10;
+}
+
+.search-field {
+    -fx-pref-width: 250;
+}
+
+/* ---------- Status Indicators ---------- */
+.status-active {
+    -fx-text-fill: #28a745;
+    -fx-font-weight: bold;
+}
+
+.status-inactive {
+    -fx-text-fill: #dc3545;
+    -fx-font-weight: bold;
+}
+
+.status-pending {
+    -fx-text-fill: #ffc107;
+    -fx-font-weight: bold;
+}
+/* Colorful Bar Chart */
+.bar-chart .default-color0.chart-bar {
+    -fx-bar-fill: #3498db;
+    -fx-background-color: #3498db;
+}
+
+.bar-chart .default-color1.chart-bar {
+    -fx-bar-fill: #2ecc71;
+    -fx-background-color: #2ecc71;
+}
+
+.bar-chart .default-color2.chart-bar {
+    -fx-bar-fill: #e74c3c;
+    -fx-background-color: #e74c3c;
+}
+
+.bar-chart .default-color3.chart-bar {
+    -fx-bar-fill: #f39c12;
+    -fx-background-color: #f39c12;
+}
+
+.bar-chart .default-color4.chart-bar {
+    -fx-bar-fill: #9b59b6;
+    -fx-background-color: #9b59b6;
 }
