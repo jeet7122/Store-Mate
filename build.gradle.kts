@@ -45,6 +45,9 @@ dependencies {
 
     implementation("com.mysql:mysql-connector-j:9.4.0")
 
+// https://mvnrepository.com/artifact/com.sun.mail/jakarta.mail
+    implementation("com.sun.mail:jakarta.mail:2.0.2")
+
     implementation("org.mindrot:jbcrypt:0.4")
 
     // Ikonli core for JavaFX

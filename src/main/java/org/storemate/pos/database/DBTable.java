@@ -119,7 +119,7 @@ public class DBTable {
     public static final String CREATE_PURCHASE_ITEM_TABLE =
             "CREATE TABLE IF NOT EXISTS " + PURCHASE_ITEM_TABLE_NAME + " ("
                     + PURCHASE_ITEM_PURCHASE_ID + " INT NOT NULL, "
-                    + PURCHASE_ITEM_PRODUCT_ID + " VARCHAR(255) NOT NULL PRIMARY KEY, "
+                    + PURCHASE_ITEM_PRODUCT_ID + " VARCHAR(255) NOT NULL, "
                     + PURCHASE_ITEM_QUANTITY + " INT NOT NULL, "
                     + PURCHASE_ITEM_TAX_CATEGORY + " VARCHAR(10) NOT NULL, "
                     + PURCHASE_ITEM_UNIT_PRICE + " DECIMAL(5,2) NOT NULL, "

@@ -68,4 +68,23 @@ public class SuppliersDAO {
 
         return suppliers;
     }
+    public Supplier getSupplierById(int supplierId) {
+        String sql = "SELECT * FROM suppliers WHERE supplier_id = ?";
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, supplierId);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Supplier s = new Supplier();
+                s.setSupplier_id(rs.getInt("supplier_id"));
+                s.setSupplier_name(rs.getString("supplier_name"));
+                s.setSupplier_email(rs.getString("supplier_email"));
+                // load other fields as needed
+                return s;
+            }
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+        }
+        return null;
+    }
 }
