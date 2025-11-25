@@ -1,6 +1,8 @@
 package org.storemate.pos.dao;
 
 import org.storemate.pos.database.DatabaseConnector;
+import org.storemate.pos.dto.PurchaseDTO;
+import org.storemate.pos.dto.Purchase_Item_DTO;
 import org.storemate.pos.models.Purchase;
 import org.storemate.pos.models.enums.PaymentMethod;
 
@@ -84,5 +86,73 @@ public class PurchaseDAO {
         }
 
         return purchaseData;
+    }
+
+    public int createPurchase(PurchaseDTO cart, String status, String paymentMethod) {
+        if (cart == null || cart.isEmpty()) return -1;
+
+        String insertPurchaseSql = "INSERT INTO purchases (supplier_id, tax_amount, total_amount, status, payment_method, purchase_date) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
+        String insertItemSql = "INSERT INTO purchase_items (purchase_id, product_id, quantity, unit_price, tax_category, tax_amount, total_amount) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String updateProductSql = "UPDATE products SET quantity = quantity + ? WHERE product_id = ?";
+
+        try (Connection conn = DatabaseConnector.getConnection()) {
+            conn.setAutoCommit(false);
+            try (PreparedStatement psPurchase = conn.prepareStatement(insertPurchaseSql, Statement.RETURN_GENERATED_KEYS)) {
+
+                // compute totals
+                java.math.BigDecimal tax = cart.getTax();
+                java.math.BigDecimal total = cart.getTotal();
+
+                psPurchase.setInt(1, cart.getSupplierID());
+                psPurchase.setBigDecimal(2, tax);
+                psPurchase.setBigDecimal(3, total);
+                psPurchase.setString(4, status);
+                psPurchase.setString(5, paymentMethod == null ? "" : paymentMethod);
+
+                int affected = psPurchase.executeUpdate();
+                if (affected == 0) throw new RuntimeException("Failed to insert purchase");
+
+                int purchaseId;
+                try (ResultSet keys = psPurchase.getGeneratedKeys()) {
+                    if (keys.next()) purchaseId = keys.getInt(1);
+                    else throw new RuntimeException("No purchase id generated");
+                }
+
+                try (PreparedStatement psItem = conn.prepareStatement(insertItemSql);
+                     PreparedStatement psUpdateProd = conn.prepareStatement(updateProductSql)) {
+                    for (Purchase_Item_DTO item : cart.getCart()) {
+                        psItem.setInt(1, purchaseId);
+                        psItem.setString(2, item.getProduct().getProduct_id());
+                        psItem.setInt(3, item.getQuantity());
+                        psItem.setBigDecimal(4, item.getCostPrice());
+                        psItem.setString(5, item.getProduct().getTaxCategory().name()); // adjust if enum->string mapping differs
+                        psItem.setBigDecimal(6, item.getTaxAmount());
+                        psItem.setBigDecimal(7, item.getTotalAmount());
+                        psItem.addBatch();
+
+                        // update product quantity
+                        psUpdateProd.setInt(1, item.getQuantity());
+                        psUpdateProd.setString(2, item.getProduct().getProduct_id());
+                        psUpdateProd.addBatch();
+                    }
+
+                    psItem.executeBatch();
+                    psUpdateProd.executeBatch();
+                }
+
+                conn.commit();
+                return purchaseId;
+
+            } catch (Exception ex) {
+                conn.rollback();
+                System.out.println("Exception: " + ex.getMessage());
+                return -1;
+            } finally {
+                conn.setAutoCommit(true);
+            }
+        } catch (Exception ex) {
+            System.out.println("Exception: " + ex.getMessage());
+            return -1;
+        }
     }
 }
