@@ -75,7 +75,7 @@ public class CategoriesDataView {
         descCol.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getCategory_description()));
 
         TableColumn<Category, String> statusCol = new TableColumn<>("Status");
-        statusCol.setCellValueFactory(v -> new ReadOnlyStringWrapper(v.getValue().getStatus().toString()));
+        statusCol.setCellValueFactory(v -> new ReadOnlyStringWrapper(String.valueOf(v.getValue().getStatus())));
 
         // Add Columns to Table
         table.getColumns().addAll(idCol, nameCol, descCol, statusCol);
