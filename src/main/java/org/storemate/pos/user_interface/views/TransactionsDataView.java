@@ -23,25 +23,16 @@ import org.storemate.pos.models.Transaction;
 import java.util.List;
 
 public class TransactionsDataView {
-
-    private final SaleDAO saleDAO;
-    private final ReturnDAO returnDAO;
-    private final PurchaseDAO purchaseDAO;
     private final TransactionsDAO transactionsDAO;
     private final VBox root;
 
     private TableView<Transaction> tableView;
     private ObservableList<Transaction> allTransactions;
-    private static final int ROWS_PER_PAGE = 20;
+    private static final int ROWS_PER_PAGE = 10;
     private Pagination pagination;
 
     public TransactionsDataView() {
-        // Initialize DAOs
-        saleDAO = new SaleDAO();
-        purchaseDAO = new PurchaseDAO();
-        returnDAO = new ReturnDAO();
         transactionsDAO = new TransactionsDAO();
-
 
         root = new VBox(20);
         root.getStyleClass().add("root");
@@ -50,6 +41,26 @@ public class TransactionsDataView {
         Label title = new Label("Transactions Dashboard");
         title.getStyleClass().add("label-title");
         root.getChildren().add(title);
+
+        // --- Table and Pagination Card ---
+        tableView = new TableView<>();
+        setupTableColumns();
+        tableView.setPrefHeight(400);
+
+        pagination = new Pagination();
+        pagination.setPageFactory(this::createPage);
+
+        VBox tableCard = new VBox(10, tableView, pagination);
+        tableCard.setStyle(
+                "-fx-background-color: #ffffff; " +
+                        "-fx-padding: 15; " +
+                        "-fx-background-radius: 12; " +
+                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);"
+        );
+        root.getChildren().add(tableCard);
+
+        // --- Load Data AFTER tableView and pagination exist ---
+        loadTransactionsFromDB();
 
         // --- PieCharts ---
         PieChart salesPie = createPieChartFromList("Sales");
@@ -63,28 +74,6 @@ public class TransactionsDataView {
         );
         chartsBox.setStyle("-fx-alignment: center; -fx-padding: 10;");
         root.getChildren().add(chartsBox);
-
-        // --- Table and Pagination Card ---
-        VBox tableCard = new VBox(10);
-        tableCard.setStyle(
-                "-fx-background-color: #ffffff; " +
-                        "-fx-padding: 15; " +
-                        "-fx-background-radius: 12; " +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);"
-        );
-
-        tableView = new TableView<>();
-        setupTableColumns();
-        tableView.setPrefHeight(400);
-
-        pagination = new Pagination();
-        pagination.setPageFactory(this::createPage);
-
-        tableCard.getChildren().addAll(tableView, pagination);
-        root.getChildren().add(tableCard);
-
-        // --- Load Data ---
-        loadTransactionsFromDB();
     }
 
     // --- Modular Pie Chart Card ---
@@ -151,28 +140,6 @@ public class TransactionsDataView {
     // --- Load Transactions from DB ---
     private void loadTransactionsFromDB() {
         allTransactions = FXCollections.observableArrayList(transactionsDAO.getAllTransactions());
-
-//        // Sales
-//        for (Sale s : saleDAO.getAllSales()) {
-//            allTransactions.add(new Transaction(
-//                    "S-" + s.getSaleID(), "Sales", String.valueOf(s.getPaymentMethod()), s.getTotal_amount(), s.getSale_timestamp()
-//            ));
-//        }
-//
-//        // Purchases
-//        for (Purchase p : purchaseDAO.getAllPurchases()) {
-//            allTransactions.add(new Transaction(
-//                    "P-" + p.getPurchaseID(), "Purchases", String.valueOf(p.getPaymentMethod()), p.getTotal_amount(), p.getPurchaseDate()
-//            ));
-//        }
-//
-//        // Returns
-//        for (Returns r : returnDAO.getAllReturns()) {
-//            allTransactions.add(new Transaction(
-//                    "R-" + r.getReturnID(), "Returns", String.valueOf(r.getPaymentMethod()), r.getTotalAmount(), r.getReturnDate()
-//            ));
-//        }
-
         // Set first page
         tableView.setItems(FXCollections.observableArrayList(
                 allTransactions.subList(0, Math.min(ROWS_PER_PAGE, allTransactions.size()))
@@ -180,38 +147,14 @@ public class TransactionsDataView {
         pagination.setPageCount((int) Math.ceil((double) allTransactions.size() / ROWS_PER_PAGE));
     }
 
-    // --- PieChart Factory from DB Counts ---
-    private PieChart createPieChartFromDB(String title) {
-        int cashCount = 0, debitCount = 0, creditCount = 0;
-
-        switch (title) {
-            case "Sales" -> {
-                cashCount = saleDAO.countByPaymentMethod("CASH");
-                debitCount = saleDAO.countByPaymentMethod("DEBIT");
-                creditCount = saleDAO.countByPaymentMethod("CREDIT");
-            }
-            case "Purchases" -> {
-                cashCount = purchaseDAO.countByPaymentMethod("CASH");
-                debitCount = purchaseDAO.countByPaymentMethod("DEBIT");
-                creditCount = purchaseDAO.countByPaymentMethod("CREDIT");
-            }
-            case "Returns" -> {
-                cashCount = returnDAO.countByPaymentMethod("CASH");
-                debitCount = returnDAO.countByPaymentMethod("DEBIT");
-                creditCount = returnDAO.countByPaymentMethod("CREDIT");
-            }
-        }
-
-        return createInteractivePie(title, cashCount, debitCount, creditCount);
-    }
-    private PieChart createPieChartFromList(String transactionType){
+        private PieChart createPieChartFromList(String transactionType){
         int cash = 0, debit = 0, credit = 0;
         for (Transaction t : allTransactions){
             if (!t.getType().equalsIgnoreCase(transactionType)) continue;
-            switch (t.getPaymentMethod().toLowerCase()){
+            switch (t.getPaymentMethod().toUpperCase()){
                 case "CASH" -> cash++;
-                case "DEBIT" -> cash++;
-                case "CREDIT" -> cash++;
+                case "DEBIT" -> debit++;
+                case "CREDIT" -> credit++;
             }
         }
         return createInteractivePie(transactionType, cash, debit, credit);

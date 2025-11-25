@@ -96,47 +96,6 @@ public class SaleDAO {
         }
         return false;
     }
-    public List<Sale> getAllSales() {
-        List<Sale> sales = new ArrayList<>();
-        String sql = "SELECT sale_id, payment_method, total_amount, sale_date FROM sales ORDER BY sale_date DESC";
-
-        try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-
-            while (rs.next()) {
-                Sale sale = new Sale();
-                String paymentSTR = rs.getString("payment_method");
-                PaymentMethod paymentMethod = PaymentMethod.valueOf(paymentSTR);
-                sale.setSaleID(rs.getInt("sale_id"));
-                sale.setPaymentMethod(paymentMethod);
-                sale.setTotal_amount(rs.getBigDecimal("total_amount"));
-                sale.setSale_timestamp(rs.getTimestamp("sale_date"));
-                sales.add(sale);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("SQL EXCEPTION: " + e.getMessage());
-        }
-        return sales;
-    }
-
-    // --- 2. Count by payment method (for PieChart) ---
-    public int countByPaymentMethod(String paymentMethod) {
-        String sql = "SELECT COUNT(*) FROM sales WHERE payment_method = ?";
-        try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-
-            ps.setString(1, paymentMethod);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) return rs.getInt(1);
-
-        } catch (SQLException e) {
-            System.out.println("SQL EXCEPTION: " + e.getMessage() );
-        }
-        return 0;
-    }
-
     public Map<String, Double> getSalesLast30Days() {
         Map<String, Double> salesData = new LinkedHashMap<>();
         String sql = """
