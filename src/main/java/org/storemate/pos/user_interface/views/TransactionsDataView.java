@@ -14,16 +14,20 @@ import javafx.scene.layout.VBox;
 import org.storemate.pos.dao.PurchaseDAO;
 import org.storemate.pos.dao.ReturnDAO;
 import org.storemate.pos.dao.SaleDAO;
+import org.storemate.pos.dao.TransactionsDAO;
 import org.storemate.pos.models.Purchase;
 import org.storemate.pos.models.Returns;
 import org.storemate.pos.models.Sale;
 import org.storemate.pos.models.Transaction;
+
+import java.util.List;
 
 public class TransactionsDataView {
 
     private final SaleDAO saleDAO;
     private final ReturnDAO returnDAO;
     private final PurchaseDAO purchaseDAO;
+    private final TransactionsDAO transactionsDAO;
     private final VBox root;
 
     private TableView<Transaction> tableView;
@@ -36,6 +40,8 @@ public class TransactionsDataView {
         saleDAO = new SaleDAO();
         purchaseDAO = new PurchaseDAO();
         returnDAO = new ReturnDAO();
+        transactionsDAO = new TransactionsDAO();
+
 
         root = new VBox(20);
         root.getStyleClass().add("root");
@@ -46,9 +52,9 @@ public class TransactionsDataView {
         root.getChildren().add(title);
 
         // --- PieCharts ---
-        PieChart salesPie = createPieChartFromDB("Sales");
-        PieChart purchasesPie = createPieChartFromDB("Purchases");
-        PieChart returnsPie = createPieChartFromDB("Returns");
+        PieChart salesPie = createPieChartFromList("Sales");
+        PieChart purchasesPie = createPieChartFromList("Purchases");
+        PieChart returnsPie = createPieChartFromList("Returns");
 
         HBox chartsBox = new HBox(20,
                 createPieCard("Sales", salesPie),
@@ -126,13 +132,9 @@ public class TransactionsDataView {
 
     // --- Filter Table based on Pie Click ---
     private void filterTable(String transactionType, String paymentMethod) {
-        ObservableList<Transaction> filtered = FXCollections.observableArrayList();
-        for (Transaction t : allTransactions) {
-            if (t.getType().equalsIgnoreCase(transactionType)
-                    && t.getPaymentMethod().equalsIgnoreCase(paymentMethod)) {
-                filtered.add(t);
-            }
-        }
+        List<Transaction> filtered = allTransactions.stream()
+                .filter(t -> t.getType().equalsIgnoreCase(transactionType) && t.getPaymentMethod().equalsIgnoreCase(paymentMethod))
+                .toList();
 
         if (filtered.isEmpty()) {
             tableView.setItems(FXCollections.observableArrayList());
@@ -148,28 +150,28 @@ public class TransactionsDataView {
 
     // --- Load Transactions from DB ---
     private void loadTransactionsFromDB() {
-        allTransactions = FXCollections.observableArrayList();
+        allTransactions = FXCollections.observableArrayList(transactionsDAO.getAllTransactions());
 
-        // Sales
-        for (Sale s : saleDAO.getAllSales()) {
-            allTransactions.add(new Transaction(
-                    "S-" + s.getSaleID(), "Sales", String.valueOf(s.getPaymentMethod()), s.getTotal_amount(), s.getSale_timestamp()
-            ));
-        }
-
-        // Purchases
-        for (Purchase p : purchaseDAO.getAllPurchases()) {
-            allTransactions.add(new Transaction(
-                    "P-" + p.getPurchaseID(), "Purchases", String.valueOf(p.getPaymentMethod()), p.getTotal_amount(), p.getPurchaseDate()
-            ));
-        }
-
-        // Returns
-        for (Returns r : returnDAO.getAllReturns()) {
-            allTransactions.add(new Transaction(
-                    "R-" + r.getReturnID(), "Returns", String.valueOf(r.getPaymentMethod()), r.getTotalAmount(), r.getReturnDate()
-            ));
-        }
+//        // Sales
+//        for (Sale s : saleDAO.getAllSales()) {
+//            allTransactions.add(new Transaction(
+//                    "S-" + s.getSaleID(), "Sales", String.valueOf(s.getPaymentMethod()), s.getTotal_amount(), s.getSale_timestamp()
+//            ));
+//        }
+//
+//        // Purchases
+//        for (Purchase p : purchaseDAO.getAllPurchases()) {
+//            allTransactions.add(new Transaction(
+//                    "P-" + p.getPurchaseID(), "Purchases", String.valueOf(p.getPaymentMethod()), p.getTotal_amount(), p.getPurchaseDate()
+//            ));
+//        }
+//
+//        // Returns
+//        for (Returns r : returnDAO.getAllReturns()) {
+//            allTransactions.add(new Transaction(
+//                    "R-" + r.getReturnID(), "Returns", String.valueOf(r.getPaymentMethod()), r.getTotalAmount(), r.getReturnDate()
+//            ));
+//        }
 
         // Set first page
         tableView.setItems(FXCollections.observableArrayList(
@@ -201,6 +203,18 @@ public class TransactionsDataView {
         }
 
         return createInteractivePie(title, cashCount, debitCount, creditCount);
+    }
+    private PieChart createPieChartFromList(String transactionType){
+        int cash = 0, debit = 0, credit = 0;
+        for (Transaction t : allTransactions){
+            if (!t.getType().equalsIgnoreCase(transactionType)) continue;
+            switch (t.getPaymentMethod().toLowerCase()){
+                case "CASH" -> cash++;
+                case "DEBIT" -> cash++;
+                case "CREDIT" -> cash++;
+            }
+        }
+        return createInteractivePie(transactionType, cash, debit, credit);
     }
 
     // --- Create Interactive PieChart ---
