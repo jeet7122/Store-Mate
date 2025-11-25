@@ -14,6 +14,7 @@ import org.storemate.pos.models.enums.Role;
 import org.storemate.pos.routing.Router;
 import org.storemate.pos.services.AuthService;
 import org.storemate.pos.utils.Alerts;
+import org.storemate.pos.utils.Session;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,9 +83,13 @@ public class EmployeeRegistrationFormView {
             try {
                 String roleForDB = role.toString();
                 boolean registered = authService.registerUser(username, email, password, roleForDB);
-                if (registered){
+                if (registered && Session.getInstance().getCurrentUser().getUsername().isEmpty()){
                     alerts.showSuccessAlert("Store-Mate Employee Registration", "Employee Registered Successfully");
                     Router.navigate("/login");
+                    return;
+                }
+                else {
+                    alerts.showSuccessAlert("Store-Mate Employee Registration", "Employee Registered Successfully");
                     return;
                 }
             }
