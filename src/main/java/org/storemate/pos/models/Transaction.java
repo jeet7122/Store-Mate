@@ -10,6 +10,9 @@ public class Transaction {
     private BigDecimal amount;
     private Timestamp date;
 
+    public Transaction() {
+    }
+
     public Transaction(String id, String type, String paymentMethod, BigDecimal amount, Timestamp date){
         this.id = id;
         this.type = type;

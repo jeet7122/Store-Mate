@@ -1,0 +1,35 @@
+-- 1) Create or replace the view that unifies sales, purchases, returns
+CREATE OR REPLACE VIEW transactions_view AS
+SELECT
+    CONCAT('S-', CAST(sale_id AS CHAR)) AS id,
+    'Sales' AS type,
+    payment_method AS payment_method,
+    total_amount AS total_amount,
+    sale_date AS date
+FROM sales
+UNION ALL
+SELECT
+    CONCAT('P-', CAST(purchase_id AS CHAR)) AS id,
+    'Purchases' AS type,
+    payment_method AS payment_method,
+    total_amount AS total_amount,
+    purchase_date AS date
+FROM purchases
+UNION ALL
+SELECT
+    CONCAT('R-', CAST(return_id AS CHAR)) AS id,
+    'Returns' AS type,
+    payment_method AS payment_method,
+    total_amount AS total_amount,
+    return_date AS date
+FROM returns;
+
+-- 2) Add indexes to speed up ORDER BY and filters (run if columns exist)
+ALTER TABLE sales ADD INDEX IF NOT EXISTS idx_sales_date (sale_date);
+ALTER TABLE sales ADD INDEX IF NOT EXISTS idx_sales_payment (payment_method);
+
+ALTER TABLE purchases ADD INDEX IF NOT EXISTS idx_purchases_date (purchase_date);
+ALTER TABLE purchases ADD INDEX IF NOT EXISTS idx_purchases_payment (payment_method);
+
+ALTER TABLE returns ADD INDEX IF NOT EXISTS idx_returns_date (return_date);
+ALTER TABLE returns ADD INDEX IF NOT EXISTS idx_returns_payment (payment_method);
