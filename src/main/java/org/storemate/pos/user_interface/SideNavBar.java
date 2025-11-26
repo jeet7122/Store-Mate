@@ -3,8 +3,11 @@ package org.storemate.pos.user_interface;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import org.kordamp.ikonli.Ikon;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.*;
@@ -26,14 +29,24 @@ public class SideNavBar {
         var currentUser = Session.getInstance().getCurrentUser();
         authService = new AuthorizationService(currentUser.getRole());
 
+//        Image logo = new Image(getClass().getResourceAsStream("/logos/logo1.png"));
+//        ImageView imageView = new ImageView(logo);
+//        imageView.setFitWidth(80); // adjust width
+//        imageView.setPreserveRatio(true);
+//        imageView.setSmooth(true);
+
         // Profile header
-        Label title = new Label("StoreMate");
+        Label title = new Label("Store-Mate");
+        FontIcon storeIcon = new FontIcon(MaterialDesignS.STORE);
+        storeIcon.setIconSize(30);
+        storeIcon.setIconColor(Color.DARKCYAN);
+        HBox titleBox = new HBox(5,title, storeIcon);
         title.getStyleClass().add("sidebar-title");
 
         Label welcome = new Label("Welcome " + currentUser.getUsername());
         welcome.getStyleClass().add("sidebar-welcome");
 
-        VBox profileBox = new VBox(title, welcome);
+        VBox profileBox = new VBox(titleBox, welcome);
         profileBox.getStyleClass().add("sidebar-profile");
 
         root.getChildren().add(profileBox);
