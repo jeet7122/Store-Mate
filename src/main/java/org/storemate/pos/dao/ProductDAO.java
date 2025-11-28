@@ -15,15 +15,15 @@ import java.util.List;
 import static org.storemate.pos.database.TableConstants.*;
 
 public class ProductDAO {
-    public Product searchForProduct(String searchQuery){
+
+    // Search for a product by its name
+    public Product searchForProduct(String searchQuery) {
         String sqlQuery = "SELECT * FROM " + PRODUCT_TABLE_NAME
                 + " WHERE " + PRODUCT_COLUMN_NAME  + " LIKE ? LIMIT 1;";
-        try
-                (
-                        Connection connection = DatabaseConnector.getConnection();
-                        PreparedStatement statement = connection.prepareStatement(sqlQuery)
-                )
-        {
+
+        try (Connection connection = DatabaseConnector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sqlQuery)) {
+
             statement.setString(1, "%" + searchQuery + "%");
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
@@ -42,19 +42,19 @@ public class ProductDAO {
                 product.setAvailability(availability);
                 return product;
             }
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println("SQL EXCEPTION: " + e.getMessage());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             System.out.println("EXCEPTION: " + e.getMessage());
         }
         return null;
     }
 
+    // Get all products from the database
     public List<Product> getAllProducts() {
         String sql = "SELECT * FROM " + PRODUCT_TABLE_NAME;
         List<Product> products = new ArrayList<>();
+
         try (Connection conn = DatabaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -77,4 +77,82 @@ public class ProductDAO {
         return products;
     }
 
+    // Add a new product to the database
+    public boolean addProduct(Product product) {
+        String sql = "INSERT INTO " + PRODUCT_TABLE_NAME + " (" +
+                PRODUCT_COLUMN_NAME + ", " +
+                PRODUCT_COLUMN_DESCRIPTION + ", " +
+                PRODUCT_COLUMN_PRICE + ", " +
+                PRODUCT_COLUMN_QUANTITY + ", " +
+                PRODUCT_COLUMN_AVAILABILITY + ", " +
+                PRODUCT_COLUMN_TAX_CATEGORY + ", " +
+                PRODUCT_COLUMN_CATEGORY_ID + ") VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, product.getProduct_name());
+            stmt.setString(2, product.getProduct_description());
+            stmt.setBigDecimal(3, product.getProduct_price());
+            stmt.setInt(4, product.getProduct_quantity());
+            stmt.setString(5, product.getAvailability().name());  // Convert enum to String
+            stmt.setString(6, product.getTaxCategory().name());  // Convert enum to String
+            stmt.setInt(7, product.getCategory_id());
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;  // Return true if product was added
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+        return false;
+    }
+
+    // Update an existing product in the database
+    public boolean updateProduct(Product product) {
+        String sql = "UPDATE " + PRODUCT_TABLE_NAME + " SET " +
+                PRODUCT_COLUMN_NAME + " = ?, " +
+                PRODUCT_COLUMN_DESCRIPTION + " = ?, " +
+                PRODUCT_COLUMN_PRICE + " = ?, " +
+                PRODUCT_COLUMN_QUANTITY + " = ?, " +
+                PRODUCT_COLUMN_AVAILABILITY + " = ?, " +
+                PRODUCT_COLUMN_TAX_CATEGORY + " = ?, " +
+                PRODUCT_COLUMN_CATEGORY_ID + " = ? WHERE " +
+                PRODUCT_COLUMN_ID + " = ?";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, product.getProduct_name());
+            stmt.setString(2, product.getProduct_description());
+            stmt.setBigDecimal(3, product.getProduct_price());
+            stmt.setInt(4, product.getProduct_quantity());
+            stmt.setString(5, product.getAvailability().name());
+            stmt.setString(6, product.getTaxCategory().name());
+            stmt.setInt(7, product.getCategory_id());
+            stmt.setString(8, product.getProduct_id());  // Product ID to identify the product to update
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;  // Return true if product was updated
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+        return false;
+    }
+
+    // Delete a product from the database
+    public boolean deleteProduct(String productId) {
+        String sql = "DELETE FROM " + PRODUCT_TABLE_NAME + " WHERE " + PRODUCT_COLUMN_ID + " = ?";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, productId);
+
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+        return false;
+    }
 }
