@@ -3,6 +3,7 @@ package org.storemate.pos.routing;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.storemate.pos.models.Category;
 import org.storemate.pos.models.enums.Permission;
 import org.storemate.pos.services.AuthorizationService;
 import org.storemate.pos.user_interface.EmployeeLoginFormView;
