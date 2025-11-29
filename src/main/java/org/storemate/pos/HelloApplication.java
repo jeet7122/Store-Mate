@@ -10,6 +10,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
+/**
+ * Suppliers/Products/Returns/Categories
+ * All Tested And now works fine
+ */
+
+
+
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException, SQLException {
