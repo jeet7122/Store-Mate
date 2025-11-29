@@ -15,6 +15,8 @@
 /* ---------- Labels ---------- */
 .label {
     -fx-text-fill: #2d3436;
+    -fx-alignment: center;
+    -fx-font-weight: bold;
 }
 
 .label-title {

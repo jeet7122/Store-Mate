@@ -122,6 +122,7 @@ public class SalesDataView {
                 productIDCol, productNameCol,
                 qtyCol, priceCol, totalCol, paymentCol, dateCol
         );
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
         // ---------- Pagination ----------
         Button prevBTN = new Button("Previous");

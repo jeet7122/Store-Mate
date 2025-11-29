@@ -43,7 +43,7 @@ public class CategoriesDataView {
 
         // Table Setup
         categoryTable = new TableView<>();
-        categoryTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        categoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         TableColumn<Category, Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("category_id"));
 

@@ -40,7 +40,7 @@ public class ProductsDataView {
 
         // Table setup
         productTable = new TableView<>();
-        productTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        productTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
         TableColumn<Product, String> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("product_id"));

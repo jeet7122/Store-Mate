@@ -63,7 +63,7 @@ public class ReturnsDataView {
         TableView<Returns> table = new TableView<>();
         table.setItems(data);
         table.getStyleClass().add("table-view");
-        table.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
         // Return ID Column
         TableColumn<Returns, Integer> idCol = new TableColumn<>("Return ID");

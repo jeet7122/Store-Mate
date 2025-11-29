@@ -73,7 +73,7 @@ public class SuppliersDataView {
         TableView<Supplier> supplierTableView = new TableView<>();
         supplierTableView.setItems(data);
         supplierTableView.getStyleClass().add("table-view");
-        supplierTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        supplierTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         TableColumn<Supplier, Integer> idColumn = new TableColumn<>("Supplier ID");
         idColumn.setCellValueFactory(v -> new ReadOnlyObjectWrapper<>(v.getValue().getSupplier_id()));
 

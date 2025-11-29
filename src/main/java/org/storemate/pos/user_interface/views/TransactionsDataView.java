@@ -108,6 +108,7 @@ public class TransactionsDataView {
 
         tableView.getColumns().addAll(idCol, typeCol, paymentCol, amountCol);
         tableView.getStyleClass().add("table-view");
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
     }
 
     // --- Pagination Page Factory ---
