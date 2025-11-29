@@ -80,24 +80,26 @@ public class ProductDAO {
     // Add a new product to the database
     public boolean addProduct(Product product) {
         String sql = "INSERT INTO " + PRODUCT_TABLE_NAME + " (" +
+                PRODUCT_COLUMN_ID + ", " +
                 PRODUCT_COLUMN_NAME + ", " +
                 PRODUCT_COLUMN_DESCRIPTION + ", " +
                 PRODUCT_COLUMN_PRICE + ", " +
                 PRODUCT_COLUMN_QUANTITY + ", " +
                 PRODUCT_COLUMN_AVAILABILITY + ", " +
                 PRODUCT_COLUMN_TAX_CATEGORY + ", " +
-                PRODUCT_COLUMN_CATEGORY_ID + ") VALUES (?, ?, ?, ?, ?, ?, ?)";
+                PRODUCT_COLUMN_CATEGORY_ID + ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, product.getProduct_name());
-            stmt.setString(2, product.getProduct_description());
-            stmt.setBigDecimal(3, product.getProduct_price());
-            stmt.setInt(4, product.getProduct_quantity());
-            stmt.setString(5, product.getAvailability().name());  // Convert enum to String
-            stmt.setString(6, product.getTaxCategory().name());  // Convert enum to String
-            stmt.setInt(7, product.getCategory_id());
+            stmt.setString(1, product.getProduct_id());
+            stmt.setString(2, product.getProduct_name());
+            stmt.setString(3, product.getProduct_description());
+            stmt.setBigDecimal(4, product.getProduct_price());
+            stmt.setInt(5, product.getProduct_quantity());
+            stmt.setString(6, product.getAvailability().name());  // Convert enum to String
+            stmt.setString(7, product.getTaxCategory().name());  // Convert enum to String
+            stmt.setInt(8, product.getCategory_id());
 
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected > 0;  // Return true if product was added
