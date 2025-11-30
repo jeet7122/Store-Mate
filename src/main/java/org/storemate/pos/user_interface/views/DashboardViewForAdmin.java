@@ -130,6 +130,7 @@ public class DashboardViewForAdmin {
 
         VBox ringGraphBox = new VBox(10);
         ringGraphBox.setAlignment(Pos.CENTER);
+        ringGraphBox.setPrefWidth(650);
         ringGraphBox.setStyle("-fx-background-color: #d3d3d3; -fx-padding: 10;");
         ringGraphBox.getChildren().addAll(employeesMetricsLabel, ringsContainer);
 

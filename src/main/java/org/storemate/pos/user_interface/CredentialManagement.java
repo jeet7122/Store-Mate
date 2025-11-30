@@ -5,8 +5,6 @@ import java.nio.file.*;
 import java.util.Properties;
 
 
-
-
 public class CredentialManagement {
 
     private static CredentialManagement instance;

@@ -1,12 +1,15 @@
 package org.storemate.pos.dao;
 
 import org.storemate.pos.database.DatabaseConnector;
+import org.storemate.pos.models.ShiftSummary;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.storemate.pos.database.TableConstants.*;
@@ -92,4 +95,37 @@ public class ShiftDAO {
         }
         return map;
     }
+
+    public List<ShiftSummary> getShiftSummary() {
+        String sql = """
+        SELECT e.employee_id, e.username,
+               COALESCE(SUM(TIMESTAMPDIFF(HOUR, s.login_time, s.logout_time)), 0) AS weekly_hours
+        FROM employees e
+        LEFT JOIN shift s ON s.employee_id = e.employee_id
+             AND WEEK(s.login_time) = WEEK(CURDATE())
+        GROUP BY e.employee_id, e.username
+        ORDER BY e.username;
+    """;
+
+        List<ShiftSummary> list = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(new ShiftSummary(
+                        rs.getInt("employee_id"),
+                        rs.getString("username"),
+                        rs.getInt("weekly_hours")
+                ));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+
+        return list;
+    }
+
 }
