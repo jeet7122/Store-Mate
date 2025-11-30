@@ -316,4 +316,32 @@ public class AuthDAO {
         }
         return false;
     }
+
+    public boolean updateUsername(String username, int employeeID) {
+        String query = "UPDATE " + EMPLOYEE_TABLE_NAME + " SET "
+                + EMPLOYEE_COLUMN_USER_NAME + " = ? WHERE " + EMPLOYEE_COLUMN_ID + " = ?";
+
+        try(Connection connection = DatabaseConnector.getConnection())
+        {
+            PreparedStatement ps = connection.prepareStatement(query);
+            ps.setString(1, username);
+            ps.setInt(2, employeeID);
+            int rows = ps.executeUpdate();
+            if (rows > 0){
+                System.out.println("Username updated successfully");
+                return true;
+            }
+            else {
+                System.out.println("Error updating username");
+                return false;
+            }
+        }
+        catch (SQLException ex){
+            System.out.println("SQL EXCEPTION: " + ex.getMessage());
+        }
+        catch (Exception e){
+            System.out.println("EXCEPTION: " + e.getMessage());
+        }
+        return false;
+    }
 }

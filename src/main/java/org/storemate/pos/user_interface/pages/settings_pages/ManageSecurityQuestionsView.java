@@ -1,6 +1,5 @@
 package org.storemate.pos.user_interface.pages.settings_pages;
 
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -12,104 +11,101 @@ import javafx.scene.layout.VBox;
 import org.storemate.pos.dao.SecurityQuestionsDAO;
 import org.storemate.pos.dto.SecurityAnswersDTO;
 import org.storemate.pos.dto.SecurityQuestionWithAnswerDTO;
-import org.storemate.pos.dto.SecurityQuestionsDTO;
 import org.storemate.pos.utils.Alerts;
 import org.storemate.pos.utils.Session;
 
 import java.util.List;
 
 public class ManageSecurityQuestionsView {
+
     private final VBox root;
-    private final SecurityQuestionsDAO securityQuestionsDAO;
-    public ManageSecurityQuestionsView(){
+    private final SecurityQuestionsDAO dao;
+
+    public ManageSecurityQuestionsView() {
+        dao = new SecurityQuestionsDAO();
         Alerts alerts = new Alerts();
-        securityQuestionsDAO = new SecurityQuestionsDAO();
-        List<SecurityQuestionWithAnswerDTO> questionsList = securityQuestionsDAO.getAllQuestionsForUser(Session.getInstance().getCurrentUser().getEmployeeID());
-        HBox question1Box = new HBox(5);
-        HBox question2Box = new HBox(5);
-        HBox question3Box = new HBox(5);
 
-        ComboBox<String> question1 = new ComboBox<>();
-        ComboBox<String> question2 = new ComboBox<>();
-        ComboBox<String> question3 = new ComboBox<>();
+        root = new VBox(20);
+        root.setPadding(new Insets(15));
+        root.getStyleClass().add("vbox-spaced");
 
-        TextField answer1TF = new TextField();
-        answer1TF.setPromptText("enter you answer");
-        TextField answer2TF = new TextField();
-        answer2TF.setPromptText("enter you answer");
-        TextField answer3TF = new TextField();
-        answer3TF.setPromptText("enter you answer");
-        if (questionsList.size() == 3)
-        {
-            question1.setValue(questionsList.get(0).getQuestion());
-            question2.setValue(questionsList.get(1).getQuestion());
-            question3.setValue(questionsList.get(2).getQuestion());
-            answer1TF.setText(questionsList.get(0).getAnswer());
-            answer2TF.setText(questionsList.get(1).getAnswer());
-            answer3TF.setText(questionsList.get(2).getAnswer());
-        }
-        question1Box.getChildren().addAll(question1, answer1TF);
-        question2Box.getChildren().addAll(question2, answer2TF);
-        question3Box.getChildren().addAll(question3, answer3TF);
-
-        Button updateBTN = new Button("Update");
-        Button clearBTN = new Button("Clear");
-        clearBTN.setOnAction(e -> {
-            answer1TF.clear();
-            answer2TF.clear();
-            answer3TF.clear();
-        });
-
-        HBox buttons = new HBox(5);
-        buttons.getChildren().addAll(updateBTN, clearBTN);
-
-
-        updateBTN.setOnAction(e -> {
-            int userID = Session.getInstance().getCurrentUser().getEmployeeID();
-
-            int q1ID = securityQuestionsDAO.getQuestionIdByText(question1.getValue());
-            int q2ID = securityQuestionsDAO.getQuestionIdByText(question2.getValue());
-            int q3ID = securityQuestionsDAO.getQuestionIdByText(question3.getValue());
-
-            SecurityAnswersDTO a1 = new SecurityAnswersDTO(q1ID, answer1TF.getText());
-            SecurityAnswersDTO a2 = new SecurityAnswersDTO(q2ID, answer2TF.getText());
-            SecurityAnswersDTO a3 = new SecurityAnswersDTO(q3ID, answer3TF.getText());
-
-            List<SecurityAnswersDTO> list = List.of(a1,a2,a3);
-
-            boolean updated = securityQuestionsDAO.updateSecurityQuestions(userID, list);
-            if (updated) {
-                System.out.println("Security questions updated successfully");
-                alerts.showSuccessAlert(
-                        "Success",
-                        "Security Questions updated successfully"
-                );
-
-                answer1TF.clear();
-                answer2TF.clear();
-                answer3TF.clear();
-
-            }
-            else{
-                System.out.println("Update failed");
-                alerts.showErrorAlert(
-                        "Error",
-                        "Error updating security questions"
-                );
-            }
-        });
-
-
-
-        root = new VBox(10);
-        root.setPadding(new Insets(10));
         Label title = new Label("Manage Security Questions");
-        root.getChildren().addAll(title, question1Box, question2Box, question3Box, buttons);
+        title.getStyleClass().add("label-title");
 
+        List<SecurityQuestionWithAnswerDTO> list =
+                dao.getAllQuestionsForUser(Session.getInstance().getCurrentUser().getEmployeeID());
 
+        ComboBox<String> q1 = new ComboBox<>();
+        ComboBox<String> q2 = new ComboBox<>();
+        ComboBox<String> q3 = new ComboBox<>();
 
+        q1.getStyleClass().add("combo-box");
+        q2.getStyleClass().add("combo-box");
+        q3.getStyleClass().add("combo-box");
+
+        TextField a1TF = new TextField();
+        TextField a2TF = new TextField();
+        TextField a3TF = new TextField();
+        a1TF.getStyleClass().add("text-field");
+        a2TF.getStyleClass().add("text-field");
+        a3TF.getStyleClass().add("text-field");
+
+        a1TF.setPromptText("Enter answer");
+        a2TF.setPromptText("Enter answer");
+        a3TF.setPromptText("Enter answer");
+
+        if (list.size() == 3) {
+            q1.setValue(list.get(0).getQuestion());
+            q2.setValue(list.get(1).getQuestion());
+            q3.setValue(list.get(2).getQuestion());
+            a1TF.setText(list.get(0).getAnswer());
+            a2TF.setText(list.get(1).getAnswer());
+            a3TF.setText(list.get(2).getAnswer());
+        }
+
+        VBox form = new VBox(15);
+        form.getStyleClass().add("form-grid");
+        form.getChildren().addAll(
+                new HBox(10, q1, a1TF),
+                new HBox(10, q2, a2TF),
+                new HBox(10, q3, a3TF)
+        );
+
+        Button updateBtn = new Button("Update");
+        updateBtn.getStyleClass().addAll("button", "button-update");
+
+        Button clearBtn = new Button("Clear");
+        clearBtn.getStyleClass().addAll("button", "button-reset");
+
+        clearBtn.setOnAction(e -> {
+            a1TF.clear();
+            a2TF.clear();
+            a3TF.clear();
+        });
+
+        HBox buttons = new HBox(10, updateBtn, clearBtn);
+        buttons.getStyleClass().add("hbox-spaced");
+
+        updateBtn.setOnAction(e -> {
+            int userID = Session.getInstance().getCurrentUser().getEmployeeID();
+            int q1ID = dao.getQuestionIdByText(q1.getValue());
+            int q2ID = dao.getQuestionIdByText(q2.getValue());
+            int q3ID = dao.getQuestionIdByText(q3.getValue());
+
+            SecurityAnswersDTO a1 = new SecurityAnswersDTO(q1ID, a1TF.getText());
+            SecurityAnswersDTO a2 = new SecurityAnswersDTO(q2ID, a2TF.getText());
+            SecurityAnswersDTO a3 = new SecurityAnswersDTO(q3ID, a3TF.getText());
+
+            boolean updated = dao.updateSecurityQuestions(userID, List.of(a1, a2, a3));
+
+            if (updated) alerts.showSuccessAlert("Success", "Security questions updated.");
+            else alerts.showErrorAlert("Error", "Update failed.");
+        });
+
+        root.getChildren().addAll(title, form, buttons);
     }
-    public Parent getView(){
+
+    public Parent getView() {
         return root;
     }
 }

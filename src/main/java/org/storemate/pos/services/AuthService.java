@@ -196,4 +196,13 @@ public class AuthService {
         String hash_pass = BCrypt.hashpw(passwordText, BCrypt.gensalt());
         return authDAO.updatePass(employeeID, hash_pass);
     }
+
+    public boolean updateUsername(String username, int employeeID) {
+        Employee employee = findByUsername(username);
+        if (employee != null){
+            alerts.showErrorAlert("Error", "Username already exists");
+            return false;
+        }
+        return authDAO.updateUsername(username,employeeID);
+    }
 }
