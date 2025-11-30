@@ -12,6 +12,8 @@ import org.storemate.pos.dto.PurchaseDTO;
 import org.storemate.pos.models.EmailSettings;
 import org.storemate.pos.models.Product;
 import org.storemate.pos.models.Supplier;
+import org.storemate.pos.models.enums.PaymentMethod;
+import org.storemate.pos.models.enums.PurchaseStatus;
 import org.storemate.pos.services.EmailService;
 import org.storemate.pos.services.PurchaseOrderService;
 import org.storemate.pos.user_interface.components.PurchaseCartTable;
@@ -61,7 +63,7 @@ public class PurchaseOrderScreen {
         statusLbl.getStyleClass().add("combo-label");
 
         ComboBox<String> statusCombo = new ComboBox<>();
-        statusCombo.getItems().addAll("Pending", "Ordered", "Received");
+        statusCombo.getItems().addAll("PENDING", "RECEIVED", "CANCELLED");
         statusCombo.getSelectionModel().selectFirst();
         statusCombo.getStyleClass().add("combo-box");
 

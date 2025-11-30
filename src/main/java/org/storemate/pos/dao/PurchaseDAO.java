@@ -5,6 +5,7 @@ import org.storemate.pos.dto.PurchaseDTO;
 import org.storemate.pos.dto.Purchase_Item_DTO;
 import org.storemate.pos.models.Purchase;
 import org.storemate.pos.models.enums.PaymentMethod;
+import org.storemate.pos.models.enums.PurchaseStatus;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -154,5 +155,68 @@ public class PurchaseDAO {
             System.out.println("Exception: " + ex.getMessage());
             return -1;
         }
+    }
+
+    public List<Purchase> getAllPurchasesForTable() {
+        List<Purchase> purchases = new ArrayList<>();
+        String sql = "SELECT * FROM purchases ORDER BY purchase_date DESC";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                Purchase p = new Purchase();
+                String paymentSTR = rs.getString("payment_method");
+                String purchaseStatusSTR = rs.getString("status");
+                PurchaseStatus purchaseStatus = PurchaseStatus.valueOf(purchaseStatusSTR);
+                PaymentMethod method = PaymentMethod.valueOf(paymentSTR);
+                p.setPurchaseID(rs.getInt("purchase_id"));
+                p.setPaymentMethod(method);
+                p.setPurchaseStatus(purchaseStatus);
+                p.setSupplierID(rs.getInt("supplier_id"));
+                p.setTotal_amount(rs.getBigDecimal("total_amount"));
+                p.setPurchaseDate(rs.getTimestamp("purchase_date"));
+                p.setTax_amount(rs.getBigDecimal("tax_amount"));
+                purchases.add(p);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+        return purchases;
+
+    }
+
+    public List<Purchase> searchPurchaseByPaymentMethod(String keyword) {
+        String sql = "SELECT * FROM purchases WHERE payment_method = ?";
+        List<Purchase> purchases = new ArrayList<>();
+
+        try
+                (Connection connection = DatabaseConnector.getConnection())
+        {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, keyword);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                Purchase p = new Purchase();
+                p.setPurchaseID(rs.getInt("purchase_id"));
+                p.setSupplierID(rs.getInt("supplier_id"));
+                p.setPurchaseStatus(PurchaseStatus.valueOf(rs.getString("status")));
+                p.setPaymentMethod(PaymentMethod.valueOf(rs.getString("payment_method")));
+                p.setPurchaseDate(rs.getTimestamp("purchase_date"));
+                p.setTax_amount(rs.getBigDecimal("tax_amount"));
+                p.setTotal_amount(rs.getBigDecimal("total_amount"));
+                purchases.add(p);
+            }
+
+        }
+        catch (SQLException ex){
+            System.out.println("SQl Exception: " + ex.getMessage());
+        }
+        catch (Exception ex){
+            System.out.println("Exception: " +  ex.getMessage());
+        }
+        return purchases;
     }
 }

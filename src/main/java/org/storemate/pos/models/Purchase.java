@@ -13,7 +13,7 @@ public class Purchase {
     private BigDecimal tax_amount;
     private BigDecimal total_amount;
     private Timestamp purchaseDate;
-    private PurchaseStatus status;
+    private PurchaseStatus purchaseStatus;
 
     public PaymentMethod getPaymentMethod() {
         return paymentMethod;
@@ -30,7 +30,7 @@ public class Purchase {
         this.tax_amount = tax_amount;
         this.supplierID = supplierID;
         this.purchaseID = purchaseID;
-        this.status = status;
+        this.purchaseStatus = status;
     }
 
     public Purchase() {
@@ -44,7 +44,7 @@ public class Purchase {
                 ", tax_amount=" + tax_amount +
                 ", total_amount=" + total_amount +
                 ", purchaseDate=" + purchaseDate +
-                ", status=" + status +
+                ", status=" + purchaseStatus +
                 '}';
     }
 
@@ -88,11 +88,11 @@ public class Purchase {
         this.purchaseDate = purchaseDate;
     }
 
-    public PurchaseStatus getStatus() {
-        return status;
+    public PurchaseStatus getPurchaseStatus() {
+        return purchaseStatus;
     }
 
-    public void setStatus(PurchaseStatus status) {
-        this.status = status;
+    public void setPurchaseStatus(PurchaseStatus status) {
+        this.purchaseStatus = status;
     }
 }
