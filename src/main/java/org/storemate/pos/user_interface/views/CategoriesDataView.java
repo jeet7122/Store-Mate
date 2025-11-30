@@ -30,13 +30,14 @@ public class CategoriesDataView {
         categoryDAO = new CategoryDAO();
         root = new VBox(15);
         root.setPadding(new Insets(10));
+        root.setAlignment(Pos.TOP_CENTER);
         initializeView();
         loadCategories();
     }
 
     private void initializeView() {
         Label title = new Label("Category Management Data View");
-        title.getStyleClass().add("dashboard-title");
+        title.getStyleClass().add("label-title");
 
         // Action buttons
         HBox actionButtons = createActionButtons();

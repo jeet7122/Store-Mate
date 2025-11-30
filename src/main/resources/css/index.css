@@ -481,3 +481,52 @@
     -fx-bar-fill: #9b59b6;
     -fx-background-color: #9b59b6;
 }
+/* =====================================================
+   GLOBAL PAGE ROOT STYLE (for VBox, HBox, BorderPane etc.)
+   Applies universal background, padding, spacing,
+   and clean section layout for all screens.
+   ===================================================== */
+
+.page-root {
+    -fx-background-color: linear-gradient(to bottom right, #f5f7fa, #eef1f5);
+    -fx-padding: 20;
+    -fx-spacing: 20;        /* Useful for VBox/HBox */
+    -fx-alignment: top-center;
+    -fx-background-radius: 12; /* Slight rounded page edges */
+}
+
+/* Optional: Add a subtle shadow around the page */
+.page-root-elevated {
+    -fx-background-color: linear-gradient(to bottom right, #ffffff, #f4f6f9);
+    -fx-padding: 25;
+    -fx-spacing: 22;
+    -fx-alignment: top-center;
+    -fx-background-radius: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 12, 0, 0, 2);
+}
+
+/* Section containers inside pages */
+.section-box {
+    -fx-background-color: #ffffff;
+    -fx-padding: 18;
+    -fx-background-radius: 10;
+    -fx-border-color: #e3e7eb;
+    -fx-border-radius: 10;
+    -fx-spacing: 12;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.04), 8, 0, 0, 2);
+}
+
+/* Section title inside section-box */
+.section-title-label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #3a4b5c;
+}
+
+/* Light sub-section dividers */
+.section-divider {
+    -fx-background-color: #dfe4ea;
+    -fx-pref-height: 1.5px;
+    -fx-border-radius: 10;
+    -fx-padding: 18;
+}

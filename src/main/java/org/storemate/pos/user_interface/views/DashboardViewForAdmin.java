@@ -40,7 +40,7 @@ public class DashboardViewForAdmin {
         root.setAlignment(Pos.CENTER);
 
         Label title = new Label("Admin Dashboard");
-        title.getStyleClass().add("label-subtitle");
+        title.getStyleClass().add("label-title");
         root.getChildren().add(title);
 
         // ========================================================================

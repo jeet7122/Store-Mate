@@ -1,6 +1,7 @@
 package org.storemate.pos.user_interface.views;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -42,6 +43,8 @@ public class ProcessSalesView {
 
         root = new VBox(15);
         root.setPadding(new Insets(10));
+        root.setAlignment(Pos.CENTER);
+        root.getStyleClass().add("page-root");
 
         // --- Title ---
         Label title = new Label("Process Sales View");
@@ -85,6 +88,7 @@ public class ProcessSalesView {
             }
         });
 
+        searchBox.getStyleClass().add("section-divider");
         searchBox.getChildren().addAll(searchLabel, searchTF, quantityField, searchBTN, addToCartBTN);
         Label reasonLabel = new Label("Return Reason:");
         reasonCombo = new ComboBox<>();
@@ -95,6 +99,7 @@ public class ProcessSalesView {
         VBox leftSide = new VBox(15);
         leftSide.setPrefWidth(500);
         leftSide.getChildren().addAll(cartTable.getCartTable(), subtotalLbl, taxLbl, totalLbl, reasonLabel, reasonCombo);
+        leftSide.getStyleClass().add("section-box");
 
         Button voidBtn = new Button("VOID");
         voidBtn.getStyleClass().addAll("button", "button-reset");
@@ -131,6 +136,7 @@ public class ProcessSalesView {
 
         // --- Right Side: Product Grid ---
         GridPane productGrid = new GridPane();
+        productGrid.getStyleClass().add("page-root-elevated");
         productGrid.setHgap(10);
         productGrid.setVgap(10);
 

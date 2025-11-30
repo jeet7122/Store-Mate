@@ -27,7 +27,7 @@ public class PurchaseDataView {
         purchaseDAO = new PurchaseDAO();
         root = new VBox(15);
         root.setPadding(new Insets(10));
-
+        root.setAlignment(Pos.TOP_CENTER);
         initializeView();
         loadPurchases();
     }

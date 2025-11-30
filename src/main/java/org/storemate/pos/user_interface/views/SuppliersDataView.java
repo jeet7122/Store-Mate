@@ -26,12 +26,16 @@ public class SuppliersDataView {
     public SuppliersDataView() {
 
         root = new VBox(15);
-        root.setPadding(new Insets(20));
         root.getStyleClass().add("root");
+        root.setAlignment(Pos.CENTER);
 
         // Title
         Label title = new Label("Suppliers Data View");
         title.getStyleClass().add("label-title");
+
+        HBox titleBox = new HBox(title);
+        titleBox.setMaxWidth(Double.MAX_VALUE);
+        titleBox.setAlignment(Pos.CENTER);
 
         // Search
         TextField searchTF = new TextField();
@@ -109,7 +113,7 @@ public class SuppliersDataView {
 
         // Root layout
         root.getChildren().addAll(
-                title,
+                titleBox,
                 topActionBox,
                 searchBox,
                 supplierTableView

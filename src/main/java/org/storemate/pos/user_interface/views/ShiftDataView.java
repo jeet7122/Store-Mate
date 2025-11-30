@@ -1,11 +1,13 @@
 package org.storemate.pos.user_interface.views;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -23,6 +25,9 @@ public class ShiftDataView {
     public ShiftDataView() {
         root = new BorderPane();
         root.setPadding(new Insets(15));
+        Label title = new Label("Shift's Data");
+        title.getStyleClass().add("label-title");
+
 
         ShiftDAO dao = new ShiftDAO();
         List<ShiftSummary> data = dao.getShiftSummary();
@@ -46,8 +51,9 @@ public class ShiftDataView {
         table.getItems().addAll(data);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
 
-        VBox tableBox = new VBox(10, table);
+        VBox tableBox = new VBox(10, title, table);
         tableBox.setPadding(new Insets(10));
+        tableBox.setAlignment(Pos.TOP_CENTER);
 
         // ---------- BAR CHART ----------
         CategoryAxis xAxis = new CategoryAxis();

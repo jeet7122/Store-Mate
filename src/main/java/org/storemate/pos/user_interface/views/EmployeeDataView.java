@@ -36,6 +36,7 @@ public class EmployeeDataView {
     public EmployeeDataView() {
         authService = new AuthService();
         root = new VBox(20);
+        root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(10));
         initializeView();
         loadRealData();
@@ -44,7 +45,7 @@ public class EmployeeDataView {
     private void initializeView() {
         // Title
         Label title = new Label("Employee Management Dashboard");
-        title.getStyleClass().add("dashboard-title");
+        title.getStyleClass().add("label-title");
         title.setFont(Font.font("Segoe UI", FontWeight.BOLD, 24));
 
         // Quick Stats Cards

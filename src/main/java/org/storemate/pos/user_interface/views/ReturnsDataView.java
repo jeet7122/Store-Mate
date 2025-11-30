@@ -32,10 +32,15 @@ public class ReturnsDataView {
         root = new VBox(15);
         root.setPadding(new Insets(20));
         root.getStyleClass().add("root");
+        root.setAlignment(Pos.CENTER);
 
         // Title
         Label title = new Label("Returns Data View");
         title.getStyleClass().add("label-title");
+
+        HBox titleBox = new HBox(title);
+        titleBox.setAlignment(Pos.CENTER);
+        titleBox.setMaxWidth(Double.MAX_VALUE);
 
         // Search
         TextField searchTF = new TextField();
@@ -113,7 +118,7 @@ public class ReturnsDataView {
         refreshBTN.setOnAction(e -> loadReturns());
 
         root.getChildren().addAll(
-                title,
+                titleBox,
                 topBox,
                 searchBox,
                 table

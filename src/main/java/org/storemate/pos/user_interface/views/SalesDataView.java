@@ -5,6 +5,7 @@ import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -29,6 +30,7 @@ public class SalesDataView {
         root = new VBox(15);
         root.setPadding(new Insets(20));
         root.getStyleClass().add("root");
+        root.setAlignment(Pos.TOP_CENTER);
 
         // ---------- Title ----------
         Label title = new Label("Sales Data View");

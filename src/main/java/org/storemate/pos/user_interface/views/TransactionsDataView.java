@@ -3,6 +3,7 @@ package org.storemate.pos.user_interface.views;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
@@ -36,12 +37,17 @@ public class TransactionsDataView {
         transactionsDAO = new TransactionsDAO();
 
         root = new VBox(20);
-        root.getStyleClass().add("root");
+        root.getStyleClass().add("page-root");
 
         // --- Title ---
+        HBox titleBox = new HBox();
+        titleBox.setMaxWidth(Double.MAX_VALUE);
+        titleBox.setAlignment(Pos.CENTER);
+
         Label title = new Label("Transactions Dashboard");
         title.getStyleClass().add("label-title");
-        root.getChildren().add(title);
+        titleBox.getChildren().add(title);
+        root.getChildren().add(titleBox);
 
         // --- Table and Pagination Card ---
         tableView = new TableView<>();
@@ -52,12 +58,13 @@ public class TransactionsDataView {
         pagination.setPageFactory(this::createPage);
 
         VBox tableCard = new VBox(10, tableView, pagination);
-        tableCard.setStyle(
-                "-fx-background-color: #ffffff; " +
-                        "-fx-padding: 15; " +
-                        "-fx-background-radius: 12; " +
-                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);"
-        );
+//        tableCard.setStyle(
+//                "-fx-background-color: #ffffff; " +
+//                        "-fx-padding: 15; " +
+//                        "-fx-background-radius: 12; " +
+//                        "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 8, 0, 0, 2);"
+//        );
+        tableCard.getStyleClass().add("section-box");
         root.getChildren().add(tableCard);
 
         // --- Load Data AFTER tableView and pagination exist ---
