@@ -183,4 +183,17 @@ public class AuthService {
             return new HashMap<>();
         }
     }
+    public boolean credentialsExists(String username, String password){
+        Employee employee = authDAO.findByUsername(username);
+        if (employee == null) {
+            alerts.showErrorAlert("Login Error", "User not found");
+            return false;
+        }
+        return BCrypt.checkpw(password, employee.getPassword());
+    }
+
+    public boolean updatePass(int employeeID, String passwordText) {
+        String hash_pass = BCrypt.hashpw(passwordText, BCrypt.gensalt());
+        return authDAO.updatePass(employeeID, hash_pass);
+    }
 }

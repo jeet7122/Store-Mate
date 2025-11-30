@@ -287,4 +287,33 @@ public class AuthDAO {
         }
         return monthlyStats;
     }
+
+    public boolean updatePass(int employeeID, String hashPass) {
+        String sql = "UPDATE " + EMPLOYEE_TABLE_NAME + " SET " + EMPLOYEE_COLUMN_PASSWORD + " = ? WHERE "
+                + EMPLOYEE_COLUMN_ID + " = ?";
+        try
+                (Connection connection = DatabaseConnector.getConnection())
+        {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, hashPass);
+            ps.setInt(2, employeeID);
+            int rows = ps.executeUpdate();
+            if (rows > 0){
+                System.out.println("Password Modified Successfully");
+                return true;
+            }
+            else {
+                System.out.println("Something went wrong");
+                return false;
+            }
+
+        }
+        catch (SQLException ex){
+            System.out.println("SQL EXCEPTION: " + ex.getMessage());
+        }
+        catch (Exception e){
+            System.out.println("Exception: " + e.getMessage());
+        }
+        return false;
+    }
 }
