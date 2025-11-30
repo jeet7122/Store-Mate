@@ -28,6 +28,7 @@ public class ProductsDataView {
         root = new VBox(15);
         root.setPadding(new Insets(10,10,10,10));
         root.setAlignment(Pos.TOP_CENTER);
+        root.getStyleClass().add("page-root");
         initializeView();
         loadProducts();
     }
@@ -38,6 +39,7 @@ public class ProductsDataView {
 
         // Action buttons
         HBox actionButtons = createActionButtons();
+        actionButtons.getStyleClass().add("section-divider");
 
         // Table setup
         productTable = new TableView<>();
@@ -62,6 +64,7 @@ public class ProductsDataView {
         statusCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
 
         productTable.getColumns().addAll(idCol, nameCol, descCol, priceCol, stockCol, statusCol);
+        productTable.getStyleClass().add("table-view");
 
         // Search section
         HBox searchBox = new HBox(10);
@@ -78,6 +81,7 @@ public class ProductsDataView {
         refreshBtn.setOnAction(e -> loadProducts());
 
         searchBox.getChildren().addAll(searchField, searchBtn, refreshBtn);
+        searchBox.getStyleClass().add("section-divider");
 
         root.getChildren().addAll(title, actionButtons, searchBox, productTable);
     }

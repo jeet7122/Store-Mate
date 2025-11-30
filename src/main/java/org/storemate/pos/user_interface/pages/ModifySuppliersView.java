@@ -6,7 +6,11 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
 import org.storemate.pos.dao.SuppliersDAO;
 import org.storemate.pos.models.Supplier;
 import org.storemate.pos.models.enums.Status;
@@ -32,6 +36,25 @@ public class ModifySuppliersView {
 
         suppliersDAO = new SuppliersDAO();
         alerts = new Alerts();
+
+        Label title = new Label("Modify Suppliers");
+        title.getStyleClass().add("label-title");
+
+        HBox topBar = new HBox(50);
+        topBar.setPadding(new Insets(10, 0, 20, 0));
+        topBar.setAlignment(Pos.CENTER_LEFT);
+
+        FontIcon backIcon = new FontIcon(MaterialDesignA.ARROW_LEFT_BOLD_OUTLINE);
+        backIcon.setIconSize(30);
+        backIcon.setIconColor(Color.DARKCYAN);
+        Label backButton = new Label("", backIcon);
+        backButton.getStyleClass().add("back-button"); // your CSS class
+        backButton.setOnMouseClicked(e -> {
+            // Handle navigation (replace this with your page switching logic)
+            System.out.println("Back clicked!");
+            Router.navigate("/suppliers");
+        });
+        topBar.getChildren().addAll(backButton, title);
 
         // Form Fields
         supplierComboBox = new ComboBox<>();
@@ -69,7 +92,7 @@ public class ModifySuppliersView {
         );
 
         formLayout.setAlignment(Pos.CENTER);
-        root.getChildren().add(formLayout);
+        root.getChildren().addAll(topBar,formLayout);
 
         // Load suppliers into ComboBox
         loadSuppliers();

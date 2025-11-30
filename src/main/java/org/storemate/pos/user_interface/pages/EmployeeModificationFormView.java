@@ -1,14 +1,19 @@
 package org.storemate.pos.user_interface.pages;
 
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
 import org.storemate.pos.models.Employee;
 import org.storemate.pos.models.enums.Role;
+import org.storemate.pos.routing.Router;
 import org.storemate.pos.services.AuthService;
 import org.storemate.pos.utils.Alerts;
 
@@ -41,6 +46,22 @@ public class EmployeeModificationFormView {
         // Search section
         Label searchTitle = new Label("Search Employee");
         searchTitle.getStyleClass().add("label-subtitle");
+
+        HBox topBar = new HBox(50);
+        topBar.setPadding(new Insets(10, 0, 20, 0));
+        topBar.setAlignment(Pos.CENTER_LEFT);
+
+        FontIcon backIcon = new FontIcon(MaterialDesignA.ARROW_LEFT_BOLD_OUTLINE);
+        backIcon.setIconSize(30);
+        backIcon.setIconColor(Color.DARKCYAN);
+        Label backButton = new Label("", backIcon);
+        backButton.getStyleClass().add("back-button"); // your CSS class
+        backButton.setOnMouseClicked(e -> {
+            // Handle navigation (replace this with your page switching logic)
+            System.out.println("Back clicked!");
+            Router.navigate("/employees");
+        });
+        topBar.getChildren().addAll(backButton, searchTitle);
 
         TextField searchTextField = new TextField();
         searchTextField.setPromptText("Enter username to search");
@@ -159,7 +180,7 @@ public class EmployeeModificationFormView {
         });
 
         // Layout
-        formGrid.add(searchTitle, 0, 0);
+        formGrid.add(topBar, 0, 0);
         formGrid.add(searchBox, 1, 0);
         formGrid.add(new Label("Username:"), 0, 1);
         formGrid.add(usernameTextField, 1, 1);

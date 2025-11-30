@@ -31,6 +31,7 @@ public class CategoriesDataView {
         root = new VBox(15);
         root.setPadding(new Insets(10));
         root.setAlignment(Pos.TOP_CENTER);
+        root.getStyleClass().add("page-root");
         initializeView();
         loadCategories();
     }
@@ -41,9 +42,11 @@ public class CategoriesDataView {
 
         // Action buttons
         HBox actionButtons = createActionButtons();
+        actionButtons.getStyleClass().add("section-divider");
 
         // Table Setup
         categoryTable = new TableView<>();
+        categoryTable.getStyleClass().add("table-view");
         categoryTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         TableColumn<Category, Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("category_id"));
@@ -74,7 +77,7 @@ public class CategoriesDataView {
         refreshBtn.setOnAction(e -> loadCategories());
 
         searchBox.getChildren().addAll(searchField, searchBtn, refreshBtn);
-
+        searchBox.getStyleClass().add("section-divider");
         root.getChildren().addAll(title, actionButtons, searchBox, categoryTable);
     }
 

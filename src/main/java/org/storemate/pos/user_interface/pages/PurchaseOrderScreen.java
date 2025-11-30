@@ -1,10 +1,14 @@
 package org.storemate.pos.user_interface.pages;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
 import org.storemate.pos.dao.ProductDAO;
 import org.storemate.pos.dao.ProductSupplierDAO;
 import org.storemate.pos.dao.SuppliersDAO;
@@ -14,6 +18,7 @@ import org.storemate.pos.models.Product;
 import org.storemate.pos.models.Supplier;
 import org.storemate.pos.models.enums.PaymentMethod;
 import org.storemate.pos.models.enums.PurchaseStatus;
+import org.storemate.pos.routing.Router;
 import org.storemate.pos.services.EmailService;
 import org.storemate.pos.services.PurchaseOrderService;
 import org.storemate.pos.user_interface.components.PurchaseCartTable;
@@ -42,6 +47,22 @@ public class PurchaseOrderScreen {
         // ---------------- Title ----------------
         Label title = new Label("Purchase Orders");
         title.getStyleClass().add("label-title");
+        HBox topBar = new HBox(50);
+        topBar.setPadding(new Insets(10, 0, 20, 0));
+        topBar.setAlignment(Pos.CENTER_LEFT);
+
+        FontIcon backIcon = new FontIcon(MaterialDesignA.ARROW_LEFT_BOLD_OUTLINE);
+        backIcon.setIconSize(30);
+        backIcon.setIconColor(Color.DARKCYAN);
+        Label backButton = new Label("", backIcon);
+        backButton.getStyleClass().add("back-button"); // your CSS class
+        backButton.setOnMouseClicked(e -> {
+            // Handle navigation (replace this with your page switching logic)
+            System.out.println("Back clicked!");
+            Router.navigate("/purchases");
+        });
+        topBar.getChildren().addAll(backButton, title);
+
 
         // ---------------- Suppliers ----------------
         SuppliersDAO supplierDAO = new SuppliersDAO();
@@ -134,7 +155,7 @@ public class PurchaseOrderScreen {
         testEmailBtn.setOnAction(e -> testEmail());
 
         // ---------------- Add to Root ----------------
-        root.getChildren().addAll(title, supplierRow, searchRow, purchaseTable.getTable(),
+        root.getChildren().addAll(topBar, supplierRow, searchRow, purchaseTable.getTable(),
                 totalsRow, btnRow, testEmailBtn);
     }
 

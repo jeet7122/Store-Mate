@@ -1,11 +1,15 @@
 package org.storemate.pos.user_interface.pages;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
 import org.storemate.pos.models.Employee;
 import org.storemate.pos.routing.Router;
 import org.storemate.pos.services.AuthService;
@@ -68,6 +72,21 @@ public class DeleteEmployeeView {
         Label formTitle = new Label("Delete Employee");
         formTitle.getStyleClass().add("label-title");
 
+        HBox topBar = new HBox(50);
+        topBar.setPadding(new Insets(10, 0, 20, 0));
+        topBar.setAlignment(Pos.CENTER_LEFT);
+
+        FontIcon backIcon = new FontIcon(MaterialDesignA.ARROW_LEFT_BOLD_OUTLINE);
+        backIcon.setIconSize(30);
+        backIcon.setIconColor(Color.DARKCYAN);
+        Label backButton = new Label("", backIcon);
+        backButton.getStyleClass().add("back-button"); // your CSS class
+        backButton.setOnMouseClicked(e -> {
+            // Handle navigation (replace this with your page switching logic)
+            System.out.println("Back clicked!");
+            Router.navigate("/employees");
+        });
+        topBar.getChildren().addAll(backButton, formTitle);
         // Buttons
         HBox buttonBox = new HBox(10);
         deleteButton = new Button("Delete Employee");
@@ -160,8 +179,8 @@ public class DeleteEmployeeView {
         formGrid.setAlignment(Pos.CENTER);
         formGrid.getStyleClass().add("form-grid");
 
-        root.getChildren().addAll(formTitle, formGrid);
-        formTitle.setAlignment(Pos.TOP_CENTER);
+        root.getChildren().addAll(topBar, formGrid);
+        topBar.setAlignment(Pos.TOP_CENTER);
         root.setAlignment(Pos.CENTER);
     }
 

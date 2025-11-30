@@ -28,12 +28,12 @@ public class PurchaseDataView {
         root = new VBox(15);
         root.setPadding(new Insets(10));
         root.setAlignment(Pos.TOP_CENTER);
+        root.getStyleClass().add("page-root");
         initializeView();
         loadPurchases();
     }
 
     private void initializeView() {
-
         Label title = new Label("Purchase Orders");
         title.getStyleClass().add("label-title");
 
@@ -45,6 +45,7 @@ public class PurchaseDataView {
         HBox actionBox = new HBox(addBtn);
         actionBox.setAlignment(Pos.CENTER_LEFT);
         actionBox.setSpacing(10);
+        actionBox.getStyleClass().add("section-divider");
 
         // Search Row
         HBox searchBox = new HBox(10);
@@ -60,6 +61,7 @@ public class PurchaseDataView {
         Button refreshBtn = new Button("Refresh");
         refreshBtn.getStyleClass().add("button-reset");
         refreshBtn.setOnAction(e -> loadPurchases());
+        searchBox.getStyleClass().add("section-divider");
 
         searchBox.getChildren().addAll(sortByPaymentBox, searchBtn, refreshBtn);
 

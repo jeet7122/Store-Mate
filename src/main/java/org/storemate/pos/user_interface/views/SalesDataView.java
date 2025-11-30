@@ -30,11 +30,14 @@ public class SalesDataView {
         root = new VBox(15);
         root.setPadding(new Insets(20));
         root.getStyleClass().add("root");
-        root.setAlignment(Pos.TOP_CENTER);
 
         // ---------- Title ----------
         Label title = new Label("Sales Data View");
         title.getStyleClass().add("label-title");
+
+        HBox titleBox = new HBox(title);
+        titleBox.setAlignment(Pos.CENTER);
+        titleBox.setMaxWidth(Double.MAX_VALUE);
 
         // ---------- Search & Filter ----------
         TextField searchTF = new TextField();
@@ -57,7 +60,7 @@ public class SalesDataView {
                 byLabel, optionBox,
                 searchBTN
         );
-        searchBox.getStyleClass().add("search-box");
+        searchBox.getStyleClass().add("section-divider");
 
         DatePicker startDate = new DatePicker();
         DatePicker endDate = new DatePicker();
@@ -73,11 +76,12 @@ public class SalesDataView {
                 endLabel, endDate,
                 filterBTN
         );
-        dateFilterBox.getStyleClass().add("date-filter-box");
+        dateFilterBox.getStyleClass().add("section-divider");
 
         // ---------- Table ----------
         TableView<SalesReportDTO> table = new TableView<>();
         table.setItems(data);
+        table.getStyleClass().add("table-view");
 
         TableColumn<SalesReportDTO, Integer> saleIDCol = new TableColumn<>("Sale ID");
         saleIDCol.setCellValueFactory(v ->
@@ -173,7 +177,7 @@ public class SalesDataView {
 
         // ---------- Build Root ----------
         root.getChildren().addAll(
-                title,
+                titleBox,
                 searchBox,
                 dateFilterBox,
                 table,

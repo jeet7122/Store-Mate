@@ -26,7 +26,7 @@ public class SuppliersDataView {
     public SuppliersDataView() {
 
         root = new VBox(15);
-        root.getStyleClass().add("root");
+        root.getStyleClass().add("page-root");
         root.setAlignment(Pos.CENTER);
 
         // Title
@@ -50,7 +50,7 @@ public class SuppliersDataView {
 
         HBox searchBox = new HBox(10, searchLabel, searchTF, searchBTN);
         searchBox.setAlignment(Pos.CENTER_LEFT);
-        searchBox.getStyleClass().add("search-box");
+        searchBox.getStyleClass().add("section-divider");
 
         // Buttons
         Button addSupplierBTN = new Button("Add Supplier");
@@ -72,6 +72,7 @@ public class SuppliersDataView {
 
         HBox topActionBox = new HBox(10, addSupplierBTN, modifySupplierBTN, deleteSupplierBTN, refreshBTN);
         topActionBox.setAlignment(Pos.CENTER_LEFT);
+        topActionBox.getStyleClass().add("section-divider");
 
         // Table Setup
         TableView<Supplier> supplierTableView = new TableView<>();

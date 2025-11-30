@@ -1,6 +1,7 @@
 package org.storemate.pos.user_interface.pages.settings_pages;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -8,9 +9,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
 import org.storemate.pos.dao.SecurityQuestionsDAO;
 import org.storemate.pos.dto.SecurityAnswersDTO;
 import org.storemate.pos.dto.SecurityQuestionWithAnswerDTO;
+import org.storemate.pos.routing.Router;
 import org.storemate.pos.utils.Alerts;
 import org.storemate.pos.utils.Session;
 
@@ -31,6 +36,21 @@ public class ManageSecurityQuestionsView {
 
         Label title = new Label("Manage Security Questions");
         title.getStyleClass().add("label-title");
+        HBox topBar = new HBox(50);
+        topBar.setPadding(new Insets(10, 0, 20, 0));
+        topBar.setAlignment(Pos.CENTER_LEFT);
+
+        FontIcon backIcon = new FontIcon(MaterialDesignA.ARROW_LEFT_BOLD_OUTLINE);
+        backIcon.setIconSize(30);
+        backIcon.setIconColor(Color.DARKCYAN);
+        Label backButton = new Label("", backIcon);
+        backButton.getStyleClass().add("back-button"); // your CSS class
+        backButton.setOnMouseClicked(e -> {
+            // Handle navigation (replace this with your page switching logic)
+            System.out.println("Back clicked!");
+            Router.navigate("/settings/general");
+        });
+        topBar.getChildren().addAll(backButton, title);
 
         List<SecurityQuestionWithAnswerDTO> list =
                 dao.getAllQuestionsForUser(Session.getInstance().getCurrentUser().getEmployeeID());
@@ -102,7 +122,7 @@ public class ManageSecurityQuestionsView {
             else alerts.showErrorAlert("Error", "Update failed.");
         });
 
-        root.getChildren().addAll(title, form, buttons);
+        root.getChildren().addAll(topBar, form, buttons);
     }
 
     public Parent getView() {

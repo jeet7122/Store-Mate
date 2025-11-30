@@ -5,9 +5,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
 import org.storemate.pos.dao.ProductDAO;
 import org.storemate.pos.models.Product;
+import org.storemate.pos.routing.Router;
 import org.storemate.pos.utils.Alerts;
 
 import java.util.List;
@@ -25,7 +30,7 @@ public class DeleteProductsView {
         root = new VBox(15);
         root.setPadding(new Insets(20));
         root.setAlignment(Pos.TOP_CENTER);
-        root.getStyleClass().add("root");
+        root.getStyleClass().add("page-root");
 
         initializeView();
         loadProducts();
@@ -35,6 +40,23 @@ public class DeleteProductsView {
         Label title = new Label("Delete Product");
         title.getStyleClass().add("label-title");
 
+
+        HBox topBar = new HBox(50);
+        topBar.setPadding(new Insets(10, 0, 20, 0));
+        topBar.setAlignment(Pos.CENTER_LEFT);
+
+        FontIcon backIcon = new FontIcon(MaterialDesignA.ARROW_LEFT_BOLD_OUTLINE);
+        backIcon.setIconSize(30);
+        backIcon.setIconColor(Color.DARKCYAN);
+        Label backButton = new Label("", backIcon);
+        backButton.getStyleClass().add("back-button"); // your CSS class
+        backButton.setOnMouseClicked(e -> {
+            // Handle navigation (replace this with your page switching logic)
+            System.out.println("Back clicked!");
+            Router.navigate("/products");
+        });
+        topBar.getChildren().addAll(backButton, title);
+
         productSelector = new ComboBox<>();
         productSelector.setPromptText("Select Product");
         productSelector.setOnAction(e -> updateInfoLabel());
@@ -43,7 +65,7 @@ public class DeleteProductsView {
         deleteButton.getStyleClass().add("button-connect");
         deleteButton.setOnAction(e -> deleteProduct());
 
-        root.getChildren().addAll(title, productSelector, deleteButton);
+        root.getChildren().addAll(topBar, productSelector, deleteButton);
     }
 
     private void loadProducts() {

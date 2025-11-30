@@ -72,6 +72,7 @@ public class ShiftDataView {
             series.getData().add(new XYChart.Data<>(s.getUsername(), s.getWeeklyHours()));
         }
 
+        barChart.getStyleClass().add("section-box");
         barChart.getData().add(series);
         barChart.setCategoryGap(30);
         barChart.setBarGap(5);

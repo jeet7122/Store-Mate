@@ -31,7 +31,7 @@ public class ReturnsDataView {
     public ReturnsDataView() {
         root = new VBox(15);
         root.setPadding(new Insets(20));
-        root.getStyleClass().add("root");
+        root.getStyleClass().add("page-root");
         root.setAlignment(Pos.CENTER);
 
         // Title
@@ -55,7 +55,7 @@ public class ReturnsDataView {
 
         HBox searchBox = new HBox(10, searchLabel, searchTF, searchBTN);
         searchBox.setAlignment(Pos.CENTER_LEFT);
-        searchBox.getStyleClass().add("search-box");
+        searchBox.getStyleClass().add("section-divider");
 
         // Refresh
         Button refreshBTN = new Button("Refresh");
@@ -63,6 +63,7 @@ public class ReturnsDataView {
 
         HBox topBox = new HBox(10, refreshBTN);
         topBox.setAlignment(Pos.CENTER_LEFT);
+        topBox.getStyleClass().add("section-divider");
 
         // Table
         TableView<Returns> table = new TableView<>();

@@ -1,12 +1,16 @@
 package org.storemate.pos.user_interface.pages;
 
 import javafx.collections.FXCollections;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
 import org.storemate.pos.dao.CategoryDAO;
 import org.storemate.pos.models.Category;
 import org.storemate.pos.models.enums.Status;
@@ -40,6 +44,22 @@ public class ModifyCategoriesView {
     private void initializeView() {
         Label formTitle = new Label("Modify Category");
         formTitle.getStyleClass().add("label-title");
+
+        HBox topBar = new HBox(50);
+        topBar.setPadding(new Insets(10, 0, 20, 0));
+        topBar.setAlignment(Pos.CENTER_LEFT);
+
+        FontIcon backIcon = new FontIcon(MaterialDesignA.ARROW_LEFT_BOLD_OUTLINE);
+        backIcon.setIconSize(30);
+        backIcon.setIconColor(Color.DARKCYAN);
+        Label backButton = new Label("", backIcon);
+        backButton.getStyleClass().add("back-button"); // your CSS class
+        backButton.setOnMouseClicked(e -> {
+            // Handle navigation (replace this with your page switching logic)
+            System.out.println("Back clicked!");
+            Router.navigate("/categories");
+        });
+        topBar.getChildren().addAll(backButton, formTitle);
 
         GridPane formGrid = new GridPane();
         formGrid.setVgap(20);
@@ -82,7 +102,7 @@ public class ModifyCategoriesView {
         formGrid.add(statusComboBox, 1, 3);
         formGrid.add(buttonBox, 0, 4, 2, 1);
 
-        root.getChildren().addAll(formTitle, formGrid);
+        root.getChildren().addAll(topBar, formGrid);
     }
 
     private void loadCategories() {

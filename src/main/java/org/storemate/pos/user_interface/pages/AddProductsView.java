@@ -6,6 +6,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import org.kordamp.ikonli.javafx.FontIcon;
+import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
 import org.storemate.pos.dao.CategoryDAO;
 import org.storemate.pos.dao.ProductDAO;
 import org.storemate.pos.models.Category;
@@ -37,6 +40,22 @@ public class AddProductsView {
         title.getStyleClass().add("label-title");
 
 
+        HBox topBar = new HBox(50);
+        topBar.setPadding(new Insets(10, 0, 20, 0));
+        topBar.setAlignment(Pos.CENTER_LEFT);
+
+        FontIcon backIcon = new FontIcon(MaterialDesignA.ARROW_LEFT_BOLD_OUTLINE);
+        backIcon.setIconSize(30);
+        backIcon.setIconColor(Color.DARKCYAN);
+        Label backButton = new Label("", backIcon);
+        backButton.getStyleClass().add("back-button"); // your CSS class
+        backButton.setOnMouseClicked(e -> {
+            // Handle navigation (replace this with your page switching logic)
+            System.out.println("Back clicked!");
+            Router.navigate("/products");
+        });
+
+        topBar.getChildren().addAll(backButton, title);
 
         // Form Fields
         TextField productIDTF = new TextField();
@@ -95,7 +114,7 @@ public class AddProductsView {
                 taxCategoryComboBox, availabilityComboBox, categoryBox , addButton
         );
 
-        root.getChildren().addAll(title, formLayout);
+        root.getChildren().addAll(topBar, formLayout);
     }
 
     private void handleAddProduct(TextField productID ,TextField nameField, TextArea descriptionField, TextField priceField,
