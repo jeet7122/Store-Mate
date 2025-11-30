@@ -17,7 +17,11 @@ public class RolePermissions {
                 Permission.PROCESS_REFUND,
                 Permission.VIEW_INVENTORY,
                 Permission.VIEW_DASHBOARD,
-                Permission.MANAGE_EMPLOYEES
+                Permission.MANAGE_USER_PROFILE,
+                Permission.VIEW_CATEGORIES,
+                Permission.VIEW_PRODUCTS,
+                Permission.VIEW_TRANSACTIONS,
+                Permission.MANAGE_SETTINGS
         ));
 
     }

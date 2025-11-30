@@ -64,8 +64,8 @@ public class SideNavBar {
         );
 
         addSection("INVENTORY",
-                createNavButton("Products", "/products", Permission.MANAGE_PRODUCTS, MaterialDesignP.PACKAGE_VARIANT),
-                createNavButton("Categories", "/categories", Permission.MANAGE_PRODUCTS, MaterialDesignL.LABEL_OUTLINE),
+                createNavButton("Products", "/products", Permission.VIEW_PRODUCTS, MaterialDesignP.PACKAGE_VARIANT),
+                createNavButton("Categories", "/categories", Permission.VIEW_CATEGORIES, MaterialDesignL.LABEL_OUTLINE),
                 createNavButton("Purchase Orders", "/purchases", Permission.MANAGE_PURCHASES, MaterialDesignC.CLIPBOARD_LIST_OUTLINE),
                 createNavButton("Suppliers", "/suppliers", Permission.MANAGE_SUPPLIERS, MaterialDesignT.TRUCK_DELIVERY)
         );

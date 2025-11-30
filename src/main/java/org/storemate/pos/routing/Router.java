@@ -41,7 +41,7 @@ public class Router {
         routes.put("/suppliers/add", new Route(() -> new AddSuppliersView().getView(), Permission.MANAGE_SUPPLIERS));
         routes.put("/suppliers/modify", new Route(() -> new ModifySuppliersView().getView(), Permission.MANAGE_SUPPLIERS));
         routes.put("/suppliers/delete", new Route(() -> new DeleteSuppliersView().getView(), Permission.MANAGE_SUPPLIERS));
-        routes.put("/products", new Route(() -> new ProductsDataView().getView(), Permission.MANAGE_PRODUCTS));
+        routes.put("/products", new Route(() -> new ProductsDataView().getView(), Permission.VIEW_PRODUCTS));
         routes.put("/products/add", new Route(() -> new AddProductsView().getView(), Permission.MANAGE_PRODUCTS));
         routes.put("/products/modify", new Route(() -> new ModifyProductsView().getView(), Permission.MANAGE_PRODUCTS));
         routes.put("/products/delete", new Route(() -> new DeleteProductsView().getView(), Permission.MANAGE_PRODUCTS));
@@ -55,14 +55,14 @@ public class Router {
         routes.put("/settings/general/modify-password", new Route(() -> new ModifyPasswordPage().getView(), Permission.MANAGE_SETTINGS));
         routes.put("/settings/general/forgot-password", new Route(() -> new ForgotPasswordView().getView(), Permission.MANAGE_SETTINGS));
         routes.put("/settings/general/manage-security-questions", new Route(() -> new ManageSecurityQuestionsView().getView(), Permission.MANAGE_SETTINGS));
-        routes.put("/categories", new Route(() -> new CategoriesDataView().getView(), Permission.MANAGE_CATEGORIES));
+        routes.put("/categories", new Route(() -> new CategoriesDataView().getView(), Permission.VIEW_CATEGORIES));
         routes.put("/categories/add", new Route(() -> new AddCategoriesView().getView(), Permission.MANAGE_CATEGORIES));
         routes.put("/categories/modify", new Route(() -> new ModifyCategoriesView().getView(), Permission.MANAGE_CATEGORIES));
         routes.put("/categories/delete", new Route(() -> new DeleteCategoriesView().getView(), Permission.MANAGE_CATEGORIES));
         routes.put("/transactions", new Route(() -> new TransactionsDataView().getView(), Permission.VIEW_TRANSACTIONS));
         routes.put("/transactions/refunds", new Route(() -> new ReturnsDataView().getView(), Permission.PROCESS_REFUND));
-        routes.put("/register", new Route(() -> new EmployeeRegistrationFormView().getView(), null));
-        routes.put("/login", new Route(() -> new EmployeeLoginFormView().getView(), null));
+        routes.put("/register", new Route(() -> new EmployeeRegistrationFormView().getView(), Permission.MANAGE_USER_PROFILE));
+        routes.put("/login", new Route(() -> new EmployeeLoginFormView().getView(), Permission.MANAGE_USER_PROFILE));
     }
 
     public static void navigate(String routePath){
@@ -88,8 +88,7 @@ public class Router {
 
 
         if (!authorizationService.hasPermission(route.getRequiredPermission())){
-            Scene denied = new Scene(new AccessDenied().getView(),800,600);
-            stage.setScene(denied);
+            SceneManager.getMainLayoutView().getView().setCenter(new AccessDenied().getView());
             return;
         }
         Parent view = route.getViewBuilder().get();
