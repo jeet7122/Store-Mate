@@ -4,7 +4,10 @@ import org.storemate.pos.database.DatabaseConnector;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.storemate.pos.database.TableConstants.*;
 
@@ -65,4 +68,28 @@ public class ShiftDAO {
         }
     }
 
+    public Map<String, Integer> getWeeklyHours() {
+        String sql = """
+            SELECT e.username, SUM(TIMESTAMPDIFF(HOUR, s.login_time, s.logout_time)) AS hours
+            FROM shift s
+            JOIN employees e ON e.employee_id = s.employee_id
+            WHERE WEEK(s.login_time) = WEEK(CURDATE())
+            GROUP BY e.username
+        """;
+
+        Map<String, Integer> map = new LinkedHashMap<>();
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                map.put(rs.getString("username"), rs.getInt("hours"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+        return map;
+    }
 }

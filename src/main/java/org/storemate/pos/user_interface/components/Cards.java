@@ -5,7 +5,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import org.storemate.pos.models.Category;
 import org.storemate.pos.routing.Router;
+
+import java.util.List;
 
 public class Cards {
     public HBox createCategoryCard(String categoryName, int productCount, Runnable onClickAction) {
@@ -55,21 +58,24 @@ public class Cards {
 
         return card;
     }
-    public Parent createCategoryList() {
-        VBox cardContainer = new VBox(15); // spacing between cards
+    public Parent createCategoryList(List<Category> categories) {
 
-        // Dummy data (replace with DB data later)
-        cardContainer.getChildren().add(createCategoryCard("Electronics", 42, () -> showProducts("Electronics")));
-        cardContainer.getChildren().add(createCategoryCard("Shoes", 18, () -> showProducts("Shoes")));
-        cardContainer.getChildren().add(createCategoryCard("Furniture", 8, () -> showProducts("Furniture")));
-        cardContainer.getChildren().add(createCategoryCard("Toys", 22, () -> showProducts("Toys")));
+        VBox box = new VBox(10);
 
-        ScrollPane scrollPane = new ScrollPane(cardContainer);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setStyle("-fx-background-color: transparent;");
+        for (Category c : categories) {
+            HBox row = new HBox(10);
+            row.getChildren().addAll(
+                    new Label(c.getCategory_name()),
+                    new Label(c.getStatus().name())
+            );
+            box.getChildren().add(row);
+        }
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(box);
 
         return scrollPane;
     }
+
     private void showProducts(String categoryName) {
         Router.navigate("/products?category=" + categoryName);
     }
