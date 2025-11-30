@@ -3,6 +3,7 @@ package org.storemate.pos.services;
 import org.storemate.pos.dao.AuthDAO;
 import org.storemate.pos.dao.ShiftDAO;
 import org.storemate.pos.dto.EmployeeDTO;
+import org.storemate.pos.dto.SecurityAnswersDTO;
 import org.storemate.pos.models.Employee;
 import org.mindrot.jbcrypt.BCrypt;
 import org.storemate.pos.routing.Router;
@@ -31,7 +32,13 @@ public class AuthService {
             String username,
             String email,
             String password,
-            String roles
+            String roles,
+            int ques1ID,
+            int ques2ID,
+            int ques3ID,
+            String ans1,
+            String ans2,
+            String ans3
     ) {
         Employee employee = authDAO.findByUsername(username);
         if (employee != null) {
@@ -47,7 +54,13 @@ public class AuthService {
                 hash_pass,
                 roles
         );
-        authDAO.register(employeeToRegister);
+
+        SecurityAnswersDTO answersDTO1 = new SecurityAnswersDTO(ques1ID, ans1);
+        SecurityAnswersDTO answersDTO2 = new SecurityAnswersDTO(ques2ID, ans2);
+        SecurityAnswersDTO answersDTO3 = new SecurityAnswersDTO(ques3ID, ans3);
+        SecurityAnswersDTO[] securityAnswersArray = {answersDTO1, answersDTO2, answersDTO3};
+
+        authDAO.register(employeeToRegister, securityAnswersArray);
         return true;
     }
 

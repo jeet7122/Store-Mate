@@ -2,13 +2,11 @@ package org.storemate.pos.dao;
 
 import org.storemate.pos.database.DatabaseConnector;
 import org.storemate.pos.dto.EmployeeDTO;
+import org.storemate.pos.dto.SecurityAnswersDTO;
 import org.storemate.pos.models.Employee;
 import org.storemate.pos.utils.Mappers;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 import static org.storemate.pos.database.TableConstants.*;
@@ -25,11 +23,10 @@ public class AuthDAO {
                         Connection connection = DatabaseConnector.getConnection();
                         PreparedStatement statement = connection.prepareStatement(query)
 
-                )
-        {
+                ) {
             statement.setString(1, username);
             ResultSet rs = statement.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 EmployeeDTO existingEmployee = new EmployeeDTO();
                 existingEmployee.setUsername(rs.getString(EMPLOYEE_COLUMN_USER_NAME));
                 existingEmployee.setEmployeeID(rs.getInt(EMPLOYEE_COLUMN_ID));
@@ -40,47 +37,73 @@ public class AuthDAO {
                 existingEmployee.setPassword(rs.getString(EMPLOYEE_COLUMN_PASSWORD));
                 return mappers.fromDTO(existingEmployee);
             }
-        }
-        catch (SQLException exception){
+        } catch (SQLException exception) {
             System.out.println("SQL EXCEPTION: " + exception.getMessage());
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println("Exception: " + ex.getMessage());
         }
         return null;
     }
 
-    public void register(EmployeeDTO employeeToRegister) {
-        String query = "INSERT INTO " + EMPLOYEE_TABLE_NAME
+    public void register(EmployeeDTO employeeToRegister, SecurityAnswersDTO[] securityAnswersArray) {
+        String employee_table_query = "INSERT INTO " + EMPLOYEE_TABLE_NAME
                 + " ( " + EMPLOYEE_COLUMN_USER_NAME + ", " + EMPLOYEE_COLUMN_EMAIL + ", " + EMPLOYEE_COLUMN_PASSWORD
                 + ", " + EMPLOYEE_COLUMN_ROLE + " ) VALUES (?,?,?,?)";
 
+        String insert_answer_query = "INSERT INTO " + EMPLOYEE_SECURITY_ANSWERS_TABLE_NAME
+                + "(" + EMPLOYEE_SECURITY_ANSWERS_COLUMN_EMPLOYEE_ID + ", " + EMPLOYEE_SECURITY_ANSWERS_COLUMN_QUESTION_ID + ", "
+                + EMPLOYEE_SECURITY_ANSWERS_COLUMN_ANSWER + ") VALUES (?, ?, ?)";
+
         try
                 (
-                        Connection connection = DatabaseConnector.getConnection();
-                        PreparedStatement statement = connection.prepareStatement(query)
+                        Connection connection = DatabaseConnector.getConnection()
                         )
-
         {
-            statement.setString(1, employeeToRegister.getUsername());
-            statement.setString(2, employeeToRegister.getEmail());
-            statement.setString(3, employeeToRegister.getPassword());
-            statement.setString(4, employeeToRegister.getRole());
-            int rows = statement.executeUpdate();
-            if (rows > 0){
-                System.out.println("Employee registered successfully");
-            }
-            else {
-                System.out.println("Error occurred while registration");
+            connection.setAutoCommit(false);
+            int employeeID;
+
+            try
+                    (
+                            PreparedStatement empStatement = connection.prepareStatement(employee_table_query, Statement.RETURN_GENERATED_KEYS)
+                            )
+            {
+                empStatement.setString(1, employeeToRegister.getUsername());
+                empStatement.setString(2, employeeToRegister.getEmail());
+                empStatement.setString(3, employeeToRegister.getPassword());
+                empStatement.setString(4, employeeToRegister.getRole());
+                empStatement.executeUpdate();
+
+                ResultSet generatedKeys = empStatement.getGeneratedKeys();
+                if (generatedKeys.next()){
+                    employeeID = generatedKeys.getInt(1);
+                }
+                else {
+                    throw new SQLException("Failed to retrieve generated employee ID.");
+                }
             }
 
+            try
+                    (PreparedStatement secStatement = connection.prepareStatement(insert_answer_query))
+            {
+                for (SecurityAnswersDTO securityAnswersDTO: securityAnswersArray){
+                    secStatement.setInt(1, employeeID);
+                    secStatement.setInt(2, securityAnswersDTO.getQuestion_id());
+                    secStatement.setString(3, securityAnswersDTO.getAnswer());
+                    secStatement.addBatch();
+                }
+                secStatement.executeBatch();
+            }
+            connection.commit();
+            System.out.println("Employee and Security questions added successfully");
+
         }
-        catch (SQLException ex){
-            System.out.println("SQL EXCEPTION: " + ex.getMessage());
+        catch (SQLException exception){
+            System.out.println("SQL EXCEPTION: " + exception.getMessage());
         }
-        catch (Exception ex){
-            System.out.println("EXCEPTION: " + ex.getMessage());
+        catch (Exception exception){
+            System.out.println("EXCEPTION: " + exception.getMessage());
         }
+
     }
 
     public void updateEmployee(EmployeeDTO employeeToUpdate) {
@@ -148,7 +171,7 @@ public class AuthDAO {
                 PreparedStatement statement = connection.prepareStatement(query);
                 ResultSet rs = statement.executeQuery()
         ) {
-            while(rs.next()) {
+            while (rs.next()) {
                 EmployeeDTO employeeDTO = new EmployeeDTO();
                 employeeDTO.setUsername(rs.getString(EMPLOYEE_COLUMN_USER_NAME));
                 employeeDTO.setEmployeeID(rs.getInt(EMPLOYEE_COLUMN_ID));
@@ -233,7 +256,7 @@ public class AuthDAO {
                 PreparedStatement statement = connection.prepareStatement(query);
                 ResultSet rs = statement.executeQuery()
         ) {
-            while(rs.next()) {
+            while (rs.next()) {
                 roleDistribution.put(rs.getString(EMPLOYEE_COLUMN_ROLE), rs.getInt("count"));
             }
         } catch (SQLException exception) {
@@ -256,7 +279,7 @@ public class AuthDAO {
                 PreparedStatement statement = connection.prepareStatement(query);
                 ResultSet rs = statement.executeQuery()
         ) {
-            while(rs.next()) {
+            while (rs.next()) {
                 monthlyStats.put(rs.getString("month"), rs.getInt("count"));
             }
         } catch (SQLException exception) {
