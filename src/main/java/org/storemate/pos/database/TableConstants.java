@@ -121,5 +121,22 @@ public class TableConstants {
     public static final String RETURN_ITEMS_COLUMN_RETURN_REASON = "return_reason";
 
 
+    //Security Questions Table
+    public static final String SECURITY_QUESTIONS_TABLE_NAME = "security_questions";
+    public static final String SECURITY_QUESTIONS_COLUMN_ID = "question_id";
+    public static final String SECURITY_QUESTIONS_COLUMN_QUESTION = "question";
+
+    //Employee Security Question Table
+    public static final String EMPLOYEE_SECURITY_ANSWERS_TABLE_NAME = "employee_security_answers";
+    public static final String EMPLOYEE_SECURITY_ANSWERS_COLUMN_ANSWER_ID = "answer_id";
+    public static final String EMPLOYEE_SECURITY_ANSWERS_COLUMN_EMPLOYEE_ID = "employee_id";
+    public static final String EMPLOYEE_SECURITY_ANSWERS_COLUMN_QUESTION_ID = "question_id";
+    public static final String EMPLOYEE_SECURITY_ANSWERS_COLUMN_ANSWER = "answer";
+
+
+
+
+
+
 
 }

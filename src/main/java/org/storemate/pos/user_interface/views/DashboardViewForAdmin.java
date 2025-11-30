@@ -1,5 +1,6 @@
 package org.storemate.pos.user_interface.views;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.chart.AreaChart;
@@ -143,6 +144,7 @@ public class DashboardViewForAdmin {
 // ---- Add everything ----
         lowerContainer.getChildren().addAll(purchaseChart, cat_cover, transContainer);
         root.getChildren().add(lowerContainer);
+        root.setPadding(new Insets(10,10,10,10));
 
 
     }

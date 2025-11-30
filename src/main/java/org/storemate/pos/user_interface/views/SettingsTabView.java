@@ -1,5 +1,6 @@
 package org.storemate.pos.user_interface.views;
 
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -116,6 +117,7 @@ public class SettingsTabView {
         );
 
         root.getChildren().add(manageUserProfilesBox);
+        root.setPadding(new Insets(10,10,10,10));
     }
 
     public Parent getView(){

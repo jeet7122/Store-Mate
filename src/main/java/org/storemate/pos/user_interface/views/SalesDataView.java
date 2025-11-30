@@ -177,6 +177,7 @@ public class SalesDataView {
                 table,
                 paginationBox
         );
+        root.setPadding(new Insets(10,10,10,10));
     }
 
     private void loadPage() {

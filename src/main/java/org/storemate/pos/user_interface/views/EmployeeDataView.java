@@ -36,7 +36,7 @@ public class EmployeeDataView {
     public EmployeeDataView() {
         authService = new AuthService();
         root = new VBox(20);
-        root.setPadding(new Insets(20));
+        root.setPadding(new Insets(10));
         initializeView();
         loadRealData();
     }

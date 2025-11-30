@@ -26,7 +26,7 @@ public class ProductsDataView {
     public ProductsDataView() {
         productDAO = new ProductDAO();
         root = new VBox(15);
-        root.setPadding(new Insets(20));
+        root.setPadding(new Insets(10,10,10,10));
         initializeView();
         loadProducts();
     }

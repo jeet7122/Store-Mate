@@ -29,7 +29,7 @@ public class CategoriesDataView {
     public CategoriesDataView() {
         categoryDAO = new CategoryDAO();
         root = new VBox(15);
-        root.setPadding(new Insets(20));
+        root.setPadding(new Insets(10));
         initializeView();
         loadCategories();
     }

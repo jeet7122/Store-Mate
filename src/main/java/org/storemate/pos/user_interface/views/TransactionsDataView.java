@@ -2,6 +2,7 @@ package org.storemate.pos.user_interface.views;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
@@ -74,6 +75,7 @@ public class TransactionsDataView {
         );
         chartsBox.setStyle("-fx-alignment: center; -fx-padding: 10;");
         root.getChildren().add(chartsBox);
+        root.setPadding(new Insets(10,10,10,10));
     }
 
     // --- Modular Pie Chart Card ---

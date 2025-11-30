@@ -118,6 +118,7 @@ public class ReturnsDataView {
                 searchBox,
                 table
         );
+        root.setPadding(new Insets(10,10,10,10));
     }
 
     private void loadReturns() {

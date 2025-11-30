@@ -114,6 +114,7 @@ public class SuppliersDataView {
                 searchBox,
                 supplierTableView
         );
+        root.setPadding(new Insets(10,10,10,10));
     }
 
     private void loadSupplierData() {

@@ -1,5 +1,6 @@
 package org.storemate.pos.user_interface.views;
 
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import org.storemate.pos.user_interface.RouterPageDemo;
@@ -19,6 +20,7 @@ public class MainLayoutView {
         // Initially, show the dashboard or welcome page
         Parent initialContent = RouterPageDemo.createInitialContent();
         root.setCenter(initialContent);
+        root.setPadding(new Insets(10,10,10,10));
     }
 
     public BorderPane getView() {

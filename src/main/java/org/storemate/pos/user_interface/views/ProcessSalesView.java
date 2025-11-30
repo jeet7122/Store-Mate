@@ -167,6 +167,8 @@ public class ProcessSalesView {
         HBox mainContent = new HBox(20, leftSide, rightSide);
         mainContent.setPadding(new Insets(10));
 
+
+        root.setPadding(new Insets(10,10,10,10));
         root.getChildren().addAll(title, searchBox, mainContent);
     }
 
