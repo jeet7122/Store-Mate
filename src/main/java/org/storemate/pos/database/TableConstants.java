@@ -1,5 +1,27 @@
 package org.storemate.pos.database;
 
+/**
+ * Contains constants representing the names of database tables and their columns.
+ *
+ * <p>This class is used throughout the application to avoid hardcoding table
+ * and column names in SQL queries, reducing the risk of typos and making
+ * refactoring easier.</p>
+ *
+ * <p>Tables covered include:</p>
+ * <ul>
+ *     <li>Employees</li>
+ *     <li>Shift</li>
+ *     <li>Categories</li>
+ *     <li>Products</li>
+ *     <li>Suppliers</li>
+ *     <li>Product-Supplier join table</li>
+ *     <li>Purchases and Purchase Items</li>
+ *     <li>Sales and Sale Items</li>
+ *     <li>Returns and Return Items</li>
+ *     <li>Security Questions and Employee Answers</li>
+ * </ul>
+ * @author Jeet, Khushi
+ */
 public class TableConstants {
 
     // Employees Table
@@ -132,11 +154,6 @@ public class TableConstants {
     public static final String EMPLOYEE_SECURITY_ANSWERS_COLUMN_EMPLOYEE_ID = "employee_id";
     public static final String EMPLOYEE_SECURITY_ANSWERS_COLUMN_QUESTION_ID = "question_id";
     public static final String EMPLOYEE_SECURITY_ANSWERS_COLUMN_ANSWER = "answer";
-
-
-
-
-
 
 
 }

@@ -1,6 +1,27 @@
 package org.storemate.pos.database;
 import static org.storemate.pos.database.TableConstants.*;
 
+/**
+ * Contains SQL statements for creating all database tables used in the application.
+ *
+ * <p>This class defines the schema for:
+ * <ul>
+ *     <li>Category table</li>
+ *     <li>Product table</li>
+ *     <li>Employee table</li>
+ *     <li>Shift table</li>
+ *     <li>Supplier table</li>
+ *     <li>Product-Supplier join table</li>
+ *     <li>Sales and Sale Item tables</li>
+ *     <li>Purchase and Purchase Item tables</li>
+ *     <li>Returns and Return Items tables</li>
+ *     <li>Security Questions and Employee Answers tables</li>
+ * </ul>
+ *
+ * <p>All statements are defined as {@code public static final String} constants
+ * so they can be executed when initializing the database.
+ * @author Jeet, Khushi, Billen
+ */
 public class DBTable {
     public static final String CREATE_CATEGORY_TABLE =
             "CREATE TABLE IF NOT EXISTS " + CATEGORY_TABLE_NAME + " (" +

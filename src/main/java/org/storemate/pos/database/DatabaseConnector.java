@@ -7,10 +7,28 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-
+/**
+ * Utility class to manage database connections.
+ *
+ * <p>This class provides a single method {@link #getConnection()} to obtain
+ * a {@link Connection} object to the configured database using credentials
+ * provided by {@link org.storemate.pos.user_interface.CredentialManagement}.
+ *
+ * <p>Note: Each call to {@link #getConnection()} currently creates a new connection.
+ * Connection pooling is not implemented.
+ * @author Jeet
+ */
 public class DatabaseConnector {
     private static Connection connection;
 
+    /**
+     * Returns a {@link Connection} to the database.
+     *
+     * <p>Uses credentials (URL, database name, username, password) from
+     * {@link org.storemate.pos.user_interface.CredentialManagement}.
+     *
+     * @return a {@link Connection} object if successful; may return null if connection fails
+     */
     public static Connection getConnection() {
         try {
 
