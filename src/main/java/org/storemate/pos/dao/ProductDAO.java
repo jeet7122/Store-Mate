@@ -15,9 +15,25 @@ import java.util.List;
 
 import static org.storemate.pos.database.TableConstants.*;
 
+/**
+ * DAO (Data Access Object) responsible for CRUD operations on Product table.
+ * Handles product search, insert, update, delete, and supplier-product relations.
+
+ * NOTE:
+ * - Uses DatabaseConnector to obtain a DB connection
+ * - Uses constants from TableConstants for column/table names
+ * @author Jeet, Billen
+ */
 public class ProductDAO {
 
     // Search for a product by its name
+    /**
+     * Search for a single product by partial name match.
+     * Example: "Sam" → finds "Samsung S9"
+     *
+     * @param searchQuery text to match in product name (LIKE %query%)
+     * @return Product if found, otherwise null
+     */
     public Product searchForProduct(String searchQuery) {
         String sqlQuery = "SELECT * FROM " + PRODUCT_TABLE_NAME
                 + " WHERE " + PRODUCT_COLUMN_NAME  + " LIKE ? LIMIT 1;";
@@ -52,6 +68,12 @@ public class ProductDAO {
     }
 
     // Get all products from the database
+
+    /**
+     * Fetch all products from the database.
+     *
+     * @return List<Product>
+     */
     public List<Product> getAllProducts() {
         String sql = "SELECT * FROM " + PRODUCT_TABLE_NAME;
         List<Product> products = new ArrayList<>();
@@ -79,6 +101,12 @@ public class ProductDAO {
     }
 
     // Add a new product to the database
+    /**
+     * Insert a new product record into DB.
+     *
+     * @param product Product object containing required fields
+     * @return true if insert succeeded
+     */
     public boolean addProduct(Product product) {
         String sql = "INSERT INTO " + PRODUCT_TABLE_NAME + " (" +
                 PRODUCT_COLUMN_ID + ", " +
@@ -111,6 +139,14 @@ public class ProductDAO {
     }
 
     // Update an existing product in the database
+    /**
+     * Update existing product values.
+
+     * ID is used as WHERE condition → must exist in DB
+     *
+     * @param product Product object with updated fields
+     * @return true if update succeeded
+     */
     public boolean updateProduct(Product product) {
         String sql = "UPDATE " + PRODUCT_TABLE_NAME + " SET " +
                 PRODUCT_COLUMN_NAME + " = ?, " +
@@ -143,6 +179,12 @@ public class ProductDAO {
     }
 
     // Delete a product from the database
+    /**
+     * Delete a product by ID.
+     *
+     * @param productId product unique identifier
+     * @return true if delete succeeded
+     */
     public boolean deleteProduct(String productId) {
         String sql = "DELETE FROM " + PRODUCT_TABLE_NAME + " WHERE " + PRODUCT_COLUMN_ID + " = ?";
 
@@ -159,6 +201,13 @@ public class ProductDAO {
         return false;
     }
 
+    /**
+     * Add a supplier-product relationship record.
+     * Used when supplier provides inventory for a product.
+     *
+     * @param supplierProduct SupplierProduct model
+     * @return true if insert succeeded
+     */
     public boolean addToPS_Table(SupplierProduct supplierProduct) {
         String sql = "INSERT INTO " + PRODUCT_SUPPLIER_TABLE_NAME + "("
                 + PRODUCT_SUPPLIER_COLUMN_PRODUCT_ID + ", "

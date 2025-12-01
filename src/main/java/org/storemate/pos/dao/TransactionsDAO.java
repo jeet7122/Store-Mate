@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+//@author Jeet
 public class TransactionsDAO {
     private static final String SELECT_ALL_TRANSACTIONS = """
         SELECT id, type, payment_method, total_amount, date

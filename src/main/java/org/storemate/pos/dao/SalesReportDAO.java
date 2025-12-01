@@ -10,7 +10,41 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.storemate.pos.database.TableConstants.*;
 
+/**
+ * DAO class for fetching and filtering sales reports from the database.
+ *
+ * <p>This class provides methods to:
+ * <ul>
+ *     <li>Retrieve a sales report based on filters such as employee, product, and date range</li>
+ *     <li>Fetch paginated sales data for UI tables or reports</li>
+ *     <li>Filter sales dynamically with optional parameters</li>
+ * </ul>
+ *
+ * <p>All queries use JDBC and rely on the {@link Mappers} utility class
+ * to map {@link ResultSet} rows to {@link SalesReportDTO} objects.
+ * @author Jeet
+ */
 public class SalesReportDAO {
+
+    /**
+     * Fetches a list of sales report entries based on multiple optional filters.
+     *
+     * <p>Filters include:
+     * <ul>
+     *     <li>{@code employeeID} – filter by employee (0 means no filter)</li>
+     *     <li>{@code productID} – filter by product (null or blank means no filter)</li>
+     *     <li>{@code startDate} – filter sales on or after this date</li>
+     *     <li>{@code endDate} – filter sales on or before this date</li>
+     * </ul>
+     *
+     * @param employeeID the employee ID to filter by (0 for no filter)
+     * @param productID the product ID to filter by (null or blank for no filter)
+     * @param startDate start date for filtering sales (inclusive)
+     * @param endDate end date for filtering sales (inclusive)
+     *
+     * @return list of {@link SalesReportDTO} objects matching the filters;
+     *         returns an empty list if no results or on error.
+     */
     public List<SalesReportDTO> getSalesReport(
             int employeeID, String productID, LocalDate startDate, LocalDate endDate
     ){
@@ -76,6 +110,17 @@ public class SalesReportDAO {
         return salesReportList;
     }
 
+    /**
+     * Retrieves paginated sales entries from the database.
+     *
+     * <p>Useful for displaying sales in UI tables with pagination.
+     *
+     * @param limit  maximum number of rows to return
+     * @param offset number of rows to skip
+     *
+     * @return list of {@link SalesReportDTO} objects for the specified page;
+     *         returns an empty list on SQL error or no data.
+     */
     public List<SalesReportDTO> getPaginatedSales(int limit, int offset) {
         List<SalesReportDTO> list = new ArrayList<>();
         Mappers mappers = new Mappers();
@@ -119,6 +164,27 @@ public class SalesReportDAO {
         return list;
     }
 
+    /**
+     * Dynamically filters sales based on optional parameters.
+     *
+     * <p>Supported filters:
+     * <ul>
+     *     <li>{@code employeeID} – employee ID to filter by (null or 0 = no filter)</li>
+     *     <li>{@code productID} – product ID to filter by (null or blank = no filter)</li>
+     *     <li>{@code startDate} – start of date range (inclusive)</li>
+     *     <li>{@code endDate} – end of date range (inclusive)</li>
+     * </ul>
+     *
+     * <p>Uses {@link Mappers} to convert {@link ResultSet} rows into {@link SalesReportDTO} objects.
+     *
+     * @param employeeID the employee ID to filter (nullable)
+     * @param productID the product ID to filter (nullable or blank)
+     * @param startDate start date for filtering sales (inclusive, nullable)
+     * @param endDate end date for filtering sales (inclusive, nullable)
+     *
+     * @return list of {@link SalesReportDTO} objects matching the criteria;
+     *         returns an empty list on SQL error or if no matches are found.
+     */
     public List<SalesReportDTO> filterSales(
             Integer employeeID,
             String productID,

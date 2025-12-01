@@ -15,9 +15,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+// @author: Jeet, Khushi
 public class PurchaseDAO {
 
-    // Get all purchases
+    /**
+     * Retrieves all purchases ordered by most recent purchase date.
+     *
+     * @return list of Purchase objects, sorted descending by purchase_date.
+     */
     public List<Purchase> getAllPurchases() {
         List<Purchase> purchases = new ArrayList<>();
         String sql = "SELECT purchase_id, payment_method, total_amount, purchase_date FROM purchases ORDER BY purchase_date DESC";
@@ -43,7 +48,13 @@ public class PurchaseDAO {
         return purchases;
     }
 
-    // Count by payment method
+
+    /**
+     * Counts purchases matching a given payment method.
+     *
+     * @param paymentMethod exact enum string e.g. "CASH", "CARD"
+     * @return count of matching purchase records, or 0 on error.
+     */
     public int countByPaymentMethod(String paymentMethod) {
         String sql = "SELECT COUNT(*) FROM purchases WHERE payment_method = ?";
         try (Connection conn = DatabaseConnector.getConnection();
@@ -59,6 +70,13 @@ public class PurchaseDAO {
         return 0;
     }
 
+    /**
+     * Returns aggregated purchase totals over the last 30 days.
+     * The result map key is a formatted date (MM-dd),
+     * and the value is the sum of purchase totals for that day.
+     *
+     * @return ordered map of date => totalAmount
+     */
     public Map<String, Double> getPurchasesLast30Days() {
         Map<String, Double> purchaseData = new LinkedHashMap<>();
         String sql = """
@@ -89,6 +107,21 @@ public class PurchaseDAO {
         return purchaseData;
     }
 
+    /**
+     * Creates a purchase with purchase items and updates product quantities.
+
+     * Transaction Details:
+     * - Insert into purchases (header record)
+     * - Insert multiple purchase_items rows
+     * - Update product stock levels
+
+     * If any step fails, the entire transaction rolls back.
+     *
+     * @param cart PurchaseDTO containing supplier, totals, and line items.
+     * @param status purchase status string (must map to enum in MODEL)
+     * @param paymentMethod purchase payment method string or null
+     * @return generated purchase id, or -1 if transaction failed
+     */
     public int createPurchase(PurchaseDTO cart, String status, String paymentMethod) {
         if (cart == null || cart.isEmpty()) return -1;
 
@@ -157,6 +190,14 @@ public class PurchaseDAO {
         }
     }
 
+
+    /**
+     * Retrieves full purchase records including supplier, tax, and status.
+
+     * Used for table display with complete columns.
+     *
+     * @return list of Purchase objects (all fields populated).
+     */
     public List<Purchase> getAllPurchasesForTable() {
         List<Purchase> purchases = new ArrayList<>();
         String sql = "SELECT * FROM purchases ORDER BY purchase_date DESC";
@@ -188,6 +229,12 @@ public class PurchaseDAO {
 
     }
 
+    /**
+     * Finds purchases by exact matching payment method.
+     *
+     * @param keyword payment method string (enum name)
+     * @return list of matching Purchase objects, empty if none found.
+     */
     public List<Purchase> searchPurchaseByPaymentMethod(String keyword) {
         String sql = "SELECT * FROM purchases WHERE payment_method = ?";
         List<Purchase> purchases = new ArrayList<>();

@@ -14,8 +14,27 @@ import java.util.Map;
 
 import static org.storemate.pos.database.TableConstants.*;
 
+/**
+ * DAO class for managing employee shifts in the database.
+ *
+ * <p>This class provides methods to:
+ * <ul>
+ *     <li>Start a shift for an employee</li>
+ *     <li>End a shift for an employee</li>
+ *     <li>Retrieve weekly working hours for all employees</li>
+ *     <li>Get a summary of shifts with total hours per employee for the current week</li>
+ * </ul>
+ *
+ * <p>All queries use JDBC and the {@link DatabaseConnector} for obtaining database connections.
+ * @author Jeet, Khushi
+ */
 public class ShiftDAO {
 
+    /**
+     * Logs the start of a shift for the given employee.
+     *
+     * @param employeeID the ID of the employee starting the shift
+     */
     public void startShift(int employeeID) {
         String sql = "INSERT INTO " + SHIFT_TABLE_NAME
                 + " ( " + SHIFT_COLUMN_EMPLOYEE_ID + " ) VALUES (?); ";
@@ -43,6 +62,13 @@ public class ShiftDAO {
         }
     }
 
+    /**
+     * Logs the end of the most recent open shift for the given employee.
+     *
+     * <p>If no open shift is found, no update is performed.
+     *
+     * @param employeeID the ID of the employee ending the shift
+     */
     public void endShift(int employeeID) {
         String sql = "UPDATE " + SHIFT_TABLE_NAME
                 + " SET " + SHIFT_COLUMN_LOGOUT_TIME + " = CURRENT_TIMESTAMP "
@@ -71,6 +97,12 @@ public class ShiftDAO {
         }
     }
 
+    /**
+     * Retrieves the total hours worked by each employee for the current week.
+     *
+     * @return a map where the key is the employee's username and the value is the total hours worked;
+     *         returns an empty map if no shifts are found or on SQL error.
+     */
     public Map<String, Integer> getWeeklyHours() {
         String sql = """
             SELECT e.username, SUM(TIMESTAMPDIFF(HOUR, s.login_time, s.logout_time)) AS hours
@@ -96,6 +128,14 @@ public class ShiftDAO {
         return map;
     }
 
+    /**
+     * Retrieves a summary of shifts for all employees for the current week.
+     *
+     * <p>Each entry contains the employee ID, username, and total hours worked in the week.
+     *
+     * @return a list of {@link ShiftSummary} objects containing weekly hours per employee;
+     *         returns an empty list if no data is found or on SQL error.
+     */
     public List<ShiftSummary> getShiftSummary() {
         String sql = """
         SELECT e.employee_id, e.username,

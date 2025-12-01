@@ -11,9 +11,31 @@ import java.util.*;
 
 import static org.storemate.pos.database.TableConstants.*;
 
+/**
+ * AuthDAO class handles CRUD operations and authentication-related database interactions
+ * for Employee entities. It provides methods for user registration, lookup, statistics,
+ * and maintenance.
+ *  Responsibilities include:
+ *      Finding employees by username 
+ *      Creating employees and security question entries 
+ *      Updating and deleting employee records 
+ *      Retrieving aggregated employee statistics 
+ *      Password and username update helpers
+ * Note: This DAO communicates directly with the database using JDBC and prepared statements.
+ * Transaction management is handled manually where required.
+ *
+ * @author Jeet, Khushi
+ * @version 1.0
+ */
 public class AuthDAO {
     private final Mappers mappers = new Mappers();
 
+    /**
+     * Finds a single employee record by username.
+     *
+     * @param username The unique username of the employee.
+     * @return A mapped {@link Employee} object if found, otherwise {@code null}.
+     */
     public Employee findByUsername(String username) {
         String query = "SELECT * FROM " + EMPLOYEE_TABLE_NAME
                 + " WHERE " + EMPLOYEE_COLUMN_USER_NAME + " = ?";
@@ -45,6 +67,14 @@ public class AuthDAO {
         return null;
     }
 
+    /**
+     * Registers a new employee and inserts security answers in a transactional operation.
+     *
+     * @param employeeToRegister Employee data (DTO) containing credentials, email, and role.
+     * @param securityAnswersArray Array of security answers linked to the employee.
+     *
+     * @throws RuntimeException If insertion of ID or batch fails.
+     */
     public void register(EmployeeDTO employeeToRegister, SecurityAnswersDTO[] securityAnswersArray) {
         String employee_table_query = "INSERT INTO " + EMPLOYEE_TABLE_NAME
                 + " ( " + EMPLOYEE_COLUMN_USER_NAME + ", " + EMPLOYEE_COLUMN_EMAIL + ", " + EMPLOYEE_COLUMN_PASSWORD
@@ -106,6 +136,13 @@ public class AuthDAO {
 
     }
 
+    /**
+     * Updates employee email and role.
+     *
+     * @param employeeToUpdate DTO containing updated information.
+     *
+     * @throws RuntimeException If update fails or SQLException occurs.
+     */
     public void updateEmployee(EmployeeDTO employeeToUpdate) {
         String query = "UPDATE " + EMPLOYEE_TABLE_NAME
                 + " SET " + EMPLOYEE_COLUMN_EMAIL + " = ?, "
@@ -136,6 +173,14 @@ public class AuthDAO {
         }
     }
 
+
+    /**
+     * Removes an employee record by username.
+     *
+     * @param username Unique employee username.
+     *
+     * @throws RuntimeException If no employee is found or deletion fails.
+     */
     public void deleteEmployee(String username) {
         String query = "DELETE FROM " + EMPLOYEE_TABLE_NAME
                 + " WHERE " + EMPLOYEE_COLUMN_USER_NAME + " = ?";
@@ -162,6 +207,12 @@ public class AuthDAO {
         }
     }
 
+
+    /**
+     * Returns a list of all employee records.
+     *
+     * @return A List of {@link Employee}.
+     */
     public List<Employee> getAllEmployees() {
         String query = "SELECT * FROM " + EMPLOYEE_TABLE_NAME + " ORDER BY " + EMPLOYEE_COLUMN_JOINING_DATE + " DESC";
         List<Employee> employees = new ArrayList<>();
@@ -190,6 +241,10 @@ public class AuthDAO {
         return employees;
     }
 
+
+    /**
+     * @return The total count of employees in the system.
+     */
     public int getTotalEmployeesCount() {
         String query = "SELECT COUNT(*) as total FROM " + EMPLOYEE_TABLE_NAME;
 
@@ -207,6 +262,11 @@ public class AuthDAO {
         return 0;
     }
 
+    /**
+     * Computes the number of unique employees who logged in today.
+     *
+     * @return Count of employees active today.
+     */
     public int getActiveEmployeesToday() {
         String query = "SELECT COUNT(DISTINCT " + SHIFT_COLUMN_EMPLOYEE_ID + ") as active_today " +
                 "FROM " + SHIFT_TABLE_NAME + " " +
@@ -226,6 +286,9 @@ public class AuthDAO {
         return 0;
     }
 
+    /**
+     * @return Count of employees who joined in the current calendar month.
+     */
     public int getNewEmployeesThisMonth() {
         String query = "SELECT COUNT(*) as new_this_month FROM " + EMPLOYEE_TABLE_NAME + " " +
                 "WHERE MONTH(" + EMPLOYEE_COLUMN_JOINING_DATE + ") = MONTH(CURRENT_DATE()) " +
@@ -245,6 +308,11 @@ public class AuthDAO {
         return 0;
     }
 
+    /**
+     * Returns role-wise employee distribution.
+     *
+     * @return A map where: Role → Count.
+     */
     public Map<String, Integer> getRoleDistribution() {
         String query = "SELECT " + EMPLOYEE_COLUMN_ROLE + ", COUNT(*) as count " +
                 "FROM " + EMPLOYEE_TABLE_NAME + " " +
@@ -265,6 +333,12 @@ public class AuthDAO {
         return roleDistribution;
     }
 
+
+    /**
+     * Retrieves employee joining stats for the last 6 months.
+     *
+     * @return LinkedHashMap preserving month order: YYYY-MM → count
+     */
     public Map<String, Integer> getMonthlyJoinStats() {
         String query = "SELECT DATE_FORMAT(" + EMPLOYEE_COLUMN_JOINING_DATE + ", '%Y-%m') as month, " +
                 "COUNT(*) as count " +
@@ -288,6 +362,13 @@ public class AuthDAO {
         return monthlyStats;
     }
 
+    /**
+     * Updates password hash for an employee.
+     *
+     * @param employeeID Employee database primary key ID.
+     * @param hashPass New hashed password.
+     * @return true if updated successfully; false otherwise.
+     */
     public boolean updatePass(int employeeID, String hashPass) {
         String sql = "UPDATE " + EMPLOYEE_TABLE_NAME + " SET " + EMPLOYEE_COLUMN_PASSWORD + " = ? WHERE "
                 + EMPLOYEE_COLUMN_ID + " = ?";
@@ -317,6 +398,14 @@ public class AuthDAO {
         return false;
     }
 
+    /**
+     * Updates username of an employee.
+     *
+     * @param username New username.
+     * @param employeeID ID of the employee.
+     *
+     * @return true if update succeeded; false on failure.
+     */
     public boolean updateUsername(String username, int employeeID) {
         String query = "UPDATE " + EMPLOYEE_TABLE_NAME + " SET "
                 + EMPLOYEE_COLUMN_USER_NAME + " = ? WHERE " + EMPLOYEE_COLUMN_ID + " = ?";

@@ -14,8 +14,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO class for managing security questions and answers in the database.
+ *
+ * <p>This class provides methods to:
+ * <ul>
+ *     <li>Retrieve all security questions</li>
+ *     <li>Fetch a user's security questions along with their answers</li>
+ *     <li>Get the ID of a question based on its text</li>
+ *     <li>Update a user's security questions and answers</li>
+ * </ul>
+ *
+ * <p>All queries use JDBC and the {@link DatabaseConnector} for obtaining database connections.
+ * @author Khushi
+ */
 public class SecurityQuestionsDAO {
 
+    /**
+     * Retrieves all security questions from the database.
+     *
+     * @return a list of {@link SecurityQuestionsDTO} objects containing question IDs and texts;
+     *         returns an empty list if no questions are found or on SQL error.
+     */
     public List<SecurityQuestionsDTO> getAllQuestions(){
         List<SecurityQuestionsDTO> questionList = new ArrayList<>();
         String sql = "SELECT * FROM " + SECURITY_QUESTIONS_TABLE_NAME + " ORDER BY " + SECURITY_QUESTIONS_COLUMN_ID + ";";
@@ -43,6 +63,13 @@ public class SecurityQuestionsDAO {
 
     }
 
+    /**
+     * Retrieves all security questions and corresponding answers for a specific employee.
+     *
+     * @param employeeID the ID of the employee
+     * @return a list of {@link SecurityQuestionWithAnswerDTO} objects containing question IDs, texts, and answers
+     *         returns an empty list if no questions are found or on SQL error
+     */
     public List<SecurityQuestionWithAnswerDTO> getAllQuestionsForUser(int employeeID) {
         List<SecurityQuestionWithAnswerDTO> securityQuestionWithAnswerDTOList = new ArrayList<>();
         String query = "SELECT a.question_id, q.question, a.answer FROM "
@@ -54,7 +81,7 @@ public class SecurityQuestionsDAO {
         try
                 (
                         Connection connection = DatabaseConnector.getConnection();
-                        PreparedStatement ps = connection.prepareStatement(query);
+                        PreparedStatement ps = connection.prepareStatement(query)
                 )
         {
             ps.setInt(1, employeeID);
@@ -78,6 +105,12 @@ public class SecurityQuestionsDAO {
         return securityQuestionWithAnswerDTOList;
     }
 
+    /**
+     * Retrieves the ID of a security question based on its text.
+     *
+     * @param questionText the text of the security question
+     * @return the question ID if found; returns -1 if not found or on SQL error.
+     */
     public int getQuestionIdByText(String questionText) {
         String sql = "SELECT question_id FROM security_questions WHERE question = ?";
         try (Connection con = DatabaseConnector.getConnection();
@@ -94,6 +127,17 @@ public class SecurityQuestionsDAO {
         }
         return -1;
     }
+
+    /**
+     * Updates the security questions and answers for a specific employee.
+     *
+     * <p>This method deletes existing answers for the employee and inserts the new ones
+     * in a single transaction.
+     *
+     * @param employeeId the ID of the employee whose security answers are being updated
+     * @param list a list of {@link SecurityAnswersDTO} containing question IDs and corresponding answers
+     * @return true if the update was successful; false if there was an error
+     */
 
     public boolean updateSecurityQuestions(int employeeId, List<SecurityAnswersDTO> list) {
 

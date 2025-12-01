@@ -3,22 +3,52 @@ package org.storemate.pos.dao;
 import org.storemate.pos.database.DatabaseConnector;
 import org.storemate.pos.dto.CartDTO;
 import org.storemate.pos.dto.Cart_Item_DTO;
-import org.storemate.pos.models.Sale;
-import org.storemate.pos.models.enums.PaymentMethod;
 import org.storemate.pos.models.enums.SaleStatus;
-
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.storemate.pos.database.TableConstants.*;
 
+/**
+ * DAO responsible for executing sale-related database operations.
+ *
+ * <p>This class handles:
+ * <ul>
+ *     <li>Recording a completed sale transaction</li>
+ *     <li>Storing associated sale items</li>
+ *     <li>Stock reduction for sold products</li>
+ *     <li>Fetching analytical data for charts and dashboards</li>
+ *     <li>Returning raw ResultSets for data visualization</li>
+ * </ul>
+ *
+ * All queries use JDBC with explicit transaction handling for write operations.
+ * @author Jeet
+ */
 public class SaleDAO {
+
+    /**
+     * Persists a completed sale into the database.
+     *
+     * <p>This method performs a multistep transactional process:
+     * <ol>
+     *     <li>Inserts a record into the {@code sales} table</li>
+     *     <li>Stores each sold item in the {@code sale_items} table</li>
+     *     <li>Updates product stock (subtracts sold quantities)</li>
+     * </ol>
+     *
+     * <p>If any step fails, the transaction is rolled back automatically
+     * because the method encloses all operations inside a transaction scope.
+     *
+     * @param cartDTO     DTO representing all sale items and totals
+     * @param paymentType Name of payment method used (e.g., CASH, CARD, DEBIT)
+     *
+     * @return {@code true} if the sale and all items are recorded successfully,
+     *         {@code false} if any SQL error occurs.
+     */
     public boolean saveSale(CartDTO cartDTO, String paymentType) {
         try (Connection connection = DatabaseConnector.getConnection()) {
 
@@ -96,6 +126,23 @@ public class SaleDAO {
         }
         return false;
     }
+
+    /**
+     * Retrieves aggregated daily sales totals for the last 30 calendar days.
+     *
+     * <p>The results are grouped by sale date and stored in insertion order
+     * using a LinkedHashMap where:
+     * <ul>
+     *      <li>Key = formatted date string (MM-dd)</li>
+     *      <li>Value = total aggregated sale amount for that day</li>
+     * </ul>
+     *
+     * <p>Useful for chart display such as line graphs or analytics dashboards.
+     *
+     * @return ordered map of {@code date → total sales} values.
+     *         Returns an empty map on SQL error or no data.
+     */
+
     public Map<String, Double> getSalesLast30Days() {
         Map<String, Double> salesData = new LinkedHashMap<>();
         String sql = """
@@ -126,6 +173,21 @@ public class SaleDAO {
     }
 
     // --- Fetch weekly transactions total by payment method ---
+    /**
+     * Computes total sales amounts grouped by payment method
+     * over the last 7 days.
+     *
+     * <p>This is typically used to generate donut/pie charts
+     * categorizing sales by payment type.
+     *
+     * <ul>
+     *     <li>Key = payment method (e.g., CASH, CARD, STORE_CREDIT)</li>
+     *     <li>Value = aggregated transaction total in that period</li>
+     * </ul>
+     *
+     * @return ordered map of {@code payment method → total sales}.
+     *         Returns an empty map on SQL error.
+     */
     public Map<String, Double> getWeeklyTransactions() {
         Map<String, Double> transactions = new LinkedHashMap<>();
         String sql = """
@@ -153,6 +215,18 @@ public class SaleDAO {
     }
 
     // Optional: Fetch all sales (for table view)
+    /**
+     * Retrieves all sales records in descending timestamp order.
+     *
+     * <p>This method returns a raw {@link ResultSet} intended
+     * for UI components or graph rendering where the caller
+     * processes cursor-based row iteration.
+     * <strong>⚠️ Note:</strong> The caller is responsible for handling
+     * the ResultSet lifecycle and closing database resources.
+     *
+     * @return a ResultSet containing all sales data,
+     *         or {@code null} if a database error occurs.
+     */
     public ResultSet getAllSalesForGraph() {
         try
                 (Connection conn = DatabaseConnector.getConnection())
