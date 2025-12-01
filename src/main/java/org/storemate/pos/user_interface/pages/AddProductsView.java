@@ -11,8 +11,11 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignA;
 import org.storemate.pos.dao.CategoryDAO;
 import org.storemate.pos.dao.ProductDAO;
+import org.storemate.pos.dao.SuppliersDAO;
 import org.storemate.pos.models.Category;
 import org.storemate.pos.models.Product;
+import org.storemate.pos.models.Supplier;
+import org.storemate.pos.models.SupplierProduct;
 import org.storemate.pos.models.enums.ProductStatus;
 import org.storemate.pos.models.enums.TaxCategory;
 import org.storemate.pos.routing.Router;
@@ -25,10 +28,12 @@ public class AddProductsView {
     private final VBox root;
     private final ProductDAO productDAO;
     private final CategoryDAO categoryDAO;
+    private final SuppliersDAO suppliersDAO;
 
     public AddProductsView() {
         productDAO = new ProductDAO();
         categoryDAO = new CategoryDAO();
+        suppliersDAO = new SuppliersDAO();
         root = new VBox(15);
         root.setPadding(new Insets(20));
         initializeView();
@@ -73,7 +78,11 @@ public class AddProductsView {
         descriptionField.setMaxHeight(100);
 
         TextField priceField = new TextField();
-        priceField.setPromptText("Enter product price");
+        priceField.setPromptText("Enter product selling price");
+        priceField.setMinWidth(300);
+
+        TextField costPriceField = new TextField();
+        costPriceField.setPromptText("Enter product cost price");
         priceField.setMinWidth(300);
 
         TextField quantityField = new TextField();
@@ -100,26 +109,45 @@ public class AddProductsView {
         categoryBox.setMinWidth(300);
 
 
+        //------------ Author: Jeet  -------------------//
+        //------Suppliers Combo Box-------------------//
+        List<Supplier> getAllSuppliers = suppliersDAO.getAllSuppliers();
+        ComboBox<String> supplierBox = new ComboBox<>();
+        List<String> suppliersList = getAllSuppliers.stream()
+                .map(Supplier::getSupplier_name)
+                .toList();
+        supplierBox.setItems(FXCollections.observableArrayList(suppliersList));
+        supplierBox.setPromptText("Select Product's Supplier");
+        supplierBox.setMinWidth(300);
+
+
         // Button to submit form
         Button addButton = new Button("Add Product");
         addButton.getStyleClass().add("button-connect");
-        addButton.setOnAction(e -> handleAddProduct(productIDTF,nameField, descriptionField, priceField, quantityField, taxCategoryComboBox, availabilityComboBox, categoryBox,categories));
+        addButton.setOnAction(e -> handleAddProduct(productIDTF,nameField, descriptionField, priceField, quantityField, taxCategoryComboBox, availabilityComboBox, categoryBox,categories, supplierBox, getAllSuppliers, costPriceField));
 
         // Layout
         VBox formLayout = new VBox(10);
         formLayout.setAlignment(Pos.CENTER);
         formLayout.getChildren().addAll(
                 productIDTF,
-                nameField, descriptionField, priceField, quantityField,
-                taxCategoryComboBox, availabilityComboBox, categoryBox , addButton
+                nameField, descriptionField, costPriceField, priceField, quantityField,
+                taxCategoryComboBox, availabilityComboBox, categoryBox , supplierBox ,addButton
         );
 
         root.getChildren().addAll(topBar, formLayout);
     }
 
+
+    /*
+    * Function handleAddProduct which handles add product event
+    * Author: Billen
+    * Modified By: Jeet
+    *
+    * */
     private void handleAddProduct(TextField productID ,TextField nameField, TextArea descriptionField, TextField priceField,
                                   TextField quantityField, ComboBox<TaxCategory> taxCategoryComboBox,
-                                  ComboBox<ProductStatus> availabilityComboBox, ComboBox<String> categoryBox, List<Category> categories) {
+                                  ComboBox<ProductStatus> availabilityComboBox, ComboBox<String> categoryBox, List<Category> categories, ComboBox<String> suppliersBox, List<Supplier> supplierList, TextField costPriceTF) {
         try {
             // Gather input values
             String productIDSTR = productID.getText();
@@ -127,12 +155,13 @@ public class AddProductsView {
             String productDescription = descriptionField.getText();
             String categorySTR = categoryBox.getValue();
             BigDecimal productPrice = new BigDecimal(priceField.getText());
+            BigDecimal productCostPrice = new BigDecimal(costPriceTF.getText());
             int productQuantity = Integer.parseInt(quantityField.getText());
             TaxCategory taxCategory = taxCategoryComboBox.getValue();
             ProductStatus availability = availabilityComboBox.getValue();
-
+            String supplierSTR = suppliersBox.getValue();
             // Validate input
-            if (productIDSTR.isEmpty() || productName.isEmpty() || productDescription.isEmpty() || productPrice.compareTo(BigDecimal.ZERO) <= 0 || productQuantity <= 0 || taxCategory == null || availability == null || categorySTR == null) {
+            if (productIDSTR.isEmpty() || productName.isEmpty() || productDescription.isEmpty() || productPrice.compareTo(BigDecimal.ZERO) <= 0 || productQuantity <= 0 || taxCategory == null || availability == null || categorySTR == null || supplierSTR == null) {
                 showAlert("Please fill all fields with valid data.");
                 return;
             }
@@ -140,6 +169,16 @@ public class AddProductsView {
             Category selectedCat = categories.stream()
                     .filter(c -> c.getCategory_name().equalsIgnoreCase(categorySTR))
                     .findFirst().orElse(null);
+
+            Supplier selectedSupp = supplierList.stream()
+                    .filter(s -> s.getSupplier_name().equalsIgnoreCase(supplierSTR))
+                    .findFirst().orElse(null);
+
+            if (selectedSupp == null){
+                showAlert("No Supplier Selected");
+                return;
+            }
+
             if (selectedCat == null){
                 showAlert("No category found!");
                 return;
@@ -156,10 +195,17 @@ public class AddProductsView {
             newProduct.setAvailability(availability);
             newProduct.setCategory_id(selectedCat.getCategory_id());
 
+
+            SupplierProduct supplierProduct = new SupplierProduct();
+            supplierProduct.setSupplier_id(selectedSupp.getSupplier_id());
+            supplierProduct.setProduct_id(productIDSTR);
+            supplierProduct.setCostPrice(productCostPrice);
+
             // Save product to database
             boolean isAdded = productDAO.addProduct(newProduct);
+            boolean isSupplierProductUpdated = productDAO.addToPS_Table(supplierProduct);
 
-            if (isAdded) {
+            if (isAdded && isSupplierProductUpdated) {
                 showAlert("Product added successfully!");
                 Router.navigate("/products");  // Navigate back to the product list view
             } else {

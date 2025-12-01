@@ -2,6 +2,7 @@ package org.storemate.pos.dao;
 
 import org.storemate.pos.database.DatabaseConnector;
 import org.storemate.pos.models.Product;
+import org.storemate.pos.models.SupplierProduct;
 import org.storemate.pos.models.enums.ProductStatus;
 import org.storemate.pos.models.enums.TaxCategory;
 
@@ -154,6 +155,27 @@ public class ProductDAO {
             return rowsAffected > 0;
         } catch (SQLException e) {
             System.out.println("SQL EXCEPTION: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean addToPS_Table(SupplierProduct supplierProduct) {
+        String sql = "INSERT INTO " + PRODUCT_SUPPLIER_TABLE_NAME + "("
+                + PRODUCT_SUPPLIER_COLUMN_PRODUCT_ID + ", "
+                + PRODUCT_SUPPLIER_COLUMN_SUPPLIER_ID + ", "
+                + PRODUCT_SUPPLIER_COLUMN_COST_PRICE + ") VALUES (?, ?, ?)";
+
+        try
+                (Connection connection = DatabaseConnector.getConnection())
+        {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, supplierProduct.getProduct_id());
+            ps.setInt(2, supplierProduct.getSupplier_id());
+            ps.setBigDecimal(3, supplierProduct.getCostPrice());
+            int rows = ps.executeUpdate();
+            return rows > 0;
+        } catch (SQLException e) {
+            System.out.println("SQL EXCEPTION:" + e.getMessage());
         }
         return false;
     }
