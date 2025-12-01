@@ -4,6 +4,13 @@ import org.storemate.pos.models.enums.TaxCategory;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents an individual item within a purchase transaction.
+ * <p>
+ * Contains details such as the associated purchase ID, product ID, quantity, unit price,
+ * tax category, tax amount, total amount, and total amount including tax.
+ * @author Jeet
+ */
 public class PurchaseItem {
     private int purchaseID;
     private String productID;

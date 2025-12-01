@@ -5,6 +5,13 @@ import org.storemate.pos.models.enums.TaxCategory;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents a product in the inventory system.
+ * <p>
+ * Contains information about the product's ID, name, description, category,
+ * tax category, price, quantity, and availability status.
+ * @author Jeet
+ */
 public class Product {
     private String product_id;
     private String product_name;

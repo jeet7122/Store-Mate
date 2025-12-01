@@ -4,6 +4,14 @@ import org.storemate.pos.models.enums.TaxCategory;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents an individual item within a sale transaction in the POS system.
+ * <p>
+ * Each SaleItem contains information about the product sold, the quantity,
+ * unit price, applicable tax category, tax amount, and the total amount
+ * for that item.
+ * @author Jeet
+ */
 public class SaleItem {
     private int saleID;
     private String productID;

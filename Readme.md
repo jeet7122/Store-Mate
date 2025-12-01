@@ -261,11 +261,11 @@ All business logic (authentication, POS calculations, inventory updates, etc.)
 
 ### 7️⃣ user_interface/pages/
 
-Each JavaFX screen (Dashboard, POS, Reports, etc.) lives here.
+Each JavaFX additional pages (CRUD PAGES for [**Products**, **Categories**]) lives here.
 
 ### 8️⃣ user_interface/views/
 
-Reusable UI components like forms, cards, tables.
+JavaFX main pages stays here(DASHBOARD, POS, SETTINGS)
 
 ### 9️⃣ user_interface/settingspages/
 

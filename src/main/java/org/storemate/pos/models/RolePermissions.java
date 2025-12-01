@@ -7,6 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Maintains a mapping of Roles to their associated Permissions in the POS system.
+ * <p>
+ * This class defines which actions each role is allowed to perform and provides
+ * a utility method to check if a specific role has a given permission.
+ * @author Khushi, Jeet
+ */
 public class RolePermissions {
     private static final Map<Role, Set<Permission>> permissions = new HashMap<>();
     //Added set of rules of Permissions based on role

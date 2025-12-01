@@ -6,13 +6,30 @@ import org.storemate.pos.models.EmailSettings;
 import org.storemate.pos.models.Supplier;
 import org.storemate.pos.utils.EmailConfigLoader;
 
+
+/**
+ * Service class responsible for managing purchase orders.
+ * <p>
+ * This class handles creating purchase records in the database and sending
+ * email notifications to the respective suppliers. It integrates with
+ * {@link PurchaseDAO} for database operations and {@link EmailService} for
+ * sending emails.
+ * </p>
+ * @author Jeet
+ */
 public class PurchaseOrderService {
 
     private final PurchaseDAO purchaseDAO = new PurchaseDAO();
 
     /**
-     * Creates purchase in DB and sends email to supplier.
-     * Returns purchaseId (>0) on success or -1 on failure.
+     * Creates a purchase order in the database and sends an HTML email
+     * to the specified supplier.
+     *
+     * @param cart     the {@link PurchaseDTO} containing purchase details, products, quantities, and pricing
+     * @param status   the status of the purchase order (e.g., "PENDING", "COMPLETED")
+     * @param supplier the {@link Supplier} to whom the purchase order is addressed
+     * @return the ID of the created purchase order if successful; returns -1 if there was an error
+     *         during creation or email sending
      */
     public int createAndSendOrder(PurchaseDTO cart, String status, Supplier supplier) {
         try {

@@ -4,6 +4,13 @@ import org.storemate.pos.models.enums.Role;
 
 import java.sql.Timestamp;
 
+/**
+ * Represents an employee in the system.
+ * <p>
+ * Contains personal details, authentication credentials, role information,
+ * and timestamps for creation and last update.
+ * @author Jeet, Khushi
+ */
 public class Employee {
     private int employeeID;
     private String username;

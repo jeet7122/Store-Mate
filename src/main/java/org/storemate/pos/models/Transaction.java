@@ -3,6 +3,13 @@ package org.storemate.pos.models;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+/**
+ * Represents a financial transaction in the system.
+ * <p>
+ * Stores details such as transaction ID, type (e.g., sale, return),
+ * payment method, amount, and the timestamp of the transaction.
+ * @author Jeet
+ */
 public class Transaction {
     private String id;
     private String type;

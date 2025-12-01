@@ -22,16 +22,40 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Manages navigation and routing in the POS application.
+ * <p>
+ * The Router class maintains a map of route paths to their corresponding {@link Route} objects,
+ * handles access control based on user permissions, and manages scene transitions.
+ * Public routes are accessible without login, while protected routes require proper authorization.
+ * </p>
+ * @author Jeet, Khushi
+ */
 public class Router {
     private static Stage stage;
     private static final Map<String, Route> routes = new HashMap<>();
     private static final Set<String> publicRoutes = Set.of("/login", "/register");
+
+    /**
+     * Initializes the Router with the primary Stage.
+     * <p>
+     * This method should be called once during application startup to set up the stage and register all routes.
+     * </p>
+     *
+     * @param s the primary JavaFX Stage of the application
+     */
     public static void init(Stage s){
         stage = s;
         registerRoutes();
     }
 
-    //All the Routes with permissions
+    /**
+     * Registers all application routes with their respective view builders and required permissions.
+     * <p>
+     * Protected routes require specific {@link Permission} to access.
+     * Public routes such as login and registration do not require login or permission.
+     * </p>
+     */
     private static void registerRoutes(){
         routes.put("/dashboard", new Route(() -> new DashboardViewForAdmin().getView(), Permission.VIEW_DASHBOARD));
         routes.put("/employees", new Route(() -> new EmployeeDataView().getView(), Permission.MANAGE_EMPLOYEES));
@@ -66,6 +90,17 @@ public class Router {
         routes.put("/login", new Route(() -> new EmployeeLoginFormView().getView(), Permission.MANAGE_USER_PROFILE));
     }
 
+    /**
+     * Navigates to the specified route path.
+     * <p>
+     * If the route is public, the view is displayed without login.
+     * If the route requires login and the user is not logged in, redirects to login page.
+     * If the route requires a specific permission, and the user does not have it,
+     * displays an Access Denied view.
+     * </p>
+     *
+     * @param routePath the path of the route to navigate to
+     */
     public static void navigate(String routePath){
         if (!routes.containsKey(routePath)){
             System.out.println("Route not found: " + routePath);

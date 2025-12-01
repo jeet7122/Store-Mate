@@ -2,12 +2,13 @@ package org.storemate.pos.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-/*
-* POJO (OBJECT REPRESENTATION OF SUPPLIER_PRODUCT TABLE)
-* [supplier_id, product_id, cost_price, last_updated]
-* */
-
+/**
+ * Represents the relationship between a supplier and a product.
+ * <p>
+ * Corresponds to the SUPPLIER_PRODUCT table in the database, storing
+ * the supplier ID, product ID, cost price, and last updated timestamp.
+ * @author Jeet
+ */
 public class SupplierProduct {
     private int supplier_id;
     private String product_id;

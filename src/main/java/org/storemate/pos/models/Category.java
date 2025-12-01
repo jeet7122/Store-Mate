@@ -2,6 +2,13 @@ package org.storemate.pos.models;
 
 import org.storemate.pos.models.enums.Status;
 
+/**
+ * Represents a product category in the system.
+ * <p>
+ * A Category contains an ID, name, description, and status.
+ * It is used to group products and manage their availability or state.
+ * @author Jeet
+ */
 public class Category {
 
     private int category_id;

@@ -2,11 +2,18 @@ package org.storemate.pos.models;
 
 import org.storemate.pos.models.enums.PaymentMethod;
 import org.storemate.pos.models.enums.SaleStatus;
-import org.storemate.pos.models.enums.TaxCategory;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+/**
+ * Represents a sale transaction in the POS system.
+ * <p>
+ * This class holds information about a specific sale, including the employee
+ * who processed it, payment method, subtotal, tax, total amount, timestamp,
+ * and the sale's status.
+ * @author Jeet
+ */
 public class Sale {
     private int saleID;
     private int employeeID;

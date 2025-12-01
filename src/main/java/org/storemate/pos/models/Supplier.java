@@ -2,9 +2,13 @@ package org.storemate.pos.models;
 
 import org.storemate.pos.models.enums.Status;
 
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * Represents a supplier in the system.
+ * <p>
+ * Contains details about the supplier including ID, name, email, location,
+ * and status (active/inactive).
+ * @author Jeet
+ */
 public class Supplier {
     private int supplier_id;
     private String supplier_name;

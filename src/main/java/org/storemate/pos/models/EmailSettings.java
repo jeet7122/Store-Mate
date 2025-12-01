@@ -1,5 +1,12 @@
 package org.storemate.pos.models;
 
+/**
+ * Represents the email configuration settings for sending emails from the system.
+ * <p>
+ * Includes the sender's email address, SMTP server host and port, authentication credentials,
+ * and SSL/authentication flags.
+ * @author Jeet
+ */
 public class EmailSettings {
     private String from;
     private String smtpHost;

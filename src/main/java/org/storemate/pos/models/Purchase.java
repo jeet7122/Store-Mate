@@ -7,6 +7,14 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
+
+/**
+ * Represents a purchase transaction made from a supplier.
+ * <p>
+ * Contains details such as the purchase ID, supplier ID, tax amount, total amount,
+ * purchase date, payment method, and current status of the purchase.
+ * @author Jeet, Khushi
+ */
 public class Purchase {
     private int purchaseID;
     private int supplierID;

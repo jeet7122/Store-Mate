@@ -4,6 +4,13 @@ import org.storemate.pos.models.enums.ReturnReason;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents an individual item being returned in a return transaction.
+ * <p>
+ * Contains details such as the return item ID, associated return ID, product ID,
+ * quantity, unit price, tax amount, total amount, and the reason for the return.
+ * @author Jeet
+ */
 public class ReturnItems {
     private int returnItemID;
     private String productID;

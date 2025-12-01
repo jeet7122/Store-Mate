@@ -2,6 +2,14 @@ package org.storemate.pos.models;
 
 import java.sql.Timestamp;
 
+
+/**
+ * Represents a work shift of an employee in the POS system.
+ * <p>
+ * Each Shift object tracks the employee's ID, the shift's unique ID,
+ * login time, and logout time.
+ * @author Jeet
+ */
 public class Shift {
     private int shiftID;
     private int employeeID;

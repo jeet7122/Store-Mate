@@ -5,6 +5,14 @@ import org.storemate.pos.models.enums.PaymentMethod;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+/**
+ * Represents a return transaction in the POS system.
+ * <p>
+ * Contains information such as the return ID, associated sale ID,
+ * the employee processing the return, payment method used for the refund,
+ * the date of the return, and the total amount refunded.
+ * @author Jeet
+ */
 public class Returns {
     private int returnID;
     private int saleID;

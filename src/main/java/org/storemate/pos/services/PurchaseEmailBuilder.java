@@ -3,7 +3,24 @@ package org.storemate.pos.services;
 import org.storemate.pos.dto.PurchaseDTO;
 import org.storemate.pos.models.Supplier;
 
+/**
+ * Utility class for building HTML email content for purchase orders.
+ * <p>
+ * This class provides a method to generate a formatted HTML email body
+ * including supplier information, product list, quantities, unit prices,
+ * subtotal, tax, and total amount.
+ * </p>
+ * @author Jeet
+ */
 public class PurchaseEmailBuilder {
+
+    /**
+     * Builds an HTML-formatted purchase order email for the given purchase and supplier.
+     *
+     * @param dto      the {@link PurchaseDTO} containing purchase details including products, quantities, and pricing
+     * @param supplier the {@link Supplier} to whom the purchase order is addressed
+     * @return a String containing the complete HTML email body for the purchase order
+     */
     public static String buildPurchaseEmail(PurchaseDTO dto, Supplier supplier) {
         StringBuilder sb = new StringBuilder();
         sb.append("<html><body>");
