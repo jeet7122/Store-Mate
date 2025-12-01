@@ -363,7 +363,7 @@ Contributions are welcome! If you want to:
 
 ## 📜 License
 
-Open Source © 2025 Team Store-Mate  
+LICENSE [MIT](LICENSE) © 2025 Team Store-Mate  
 
 
 ---
