@@ -334,8 +334,10 @@ public class EmployeeDataView {
         // Set tick label styles programmatically
         xAxis.setTickLabelRotation(0);
         xAxis.setTickLabelFont(javafx.scene.text.Font.font("Segoe UI", FontWeight.BOLD, 12));
-        yAxis.setTickLabelFont(javafx.scene.text.Font.font("Segoe UI", FontWeight.BOLD, 12));
+        xAxis.setTickLabelFill(javafx.scene.paint.Color.BLACK); // Add this
 
+        yAxis.setTickLabelFont(javafx.scene.text.Font.font("Segoe UI", FontWeight.BOLD, 12));
+        yAxis.setTickLabelFill(javafx.scene.paint.Color.BLACK);
         Map<String, Integer> monthlyStats = authService.getMonthlyJoinStats();
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Employee Joining");
@@ -353,6 +355,7 @@ public class EmployeeDataView {
 
         // Add some padding
         barChart.setCategoryGap(20);
+        barChart.setStyle("-fx-tick-label-fill: black;");
 
         return barChart;
     }
