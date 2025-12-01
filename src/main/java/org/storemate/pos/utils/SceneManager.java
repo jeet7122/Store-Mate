@@ -24,7 +24,7 @@ public class SceneManager {
     /** Show the login form where user sets the current user */
     public static void showEmployeeLoginForm() {
         EmployeeLoginFormView view = new EmployeeLoginFormView();
-        Scene scene = new Scene(view.getView(), 600, 500);
+        Scene scene = new Scene(view.getView(), 1024, 768);
         scene.getStylesheets().add(SceneManager.class.getResource("/css/index.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();

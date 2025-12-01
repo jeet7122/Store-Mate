@@ -16,6 +16,7 @@ import org.storemate.pos.user_interface.pages.settings_pages.ModifyPasswordPage;
 import org.storemate.pos.user_interface.views.*;
 import org.storemate.pos.utils.SceneManager;
 import org.storemate.pos.utils.Session;
+import org.storemate.pos.utils.TransitionUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -93,6 +94,7 @@ public class Router {
         }
         Parent view = route.getViewBuilder().get();
         SceneManager.getMainLayoutView().getView().setCenter(view);
+        TransitionUtil.applyTikTokTransition(view);
     }
 
 

@@ -8,7 +8,7 @@
 .root {
     -fx-background-color: #f0f2f5;
     -fx-padding: 15;
-    -fx-alignment: top-left;
+    -fx-alignment: center;
     -fx-font-family: "Segoe UI", sans-serif;
 }
 
@@ -297,6 +297,7 @@
     -fx-pref-width: 180;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 10, 0, 0, 2);
     -fx-fill-height: true;
+    -fx-border-radius: 20px;
 }
 
 .sidebar-profile {

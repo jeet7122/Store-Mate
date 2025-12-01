@@ -29,12 +29,6 @@ public class SideNavBar {
         var currentUser = Session.getInstance().getCurrentUser();
         authService = new AuthorizationService(currentUser.getRole());
 
-//        Image logo = new Image(getClass().getResourceAsStream("/logos/logo1.png"));
-//        ImageView imageView = new ImageView(logo);
-//        imageView.setFitWidth(80); // adjust width
-//        imageView.setPreserveRatio(true);
-//        imageView.setSmooth(true);
-
         // Profile header
         Label title = new Label("Store-Mate");
         FontIcon storeIcon = new FontIcon(MaterialDesignS.STORE);

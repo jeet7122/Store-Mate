@@ -153,15 +153,13 @@ public class EmployeeRegistrationFormView {
             try {
                 String roleForDB = role.toString();
                 boolean registered = authService.registerUser(username, email, password, roleForDB, quest1ID, quest2ID, quest3ID, answer1, answer2, answer3);
-                if (registered && Session.getInstance().getCurrentUser().getUsername().isEmpty()){
+                if (registered){
                     alerts.showSuccessAlert("Store-Mate Employee Registration", "Employee Registered Successfully");
-                    Router.navigate("/login");
-                    return;
+                    if (Session.getInstance().getCurrentUser() == null){
+                        Router.navigate("/login");
+                    }
                 }
-                else {
-                    alerts.showSuccessAlert("Store-Mate Employee Registration", "Employee Registered Successfully");
-                    return;
-                }
+                return;
             }
             catch (Exception exception){
                 System.out.println("Unknown Exception: " + exception.getMessage());

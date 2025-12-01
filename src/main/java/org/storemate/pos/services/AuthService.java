@@ -8,6 +8,7 @@ import org.storemate.pos.models.Employee;
 import org.mindrot.jbcrypt.BCrypt;
 import org.storemate.pos.routing.Router;
 import org.storemate.pos.utils.Alerts;
+import org.storemate.pos.utils.SceneManager;
 import org.storemate.pos.utils.Session;
 
 import java.util.ArrayList;
@@ -92,7 +93,7 @@ public class AuthService {
             dao.endShift(employee.getEmployeeID());
             Session.getInstance().logout();
             alerts.showSuccessAlert("Logout Success", "User logged out successfully");
-            Router.navigate("/login");
+            SceneManager.showEmployeeLoginForm();
         }
     }
 
