@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import org.storemate.pos.database.DBTable;
 import org.storemate.pos.database.DatabaseConnector;
+import org.storemate.pos.user_interface.CredentialManagement;
 import org.storemate.pos.utils.SceneManager;
 import java.io.IOException;
 import java.sql.Connection;
@@ -21,21 +22,35 @@ import java.sql.SQLException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException, ClassNotFoundException, SQLException {
+        // 1️⃣ Initialize SceneManager with primary stage
+        SceneManager.init(stage);
 
-        try(
-                Connection connection = DatabaseConnector.getConnection();
-                PreparedStatement statement = connection.prepareStatement(DBTable.CREATE_SHIFT_TABLE)
-                )
-        {
+        CredentialManagement cm = CredentialManagement.getInstance();
+
+        // 2️⃣ Check credentials
+        if (!cm.credentialsExist()) {
+            System.out.println("Credentials file does not exist. Setup required.");
+            SceneManager.showDatabaseConnectionForm(); // show DB setup form
+            return; // stop further execution
+        }
+
+        // 3️⃣ Connect to DB if credentials exist
+        try (Connection connection = DatabaseConnector.getConnection();
+             PreparedStatement statement = connection.prepareStatement(DBTable.CREATE_SHIFT_TABLE)) {
+
             int rows = statement.executeUpdate();
             if (rows > 0){
                 System.out.println("Shift Table Added successfully");
+            } else {
+                System.out.println("Error creating Shift table");
             }
-            else {
-                System.out.println("Error");
-            }
+
+        } catch (SQLException ex) {
+            System.out.println("SQL Exception: " + ex.getMessage());
         }
-        SceneManager.init(stage);
+
+        // 4️⃣ Show login form only if credentials exist and DB is ready
         SceneManager.showEmployeeLoginForm();
     }
+
 }

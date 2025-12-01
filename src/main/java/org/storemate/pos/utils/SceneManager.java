@@ -5,6 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.storemate.pos.routing.AccessDenied;
 import org.storemate.pos.routing.Router;
+import org.storemate.pos.user_interface.DatabaseConnectionFormView;
 import org.storemate.pos.user_interface.RouterPageDemo;
 import org.storemate.pos.user_interface.views.MainLayoutView;
 import org.storemate.pos.utils.Session;
@@ -30,6 +31,14 @@ public class SceneManager {
         primaryStage.show();
     }
 
+    public static void showDatabaseConnectionForm(){
+        DatabaseConnectionFormView view = new DatabaseConnectionFormView();
+        Scene scene = new Scene(view.getView(), 1024,768);
+        scene.getStylesheets().add(SceneManager.class.getResource("/css/index.css").toExternalForm());
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
+    }
     /** Show a generic form (Database connection / Registration / etc.) */
     public static void showForm(javafx.scene.Parent formView, int width, int height) {
         Scene scene = new Scene(formView, width, height);

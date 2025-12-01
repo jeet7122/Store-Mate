@@ -1,5 +1,7 @@
 package org.storemate.pos.user_interface;
 
+import org.storemate.pos.utils.SceneManager;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.Properties;
@@ -25,6 +27,11 @@ public class CredentialManagement {
             }
         } else {
             System.out.println("Credentials file does not exist. Setup required.");
+        }
+    }
+    public void checkAndPromptDBSetup(){
+        if (!credentialsExist()){
+            SceneManager.showDatabaseConnectionForm();
         }
     }
 
