@@ -40,6 +40,7 @@ public class PurchaseEmailBuilder {
         sb.append("<p><strong>Subtotal:</strong> ").append(dto.getSubtotal()).append("</p>");
         sb.append("<p><strong>Tax:</strong> ").append(dto.getTax()).append("</p>");
         sb.append("<h3>Total: ").append(dto.getTotal()).append("</h3>");
+        sb.append("<h5>Order From Store-Mate POS </h5>");
         sb.append("</body></html>");
         return sb.toString();
     }
