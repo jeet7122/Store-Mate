@@ -462,6 +462,16 @@
     -fx-bar-fill: #3498db;
     -fx-background-color: #3498db;
 }
+.chart-bar .axis-label {
+    -fx-text-fill: #FF5722;  /* axis label color */
+    -fx-font-weight: bold;
+}
+
+.chart-bar .axis-tick-label {
+    -fx-text-fill: #4CAF50;  /* tick labels color */
+    -fx-font-size: 12px;
+    -fx-font-family: "Segoe UI";
+}
 
 .bar-chart .default-color1.chart-bar {
     -fx-bar-fill: #2ecc71;

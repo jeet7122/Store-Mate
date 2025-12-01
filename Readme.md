@@ -94,7 +94,7 @@ Here’s a visual overview of the major pages and features of Store-Mate POS:
 - Icon libraries (Ikonli / Material Design icons)
 
 ### **Tools & Build**
-- Maven
+- Gradle
 - IntelliJ IDEA / VS Code
 - Git & GitHub for version control
 
@@ -274,6 +274,10 @@ Pages related to user identity, credentials, security questions.
 ### 🔟 utils/
 
 Reusable helpers for alerts, validation, sessions, music, etc.
+
+### user_interface/components
+
+Reusable components like (Cards, Tables, Graphs)
 
 ### resources/
 
