@@ -5,6 +5,11 @@ import org.storemate.pos.models.Product;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+/**
+ * Represents an item in a shopping cart or a return transaction.
+ * Holds the product, quantity, unit price, subtotal, tax, and total amount.
+ * @author Jeet
+ */
 public class Cart_Item_DTO {
     private Product product;
     private int quantity;
@@ -15,6 +20,13 @@ public class Cart_Item_DTO {
     private BigDecimal taxAmount;     // subtotal * tax
     private BigDecimal totalAmount;   // subtotal + tax
 
+    /**
+     * Constructor for creating a cart item.
+     *
+     * @param product  The product being purchased or returned.
+     * @param quantity Quantity of the product.
+     * @param isReturn True if this item is a return; false if it is a sale.
+     */
     public Cart_Item_DTO(Product product, int quantity, boolean isReturn){
         this.isReturn = isReturn;
         this.product = product;
@@ -24,6 +36,10 @@ public class Cart_Item_DTO {
         recalc();
     }
 
+    /**
+     * Recalculates the line subtotal, tax amount, and total amount based on
+     * the current quantity and unit price.
+     */
     public void recalc() {
         BigDecimal qty = BigDecimal.valueOf(quantity);
         BigDecimal taxRate = BigDecimal.valueOf(product.getTaxCategory().getTax_value());

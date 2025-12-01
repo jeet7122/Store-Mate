@@ -1,9 +1,15 @@
 package org.storemate.pos.dto;
 
-import org.storemate.pos.models.enums.Role;
 
 import java.sql.Timestamp;
 
+
+/**
+ * Data Transfer Object (DTO) for Employee information.
+ * Encapsulates employee details for transferring between layers
+ * without exposing the database entity directly.
+ * @author Jeet
+ */
 public class EmployeeDTO {
     public EmployeeDTO() {
     }

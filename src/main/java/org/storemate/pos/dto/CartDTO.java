@@ -5,12 +5,22 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a shopping cart for an employee.
+ * Holds a list of cart items, manages sale/return mode,
+ * and calculates totals including subtotal, tax, and total amount.
+ */
 public class CartDTO {
     private final List<Cart_Item_DTO> cartItems = new ArrayList<>();
     private final int employeeID;
     private boolean returnMode = false;
     private BigDecimal discount = BigDecimal.ZERO;
 
+    /**
+     * Constructor for creating a cart for a specific employee.
+     *
+     * @param employeeID The ID of the employee associated with this cart.
+     */
     public CartDTO(int employeeID) { this.employeeID = employeeID; }
 
     public boolean isReturnMode() { return returnMode; }
@@ -22,7 +32,15 @@ public class CartDTO {
 
     public List<Cart_Item_DTO> getCartItems() { return cartItems; }
 
-    // Add item with sale/return separation
+    /**
+     * Adds a product to the cart, considering sale or return mode.
+     * Prevents mixing sale and return items in the same cart.
+     * If the product already exists in the cart, increments its quantity.
+     *
+     * @param product  The product to add.
+     * @param quantity Quantity of the product.
+     * @return True if the item was added or updated, false if rejected due to mixed mode.
+     */
     public boolean addItem(Product product, int quantity) {
         boolean itemIsReturn = returnMode;
 
@@ -47,7 +65,17 @@ public class CartDTO {
     }
 
 
+
+    /**
+     * Removes a specific item from the cart.
+     *
+     * @param item The cart item to remove.
+     */
     public void removeItem(Cart_Item_DTO item) { cartItems.remove(item); }
+
+    /**
+     * Clears all items from the cart.
+     */
     public void clearCart() { cartItems.clear(); }
 
     // Totals for all items

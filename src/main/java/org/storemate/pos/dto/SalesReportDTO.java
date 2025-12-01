@@ -1,23 +1,43 @@
 package org.storemate.pos.dto;
 
-import javafx.beans.value.ObservableValue;
-
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
+/**
+ * Data Transfer Object (DTO) representing a sales report entry.
+ * Contains information about the sale, product, employee, and payment details.
+ */
 public class SalesReportDTO {
     private int employeeID;
-    private int saleID;
-    private String employeeName;
-    private String productID;
-    private String productName;
-    private double unitPrice;
-    private int quantity;
-    private double saleTotal;
-    private String paymentMethod;
-    private String status;
-    private Timestamp saleDateAndTime;
 
+    /** ID of the sale */
+    private int saleID;
+
+    /** Name of the employee who made the sale */
+    private String employeeName;
+
+    /** ID of the product sold */
+    private String productID;
+
+    /** Name of the product sold */
+    private String productName;
+
+    /** Unit price of the product at the time of sale */
+    private double unitPrice;
+
+    /** Quantity of the product sold */
+    private int quantity;
+
+    /** Total amount of the sale (unitPrice * quantity) */
+    private double saleTotal;
+
+    /** Payment method used for the sale */
+    private String paymentMethod;
+
+    /** Status of the sale (e.g., completed, pending, returned) */
+    private String status;
+
+    /** Timestamp of when the sale occurred */
+    private Timestamp saleDateAndTime;
     public Timestamp getSaleDateAndTime() {
         return saleDateAndTime;
     }
@@ -106,6 +126,7 @@ public class SalesReportDTO {
         this.employeeID = employeeID;
     }
 
+    /** Default constructor */
     public SalesReportDTO() {
     }
 }

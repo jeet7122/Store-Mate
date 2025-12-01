@@ -5,6 +5,11 @@ import org.storemate.pos.models.Product;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+/**
+ * Data Transfer Object (DTO) representing a purchase item in a purchase order.
+ * Contains product details, quantity, cost price, and calculated totals including tax.
+ * @author Jeet
+ */
 public class Purchase_Item_DTO {
     private Product product;
     private int quantity;
@@ -73,6 +78,14 @@ public class Purchase_Item_DTO {
         this.totalAmount = totalAmount;
     }
 
+    /**
+     * Constructs a Purchase_Item_DTO with the specified product, quantity, and cost price.
+     * If costPrice is null, the product's default price will be used.
+     *
+     * @param product   The product being purchased.
+     * @param quantity  The quantity of the product.
+     * @param costPrice The cost price per unit (nullable).
+     */
     public Purchase_Item_DTO(Product product, int quantity, BigDecimal costPrice) {
         this.product = product;
         this.quantity = quantity;
@@ -80,6 +93,9 @@ public class Purchase_Item_DTO {
         recalc();
     }
 
+    /**
+     * Recalculates the subtotal, tax amount, and total amount based on the current quantity and cost price.
+     */
     public void recalc(){
         BigDecimal qty = BigDecimal.valueOf(quantity);
         BigDecimal taxRate = BigDecimal.valueOf(product.getTaxCategory().getTax_value());
