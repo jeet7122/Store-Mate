@@ -15,21 +15,21 @@ Click below to watch a full walkthrough of StoreMate POS:
 
 Here’s a visual overview of the major pages and features of Store-Mate POS:
 
-| Feature / Page | Screenshot / Demo                |
-|----------------|----------------------------------|
-| Dashboard | ![Dashboard](assets/dashboard.png) |
+| Feature / Page | Screenshot / Demo                        |
+|----------------|------------------------------------------|
+| Dashboard | ![Dashboard](assets/dashboard.png)       |
 | Sales Report | ![Sales Report](assets/sales-report.png) |
-| Point of Sales - Sales Mode | ![POS Sales](assets/pos.png)     |
-| Point of Sales - Returns Mode | ![POS Returns](assets/pos.png)   |
+| Point of Sales - Sales Mode | ![POS Sales](assets/pos.png)             |
+| Point of Sales - Returns Mode | ![POS Returns](assets/pos.png)           |
 | Transactions | ![Transactions](assets/transactions.png) |
-| Refunds & Voids | ![Refunds](assets/refunds.png)   |
-| Purchases | ![Purchases](assets/purchases.png) |
-| Products (CRUD) | ![Products](assets/products.png) |
-| Categories (CRUD) | ![Categories](assets/categories.png) |
-| Suppliers (CRUD) | ![Suppliers](assets/suppliers.png) |
-| Staff / Employees | ![Staff](assets/staff.png)       |
-| Shifts | ![Shifts](assets/shift.png)      |
-| Settings - User Profile | ![Settings](assets/settings.png) |
+| Refunds & Voids | ![Refunds](assets/refunds.png)           |
+| Purchases | ![Purchases](assets/purchases.png)       |
+| Products (CRUD) | ![Products](assets/products.png)         |
+| Categories (CRUD) | ![Categories](assets/categories.png)     |
+| Suppliers (CRUD) | ![Suppliers](assets/suppliers.png)       |
+| Staff / Employees | ![Staff](assets/staff.png)               |
+| Shifts | ![Shifts](assets/shift.png)              |
+| Settings - User Profile | ![Settings](assets/settings.png)         |
 
 
 ## 🛠️ Features
