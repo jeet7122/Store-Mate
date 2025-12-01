@@ -16,11 +16,45 @@ import org.storemate.pos.services.AuthService;
 import org.storemate.pos.utils.Alerts;
 import org.storemate.pos.utils.Session;
 
+/**
+ * UI view for modifying the current user's password.
+ * <p>
+ * Provides functionality to:
+ * <ul>
+ *     <li>Enter the old password for verification</li>
+ *     <li>Enter a new password and confirm it</li>
+ *     <li>Clear all fields</li>
+ *     <li>Update the password if validation passes</li>
+ * </ul>
+ * <p>
+ * Uses {@link AuthService} to verify and update credentials and {@link Alerts} to show user feedback.
+ * Navigation back to the general settings page is provided via {@link Router}.
+ * @author Khushi, Jeet
+ */
 public class ModifyPasswordPage {
 
     private final VBox root;
     private final AuthService authService;
 
+    /**
+     * Constructs the ModifyPasswordPage.
+     * <p>
+     * Sets up:
+     * <ul>
+     *     <li>Top bar with back button</li>
+     *     <li>Existing username display</li>
+     *     <li>Input fields for old password, new password, and confirm password</li>
+     *     <li>Update and Clear buttons with their handlers</li>
+     * </ul>
+     * <p>
+     * Update button logic:
+     * <ol>
+     *     <li>Checks if old password is correct using {@link AuthService#credentialsExists(String, String)}</li>
+     *     <li>Checks if new password and confirm password match</li>
+     *     <li>Updates the password via {@link AuthService#updatePass(int, String)}</li>
+     *     <li>Shows success or error alerts</li>
+     * </ol>
+     */
     public ModifyPasswordPage() {
         Alerts alerts = new Alerts();
         authService = new AuthService();
@@ -103,6 +137,11 @@ public class ModifyPasswordPage {
         root.getChildren().addAll(topBar, existingUsername, form, buttons);
     }
 
+    /**
+     * Returns the root container of this view.
+     *
+     * @return {@link Parent} representing the Modify Password page
+     */
     public Parent getView() {
         return root;
     }

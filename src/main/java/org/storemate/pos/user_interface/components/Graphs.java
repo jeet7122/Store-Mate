@@ -13,22 +13,35 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import org.storemate.pos.dao.PurchaseDAO;
 import org.storemate.pos.dao.SaleDAO;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 
+/**
+ * Provides utility methods to create various types of charts and graphs
+ * for the POS system UI, including sales line charts, purchase area charts,
+ * and ring/donut charts for visualizing employee hours and transactions.
+ * @author Khushi, Jeet
+ */
 public class Graphs {
+    /**
+     * DAO to fetch sales and transaction data from the database.
+     */
     private final SaleDAO saleDAO;
-    private final PurchaseDAO purchaseDAO;
 
+    /**
+     * Constructs a Graphs instance and initializes the SaleDAO.
+     */
     public Graphs(){
         saleDAO = new SaleDAO();
-        purchaseDAO = new PurchaseDAO();
     }
 
+    /**
+     * Creates a line chart showing sales for the last 30 days.
+     *
+     * @return a LineChart with daily sales data.
+     */
     public LineChart<String, Number> createSalesLineChart(){
         CategoryAxis xAxis = new CategoryAxis();
         xAxis.setLabel("Day");
@@ -53,6 +66,15 @@ public class Graphs {
         return lineChart;
     }
 
+    /**
+     * Creates a ring (donut) chart visualizing an employee's worked hours
+     * versus expected hours, with the employee's name and hours displayed in the center.
+     *
+     * @param username      the employee's username
+     * @param workedHours   hours the employee has worked
+     * @param expectedHours total expected hours
+     * @return a StackPane containing the donut chart and labels
+     */
     public StackPane createEmployeeHoursRingChart(String username, double workedHours, double expectedHours) {
 
         PieChart.Data worked = new PieChart.Data("Worked", workedHours);
@@ -98,6 +120,12 @@ public class Graphs {
         return stack;
     }
 
+    /**
+     * Creates an area chart showing monthly purchase data.
+     *
+     * @param data a Map of month names to purchase amounts
+     * @return an AreaChart visualizing purchases over months
+     */
     public AreaChart<String, Number> createPurchaseFillChart(Map<String, Double> data) {
         NumberAxis y = new NumberAxis();
         CategoryAxis x = new CategoryAxis();
@@ -109,9 +137,7 @@ public class Graphs {
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Purchases");
 
-        data.forEach((day, amount) -> {
-            series.getData().add(new XYChart.Data<>(day, amount));
-        });
+        data.forEach((day, amount) -> series.getData().add(new XYChart.Data<>(day, amount)));
 
         chart.getData().add(series);
         chart.setAnimated(true);
@@ -121,6 +147,16 @@ public class Graphs {
         return chart;
     }
 
+
+    /**
+     * Creates a single ring chart for visualizing a value relative to a maximum value.
+     *
+     * @param label     label to display in the center
+     * @param value     current value
+     * @param maxValue  maximum value
+     * @param fillColor the color of the ring
+     * @return a StackPane containing the ring and label
+     */
     public StackPane createRing(String label, double value, double maxValue, Color fillColor) {
         double size = 140;
 
@@ -153,6 +189,12 @@ public class Graphs {
         return container;
     }
 
+    /**
+     * Creates a horizontal box containing multiple transaction ring charts
+     * for visualizing weekly transaction amounts.
+     *
+     * @return an HBox with multiple rings representing weekly transactions
+     */
     public HBox createTransactionRings() {
         Map<String, Double> transactions = saleDAO.getWeeklyTransactions();
         double maxValue = transactions.values().stream().max(Double::compare).orElse(1.0);

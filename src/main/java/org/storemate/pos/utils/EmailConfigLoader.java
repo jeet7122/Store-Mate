@@ -5,8 +5,21 @@ import org.storemate.pos.models.EmailSettings;
 import java.io.InputStream;
 import java.util.Properties;
 
+/**
+ * Utility class for loading email configuration from the resources folder.
+ * <p>
+ * Expects a properties file named {@code email.properties} located in the classpath.
+ * Loads SMTP host, port, credentials, SSL/auth settings, and the sender address.
+ * @author Jeet
+ */
 public class EmailConfigLoader {
 
+    /**
+     * Loads email settings from {@code email.properties} in the resources folder.
+     *
+     * @return an {@link EmailSettings} object populated with the configuration,
+     *         or {@code null} if the file does not exist or an error occurs.
+     */
     public static EmailSettings loadFromResources() {
         try (InputStream in = EmailConfigLoader.class.getClassLoader().getResourceAsStream("email.properties")) {
             if (in == null) return null;

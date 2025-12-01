@@ -17,9 +17,34 @@ import org.storemate.pos.services.AuthService;
 import org.storemate.pos.utils.Alerts;
 import org.storemate.pos.utils.Session;
 
+/**
+ * Represents the UI view for editing the current user's username.
+ * <p>
+ * This class constructs a JavaFX layout with:
+ * <ul>
+ *     <li>Top bar with back navigation button and title</li>
+ *     <li>Form showing existing username</li>
+ *     <li>TextField to enter new username</li>
+ *     <li>Update button that saves the new username via {@link AuthService}</li>
+ * </ul>
+ * It uses {@link Alerts} to display success or error messages.
+ * @author Khushi
+ */
 public class EditUsernameView {
     private final VBox root;
 
+    /**
+     * Constructs the EditUsernameView.
+     * <p>
+     * Initializes the UI layout including:
+     * <ul>
+     *     <li>Top navigation bar with back button</li>
+     *     <li>Form displaying existing username</li>
+     *     <li>Input field for new username</li>
+     *     <li>Update button that triggers {@link AuthService#updateUsername(String, int)}</li>
+     * </ul>
+     * Also sets up event handlers for navigation and updating the username.
+     */
     public EditUsernameView() {
         Alerts alerts = new Alerts();
         AuthService authService = new AuthService();
@@ -80,6 +105,11 @@ public class EditUsernameView {
         root.getChildren().addAll(topBar, grid);
     }
 
+    /**
+     * Returns the root container for this view.
+     *
+     * @return the {@link Parent} node representing this view
+     */
     public Parent getView() {
         return root;
     }

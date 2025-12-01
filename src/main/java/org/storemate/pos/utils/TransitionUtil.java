@@ -4,7 +4,24 @@ import javafx.animation.*;
 import javafx.scene.Node;
 import javafx.util.Duration;
 
+/**
+ * Utility class for applying smooth entrance/exit transitions to JavaFX nodes.
+ * <p>
+ * Currently includes a TikTok-style entrance animation with fade, slide, and scale effects.
+ * </p>
+ * @author Khushi
+ */
 public class TransitionUtil {
+
+    /**
+     * Applies a TikTok-style entrance animation to the given JavaFX Node.
+     * <p>
+     * The node will start slightly to the right, transparent, and scaled down,
+     * then animate to its original position, full opacity, and normal scale.
+     * </p>
+     *
+     * @param node the JavaFX Node to animate
+     */
 
     public static void applyTikTokTransition(Node node) {
 

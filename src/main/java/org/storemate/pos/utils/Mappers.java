@@ -10,8 +10,22 @@ import java.sql.SQLException;
 
 import static org.storemate.pos.database.TableConstants.*;
 
+/**
+ * Utility class for converting between database/DTO models and application models.
+ * <p>
+ * Provides methods to map {@link EmployeeDTO} to {@link Employee} and to map
+ * {@link ResultSet} rows to {@link SalesReportDTO}.
+ * @author Jeet
+ */
 public class Mappers {
 
+
+    /**
+     * Converts an {@link EmployeeDTO} into an {@link Employee} model.
+     *
+     * @param employeeDTO the data transfer object containing employee data
+     * @return an {@link Employee} instance populated with the DTO's data
+     */
     public Employee fromDTO(EmployeeDTO employeeDTO){
         Employee employee = new Employee();
         employee.setEmployeeID(employeeDTO.getEmployeeID());
@@ -23,6 +37,15 @@ public class Mappers {
         employee.setPassword(employeeDTO.getPassword());
         return employee;
     }
+
+
+    /**
+     * Maps a single row from a {@link ResultSet} to a {@link SalesReportDTO}.
+     *
+     * @param rs the ResultSet pointing to the current row
+     * @return a populated {@link SalesReportDTO}
+     * @throws SQLException if any column cannot be accessed or converted
+     */
     public SalesReportDTO mapRow(ResultSet rs) throws SQLException {
         SalesReportDTO dto = new SalesReportDTO();
         dto.setSaleID(rs.getInt(SALE_COLUMN_ID));

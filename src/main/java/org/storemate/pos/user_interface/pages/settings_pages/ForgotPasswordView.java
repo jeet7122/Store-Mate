@@ -22,10 +22,44 @@ import org.storemate.pos.utils.Session;
 
 import java.util.List;
 
+
+/**
+ * Represents the UI view for handling the "Forgot Password" workflow.
+ * <p>
+ * This class builds a JavaFX layout allowing users to:
+ * <ul>
+ *     <li>Answer their security questions</li>
+ *     <li>Reset their password if answers are correct</li>
+ * </ul>
+ * <p>
+ * Key components:
+ * <ul>
+ *     <li>Top bar with a back button and title</li>
+ *     <li>Grid of 3 security questions with corresponding TextFields for answers</li>
+ *     <li>Submit button to validate answers</li>
+ *     <li>New password and confirm password inputs shown after successful validation</li>
+ * </ul>
+ * <p>
+ * Alerts are shown using {@link Alerts}, and navigation is handled using {@link Router}.
+ */
 public class ForgotPasswordView {
     private final AuthService authService;
     private final VBox root;
 
+    /**
+     * Constructs the ForgotPasswordView.
+     * <p>
+     * The constructor:
+     * <ol>
+     *     <li>Loads current user's security questions using {@link SecurityQuestionsDAO}</li>
+     *     <li>Displays questions in a GridPane with editable answers</li>
+     *     <li>Validates answers on submit; if correct, displays fields for new password</li>
+     *     <li>Handles password update via {@link AuthService#updatePass(int, String)}</li>
+     *     <li>Shows success/error messages via {@link Alerts}</li>
+     * </ol>
+     *</p>
+     * @author Khushi, Jeet
+     */
     public ForgotPasswordView() {
         root = new VBox(20);
         root.setPadding(new Insets(20));
@@ -157,6 +191,11 @@ public class ForgotPasswordView {
         root.getChildren().addAll(topBar, grid);
     }
 
+    /**
+     * Returns the root container of this view.
+     *
+     * @return {@link Parent} representing the Forgot Password page
+     */
     public Parent getView() {
         return root;
     }

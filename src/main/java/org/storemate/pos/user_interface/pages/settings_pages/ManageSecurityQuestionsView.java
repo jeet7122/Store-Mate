@@ -21,11 +21,40 @@ import org.storemate.pos.utils.Session;
 
 import java.util.List;
 
+/**
+ * Represents the UI view for managing a user's security questions.
+ * <p>
+ * Allows the user to:
+ * <ul>
+ *     <li>View their current security questions and answers</li>
+ *     <li>Update any of the three security questions</li>
+ *     <li>Clear answers from input fields</li>
+ * </ul>
+ * <p>
+ * Uses {@link SecurityQuestionsDAO} for database operations, {@link Alerts} for
+ * user feedback, and {@link Session} to access the current user.
+ * @author Khushi, Jeet
+ */
 public class ManageSecurityQuestionsView {
 
     private final VBox root;
     private final SecurityQuestionsDAO dao;
 
+    /**
+     * Constructs the ManageSecurityQuestionsView.
+     * <p>
+     * The constructor performs the following:
+     * <ol>
+     *     <li>Initializes DAO and alerts helper</li>
+     *     <li>Loads current user's security questions and answers</li>
+     *     <li>Builds top bar with a back button</li>
+     *     <li>Creates ComboBoxes for questions and TextFields for answers</li>
+     *     <li>Adds "Update" and "Clear" buttons with their event handling</li>
+     * </ol>
+     * <p>
+     * Update button will save changes to the database via {@link SecurityQuestionsDAO#updateSecurityQuestions(int, List)}
+     * and shows success or error alerts accordingly.
+     */
     public ManageSecurityQuestionsView() {
         dao = new SecurityQuestionsDAO();
         Alerts alerts = new Alerts();
@@ -125,6 +154,11 @@ public class ManageSecurityQuestionsView {
         root.getChildren().addAll(topBar, form, buttons);
     }
 
+    /**
+     * Returns the root container of this view.
+     *
+     * @return {@link Parent} representing the Manage Security Questions page
+     */
     public Parent getView() {
         return root;
     }

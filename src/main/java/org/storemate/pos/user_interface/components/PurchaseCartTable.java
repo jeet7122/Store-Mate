@@ -10,10 +10,25 @@ import org.storemate.pos.dto.Purchase_Item_DTO;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents a table component for displaying items in a purchase cart.
+ * <p>
+ * This class wraps a {@link TableView} to show product details such as name,
+ * unit cost, quantity, tax, and total amount. It binds the table to a {@link PurchaseDTO}
+ * and automatically updates the table when the cart is refreshed.
+ * @author Jeet
+ */
 public class PurchaseCartTable {
     private final TableView<Purchase_Item_DTO> table;
     private final PurchaseDTO purchaseCart;
     private final ObservableList<Purchase_Item_DTO> rows = FXCollections.observableArrayList();
+
+    /**
+     * Constructs a PurchaseCartTable for the given purchase cart.
+     * Initializes the TableView with columns for product name, unit cost, quantity, tax, and total.
+     *
+     * @param purchaseCart the purchase cart containing items to display
+     */
     public PurchaseCartTable(PurchaseDTO purchaseCart) {
         this.purchaseCart = purchaseCart;
         table = new TableView<>();
@@ -45,10 +60,19 @@ public class PurchaseCartTable {
         refresh();
     }
 
+    /**
+     * Returns the JavaFX TableView displaying the purchase cart items.
+     *
+     * @return the TableView component
+     */
     public TableView<Purchase_Item_DTO> getTable() {
         return table;
     }
 
+    /**
+     * Refreshes the table content by recalculating totals in the purchase cart
+     * and updating the observable list bound to the TableView.
+     */
     public void refresh() {
         purchaseCart.recalcALL();
         rows.setAll(purchaseCart.getCart());

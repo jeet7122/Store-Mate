@@ -13,6 +13,15 @@ import org.storemate.pos.dto.Cart_Item_DTO;
 
 import java.math.BigDecimal;
 
+/**
+ * Represents a UI table for displaying and managing cart items in the POS system.
+ * <p>
+ * Provides functionality for adding/removing items, editing quantities, and
+ * automatically updating subtotal, tax, and total amount labels. Supports
+ * styling rows differently based on sale, return, or mixed cart items.
+ * </p>
+ * @author Jeet
+ */
 public class CartTable {
 
     private final CartDTO cart;
@@ -25,6 +34,14 @@ public class CartTable {
     private final Label totalTaxLabel;
     private final Label totalWithTaxLabel;
 
+    /**
+     * Constructs a CartTable with the specified cart and labels for totals.
+     *
+     * @param cart           the backend cart DTO
+     * @param subtotalLabel  label for displaying subtotal
+     * @param totalTaxLabel  label for displaying total tax
+     * @param totalWithTaxLabel label for displaying total amount including tax
+     */
     public CartTable(CartDTO cart, Label subtotalLabel, Label totalTaxLabel, Label totalWithTaxLabel) {
         this.cart = cart;
         this.subtotalLabel = subtotalLabel;
@@ -35,10 +52,22 @@ public class CartTable {
         setupTable();
     }
 
+    /**
+     * Returns the TableView used to display the cart items.
+     *
+     * @return the cart TableView
+     */
     public TableView<Cart_Item_DTO> getCartTable() {
         return cartTable;
     }
 
+
+
+    /**
+     * Initializes and sets up the table columns, bindings, and default styles.
+     * Includes columns for product ID, name, tax category, unit price, quantity,
+     * tax amount, total amount, and remove button.
+     */
     private void setupTable() {
         // Product ID
         TableColumn<Cart_Item_DTO, String> idCol = new TableColumn<>("Product ID");
@@ -83,7 +112,10 @@ public class CartTable {
         updateTotalsLabels();
     }
 
-    // Call this whenever cart changes
+    /**
+     * Updates the subtotal, tax, and total labels based on the current state of the cart.
+     * Also updates the CSS style classes based on whether the cart is in sale, return, or mixed mode.
+     */
     private void updateTotalsLabels() {
         subtotalLabel.setText("Subtotal: $" + cart.getSubtotal().setScale(2, BigDecimal.ROUND_HALF_UP));
         totalTaxLabel.setText("Total Tax: $" + cart.getTotalTax().setScale(2, BigDecimal.ROUND_HALF_UP));
@@ -106,8 +138,10 @@ public class CartTable {
         }
     }
 
-
-    // Call this method to refresh the table (after adding new item)
+    /**
+     * Refreshes the table by updating the items and totals.
+     * Applies row styling based on item type (sale, return, mixed).
+     */
     public void refreshTable() {
         observableItems.setAll(cart.getCartItems());
         updateTotalsLabels();
@@ -136,6 +170,17 @@ public class CartTable {
         });
     }
 
+
+    /**
+     * Creates a TableColumn for editing item quantities.
+     * <p>
+     * Automatically updates the cart totals when quantities are edited.
+     * </p>
+     *
+     * @param cart             the cart DTO
+     * @param updateTotalsLabels a Runnable to refresh totals UI
+     * @return the editable quantity TableColumn
+     */
     public static TableColumn<Cart_Item_DTO, Integer> createQuantityColumn(CartDTO cart, Runnable updateTotalsLabels) {
         TableColumn<Cart_Item_DTO, Integer> qtyCol = new TableColumn<>("Quantity");
 
@@ -155,6 +200,13 @@ public class CartTable {
         return qtyCol;
     }
 
+    /**
+     * Creates a TableColumn containing a remove button for each row.
+     * Clicking the button removes the item from both the cart DTO and the table view,
+     * and updates totals accordingly.
+     *
+     * @return the remove button TableColumn
+     */
     private TableColumn<Cart_Item_DTO, Void> createRemoveColumn() {
 
         TableColumn<Cart_Item_DTO, Void> removeCol = new TableColumn<>("Remove");
